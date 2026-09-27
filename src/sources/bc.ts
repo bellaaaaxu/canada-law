@@ -28,7 +28,7 @@ const MAX_DOCS_SEARCHED = 8;
 const CONCURRENCY = 4;
 const SECTIONS_XPATH = '/xpath///bcl:section%5Bdescendant::hit%5D';
 
-const CURRENT_TO_WARNING =
+export const CURRENT_TO_WARNING =
   'current_to is null: the official page did not show a "current to" date, so currency could not be confirmed. Check source_url before relying on this text.';
 
 export const pageUrl = (id: string) => DOC + id.replace(/_multi$/, '');
@@ -315,7 +315,7 @@ export function normalizeSection(section: string): string {
   return s;
 }
 
-async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T, index: number) => Promise<R>): Promise<R[]> {
+export async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T, index: number) => Promise<R>): Promise<R[]> {
   const out: R[] = new Array(items.length);
   let next = 0;
   const worker = async () => {
