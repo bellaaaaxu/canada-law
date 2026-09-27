@@ -16,6 +16,12 @@ describe('published documents', () => {
     expect(USER_AGENT).toContain(`/${VERSION} `);
   });
 
+  // Claude Desktop names the MCP server after display_name: renaming it (v0.1 → v0.2) left sessions opened before the
+  // upgrade calling a server that no longer exists ("Server … unavailable"). Keep it from now on.
+  it('keeps the extension display name, which Claude Desktop uses as the server name', () => {
+    expect(JSON.parse(doc('mcpb/manifest.json')).display_name).toBe('Canada Law (BC and federal employment law)');
+  });
+
   it.each(['README.md', 'README.zh.md'])('%s points to the release of this version', (name) => {
     const text = doc(name);
     expect(text).toContain(`releases/download/v${VERSION}/canada-law-${VERSION}.tgz`);

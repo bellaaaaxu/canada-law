@@ -233,6 +233,7 @@ canada-law/
 - 复核（第二个评审代理，同日）：7 项确认修好。**第 4 项修出一个回归**：带标点的全名（"Canada Industrial Relations Board Regulations, 2012"、"Administrative Monetary Penalties (Canada Labour Code) Regulations" 等，32 部里 10 部）认不出是本条例 → 已改成「of the 之后以本法名开头就算」，并补上真实全名的测试。同时修了：id 只把前缀大写（20 个官方 id 以小写字母结尾，如 SOR-89-30a；实测官网路径不分大小写）、下载不完整时不拖垮其他文件、小写的 and / or 不再当运算符（"health and safety committee"）、中英文引号、"12, 13, and 14"、"the Code"、"section 12 of chapter 27" 和 "section 3 comes into force" 不算本法条文、只有图片的条文不算占位、空的法典不计入已搜。131 项未生效修订在完整文件上重新逐一核过：31 项本身不改条文（改附表条目、标题、过渡条款）。整部废止的条例是 4 部（C.R.C., c. 1013、SOR/86-305、SOR/87-182、SOR/87-183），README 已改
 - 行业例子：规则里「联邦监管行业（银行、航空、电信、跨省运输等）」这句提醒从 v0.1 保留下来；设计第 9 项「不凭记忆列行业」理解为：判断某个具体雇主是不是联邦监管时，引用 s.2 原文，不凭记忆下结论
 - 顺带：两边共用的 HTML 实体解码现在也把 BC 网页里的 `&nbsp;` 解成空格，对 BC 的结果没有影响（BC 测试全过）
+- 桌面版升级到 v0.2.0（2026-09-27 你双击装的）：日志显示识别为升级、保留设置、旧版正常关闭、新版用自带 Node.js 启动、5 个工具、没有报错；装进去的服务器文件和发布的逐字节相同。⚠️ `.mcpb` 的 `display_name` 就是桌面版里的服务器名：这次从 "Canada Law (BC employment law)" 改成 "Canada Law (BC and federal employment law)"，升级前开着的会话还连着旧名字，调用时报 "Server … unavailable"，新开的会话才连上新版 → **以后发新版不要再改 display_name**
 
 ### M3（可选）：场景 skill
 - [ ] 写一个调用本 MCP 的 BC 劳动法 SKILL.md
