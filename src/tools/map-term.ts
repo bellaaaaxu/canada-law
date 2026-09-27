@@ -9,7 +9,7 @@ export function registerMapTerm(server: McpServer, glossary: Glossary) {
     {
       title: 'Map a term to statutory wording',
       description:
-        'Map a Chinese (or English) employment-law concept to the statutory English each jurisdiction uses, and where it appears (act_id and sections). Call this before search_law when the question is in Chinese. Returns [] when the term is not in the curated glossary: then do not present your own translation as the statutory term; try a more basic term, or search with your own English wording and say that you did.',
+        'Map a Chinese (or everyday English) employment-law concept to the statutory English each jurisdiction uses, BC and federal, and where it appears (act_id and sections). Call this before search_law when the question is in Chinese or uses everyday words, and search each jurisdiction with its own terms. Returns [] when the term is not in the curated glossary: then do not present your own translation as the statutory term; try a more basic term, or search with your own English wording and say that you did.',
       inputSchema: {
         term: z.string().min(1).describe('A concept such as 法定假日, 加班, 餐休, or an English term such as "statutory holiday".'),
       },

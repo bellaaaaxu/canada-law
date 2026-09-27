@@ -18,17 +18,28 @@ describe('SKILL.md', () => {
     expect(field('name')).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
   });
 
-  it('keeps the description within 200 characters (claude.ai limit) and says never to answer from memory', () => {
+  it('keeps the description within 200 characters (claude.ai limit), names BC and federal law, and says never to answer from memory', () => {
     const d = field('description');
     expect(d.length).toBeGreaterThan(0);
     expect(d.length).toBeLessThanOrEqual(200);
+    expect(d).toMatch(/\bBC\b/);
+    expect(d).toMatch(/federal/);
+    expect(d).toMatch(/Use for any BC or federal work question/);
     expect(d).toMatch(/never answer from memory/i);
   });
 
-  it('declares license and the Node.js / network requirement', () => {
+  it('declares license and the Node.js / network requirement, for both official websites', () => {
     expect(field('license')).toBe('MIT');
     expect(field('compatibility')).toMatch(/Node\.js 20\+/);
+    expect(field('compatibility')).toContain('www.bclaws.gov.bc.ca');
+    expect(field('compatibility')).toContain('laws-lois.justice.gc.ca');
     expect(field('compatibility').length).toBeLessThanOrEqual(500);
+  });
+
+  it('shows the script commands with their jurisdiction', () => {
+    expect(body).toContain('search <jurisdiction> <phrase>');
+    expect(body).toContain('find <jurisdiction> <act name>');
+    expect(body).toContain('search federal "general holiday" "general holidays"');
   });
 
   it('is ASCII-only (Python-based loaders on Chinese Windows read files as GBK)', () => {
@@ -56,6 +67,8 @@ describe('SKILL.md', () => {
     expect(body).toMatch(/snippets are cut short/); // D3 run 3: s.44 explained from a snippet that stopped mid-sentence
     expect(body).toMatch(/federally regulated/);
     expect(body).toContain('https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us');
+    expect(body).toContain('https://www.canada.ca/en/services/jobs/workplace/federal-labour-standards/filing-complaint.html');
+    expect(body).toMatch(/Justice Laws Website/);
     expect(body).toMatch(/not an official version/);
   });
 

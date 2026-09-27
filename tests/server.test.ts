@@ -1,32 +1,31 @@
-import { readFileSync } from 'node:fs';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { describe, expect, it } from 'vitest';
 import type { Glossary } from '../src/glossary.js';
-import type { FetchResult, Fetcher } from '../src/http.js';
+import type { Fetcher } from '../src/http.js';
+import { BC_LAWS_NOTICE, FEDERAL_NOTICE } from '../src/notice.js';
 import { createServer } from '../src/server.js';
 import { VERSION } from '../src/version.js';
+import { DOC, FED, fakeFetcher, fedRoutes, fx } from './helpers.js';
 
-const fx = (name: string) => readFileSync(new URL(`./fixtures/${name}`, import.meta.url), 'utf8');
-const DOC = 'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/';
-
-const fetcher: Fetcher = async (url): Promise<FetchResult> => {
-  const u = decodeURIComponent(url);
-  const body =
-    u === `${DOC}96113_01/xml` ? fx('doc-96113_01.xml')
-    : u === `${DOC}96113_01` ? fx('page-96113_01.head.html')
-    : u.includes('/search/complete/fullsearch?') ? fx('fullsearch-overtime.xml')
-    : u.startsWith(`${DOC}96113_01/xml/search/`) ? fx('insearch-96113_01-overtime.xml')
-    : null;
-  return { url, status: body === null ? 500 : 200, body: body ?? 'HTTP Status 500', contentType: 'text/xml', fetchedAt: '2026-09-24T19:00:00.000Z' };
-};
+// BC Laws (the Employment Standards Act, and an "overtime" search) and Justice Laws (the Canada Labour Code and two regulations)
+const fetcher = fakeFetcher([
+  [(u) => u === `${DOC}96113_01/xml`, fx('doc-96113_01.xml')],
+  [(u) => u === `${DOC}96113_01`, fx('page-96113_01.head.html')],
+  [(u) => u.includes('/search/complete/fullsearch?'), fx('fullsearch-overtime.xml')],
+  [(u) => u.startsWith(`${DOC}96113_01/xml/search/`), fx('insearch-96113_01-overtime.xml')],
+  ...fedRoutes,
+]);
 
 const glossary: Glossary = {
-  法定假日: [{ jurisdiction: 'bc', en_terms: ['statutory holiday', 'statutory holidays'], acts: [{ act_id: '96113_01', where: 's.1 definition; Part 5' }] }],
+  法定假日: [
+    { jurisdiction: 'bc', en_terms: ['statutory holiday', 'statutory holidays'], acts: [{ act_id: '96113_01', where: 's.1 definition; Part 5' }] },
+    { jurisdiction: 'federal', en_terms: ['general holiday', 'general holidays'], acts: [{ act_id: 'L-2', where: 's.166 definition; s.192' }] },
+  ],
 };
 
-async function connect() {
-  const server = createServer({ fetcher, glossary });
+async function connect(using: Fetcher = fetcher) {
+  const server = createServer({ fetcher: using, glossary });
   const [clientSide, serverSide] = InMemoryTransport.createLinkedPair();
   const client = new Client({ name: 'test', version: '0.0.0' });
   await Promise.all([server.connect(serverSide), client.connect(clientSide)]);
@@ -50,12 +49,14 @@ describe('MCP server', () => {
     expect(client.getServerVersion()).toMatchObject({ name: 'canada-law', version: VERSION });
   });
 
-  it('sends the usage rules as initialize instructions', async () => {
+  it('sends the usage rules as initialize instructions, for BC and federal law', async () => {
     const client = await connect();
     const instructions = client.getInstructions() ?? '';
     expect(instructions).toMatch(/Never answer .* from memory/);
     expect(instructions).toMatch(/current_to/);
     expect(instructions).toMatch(/federally regulated/);
+    expect(instructions).toMatch(/Canada Labour Code/);
+    expect(instructions).toContain('https://www.canada.ca/en/services/jobs/workplace/federal-labour-standards/filing-complaint.html');
     expect(instructions).toMatch(/not legal advice/);
   });
 
@@ -77,25 +78,59 @@ describe('MCP server', () => {
     expect(textOf(r)).toMatch(/No section 999/);
   });
 
-  it('says federal law is not available yet instead of failing silently', async () => {
+  it('get_section reads federal law, with the same citation fields', async () => {
     const client = await connect();
-    const r = await client.callTool({ name: 'get_toc', arguments: { jurisdiction: 'federal', act_id: 'L-2' } });
-    expect(r.isError).toBe(true);
-    expect(textOf(r)).toMatch(/M2/);
-  });
-
-  it('search_law with jurisdiction "all" searches BC and notes that federal is not there yet', async () => {
-    const client = await connect();
-    const r = await client.callTool({ name: 'search_law', arguments: { query: 'overtime', jurisdiction: 'all' } });
+    const r = await client.callTool({ name: 'get_section', arguments: { jurisdiction: 'federal', act_id: 'L-2', section: '169.1' } });
+    expect(r.isError).toBeFalsy();
     const body = JSON.parse(textOf(r));
-    expect(body.results.some((x: { section: string }) => x.section === '40')).toBe(true);
-    expect(body.notes.join(' ')).toMatch(/[Ff]ederal .*not available yet/);
+    expect(body.citation).toMatchObject({ jurisdiction: 'federal', act_id: 'L-2', section: '169.1', heading: 'Break', current_to: '2026-09-03' });
+    expect(body.notice).toBe(FEDERAL_NOTICE);
   });
 
-  it('map_term returns glossary entries, or [] when the term is unknown', async () => {
+  it('get_toc and find_act work for federal law', async () => {
+    const client = await connect();
+    const toc = JSON.parse(textOf(await client.callTool({ name: 'get_toc', arguments: { jurisdiction: 'federal', act_id: 'L-2' } })));
+    expect(toc.outline).toContain('DIVISION V — General Holidays');
+    const found = JSON.parse(textOf(await client.callTool({ name: 'find_act', arguments: { jurisdiction: 'federal', name: 'Canada Labour Code' } })));
+    expect(found[0]).toMatchObject({ act_id: 'L-2', type: 'act' });
+  });
+
+  it('search_law with jurisdiction "all" ranks BC and federal results together', async () => {
+    const client = await connect();
+    const r = await client.callTool({ name: 'search_law', arguments: { query: 'overtime', jurisdiction: 'all', limit: 20 } });
+    const body = JSON.parse(textOf(r));
+    expect(body.results.some((x: { jurisdiction: string; section: string }) => x.jurisdiction === 'bc' && x.section === '40')).toBe(true);
+    expect(body.results.some((x: { jurisdiction: string; section: string }) => x.jurisdiction === 'federal' && x.section === '174')).toBe(true);
+    const scores = body.results.map((x: { jurisdiction: string }) => x.jurisdiction);
+    expect(new Set(scores)).toEqual(new Set(['bc', 'federal']));
+    expect(body.notes.join(' ')).not.toMatch(/not available/);
+    expect(body.notice).toContain(BC_LAWS_NOTICE);
+    expect(body.notice).toContain(FEDERAL_NOTICE);
+  });
+
+  it('search_law "all" still returns federal results when BC Laws fails, and says so', async () => {
+    const client = await connect(fakeFetcher(fedRoutes)); // every BC Laws request answers 500
+    const r = await client.callTool({ name: 'search_law', arguments: { query: 'overtime', jurisdiction: 'all' } });
+    expect(r.isError).toBeFalsy();
+    const body = JSON.parse(textOf(r));
+    expect(body.results.some((x: { jurisdiction: string; section: string }) => x.jurisdiction === 'federal' && x.section === '174')).toBe(true);
+    expect(body.warnings.join(' ')).toMatch(/BC search failed, so only federal results are shown/);
+  });
+
+  it('search_law "federal" searches federal law only', async () => {
+    const client = await connect();
+    const body = JSON.parse(textOf(await client.callTool({ name: 'search_law', arguments: { query: '"general holiday" OR "general holidays"', jurisdiction: 'federal' } })));
+    expect(body.results[0]).toMatchObject({ jurisdiction: 'federal', act_id: 'L-2', section: '166' });
+    expect(body.results.every((x: { jurisdiction: string }) => x.jurisdiction === 'federal')).toBe(true);
+  });
+
+  it('map_term returns glossary entries for each jurisdiction, or [] when the term is unknown', async () => {
     const client = await connect();
     const hit = JSON.parse(textOf(await client.callTool({ name: 'map_term', arguments: { term: '法定假日' } })));
-    expect(hit[0]).toMatchObject({ term: '法定假日', jurisdiction: 'bc', en_terms: ['statutory holiday', 'statutory holidays'] });
+    expect(hit).toMatchObject([
+      { term: '法定假日', jurisdiction: 'bc', en_terms: ['statutory holiday', 'statutory holidays'] },
+      { term: '法定假日', jurisdiction: 'federal', en_terms: ['general holiday', 'general holidays'] },
+    ]);
     const miss = JSON.parse(textOf(await client.callTool({ name: 'map_term', arguments: { term: '育儿假' } })));
     expect(miss).toEqual([]);
   });

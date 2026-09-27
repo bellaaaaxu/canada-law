@@ -31,7 +31,18 @@ describe('published documents', () => {
   // SPEC-开源分发.md: the rules for the AI are written into SKILL.md and are the same in the MCP instructions
   // (a Claude Desktop user with the .mcpb only gets the instructions).
   it.each([
-    'Never answer a BC employment-law question from memory',
+    'Never answer a BC or federal employment-law question from memory',
+    // M2 (2026-09-26): which law applies, decided from the official text, and what federal search does not cover
+    'Canada Labour Code',
+    'C.R.C.,_c._986',
+    '"federal work, undertaking or business"',
+    'rather than relying on memory',
+    'Employment Insurance (EI)',
+    'Canada Pension Plan (CPP)',
+    'Say which law you answered from',
+    'https://www.canada.ca/en/services/jobs/workplace/federal-labour-standards/filing-complaint.html',
+    "Text from BC Laws (www.bclaws.gov.bc.ca) under the King's Printer Licence; not an official version.",
+    'Text from the Justice Laws Website (laws-lois.justice.gc.ca); not an official version.',
     'What the law says',
     'What it means',
     'What decides the outcome',

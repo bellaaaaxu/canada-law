@@ -1,9 +1,8 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import type { BcClient } from '../sources/bc.js';
-import { FEDERAL_NOT_YET, READ_ONLY, fail, jurisdiction, run } from './shared.js';
+import { READ_ONLY, jurisdiction, run, type Sources } from './shared.js';
 
-export function registerGetToc(server: McpServer, bc: BcClient) {
+export function registerGetToc(server: McpServer, { bc, federal }: Sources) {
   server.registerTool(
     'get_toc',
     {
@@ -12,10 +11,10 @@ export function registerGetToc(server: McpServer, bc: BcClient) {
         "Table of contents of an act or regulation: Parts, Divisions and Schedules with every section number and heading, plus the act's citation, source_url and official current_to date. Use it to pick the right section number before calling get_section.",
       inputSchema: {
         jurisdiction,
-        act_id: z.string().min(1).describe('The act_id returned by find_act, e.g. "96113_01".'),
+        act_id: z.string().min(1).describe('The act_id returned by find_act, e.g. "96113_01" (BC Employment Standards Act) or "L-2" (Canada Labour Code).'),
       },
       annotations: READ_ONLY,
     },
-    async ({ jurisdiction: j, act_id }) => (j === 'federal' ? fail(FEDERAL_NOT_YET) : run(() => bc.getToc(act_id))),
+    async ({ jurisdiction: j, act_id }) => run(() => (j === 'federal' ? federal.getToc(act_id) : bc.getToc(act_id))),
   );
 }

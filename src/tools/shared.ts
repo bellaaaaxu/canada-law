@@ -1,12 +1,14 @@
 import { z } from 'zod';
+import type { BcClient } from '../sources/bc.js';
+import type { FederalClient } from '../sources/federal.js';
 import { ToolError } from '../tool-error.js';
 
-export const FEDERAL_NOT_YET =
-  'Federal legislation is not available yet (planned for milestone M2). Only jurisdiction "bc" works for now.';
+/** The official sources the tools read. */
+export type Sources = { bc: BcClient; federal: FederalClient };
 
 export const jurisdiction = z
   .enum(['bc', 'federal'])
-  .describe('"bc" for British Columbia statutes and regulations; "federal" for federal law (not available until M2).');
+  .describe('"bc" for British Columbia statutes and regulations (BC Laws); "federal" for acts and regulations of Canada (Justice Laws), such as the Canada Labour Code.');
 
 export const READ_ONLY = { readOnlyHint: true, openWorldHint: true } as const;
 
@@ -21,6 +23,6 @@ export async function run(body: () => Promise<unknown>): Promise<Result> {
     return ok(await body());
   } catch (e) {
     if (e instanceof ToolError) return fail(e.message);
-    return fail(`Unexpected error while reading BC Laws: ${e instanceof Error ? e.message : String(e)}`);
+    return fail(`Unexpected error while reading the official source: ${e instanceof Error ? e.message : String(e)}`);
   }
 }

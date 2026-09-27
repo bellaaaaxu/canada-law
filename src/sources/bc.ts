@@ -162,6 +162,11 @@ export class BcClient {
   // ---------- search_law ----------
 
   async search(query: string, limit = 10) {
+    return (await this.searchScored(query, limit)).output;
+  }
+
+  /** search() plus each result's score, so that search_law "all" can rank BC and federal results together. */
+  async searchScored(query: string, limit = 10) {
     const q = query.replace(/\//g, ' ').replace(/\s+/g, ' ').trim();
     if (!q) throw new ToolError('query is empty.');
     const wrapped = `(${q})`; // without parentheses CiviX turns the first word of "a b" into an optional term
@@ -225,17 +230,20 @@ export class BcClient {
     }));
 
     return {
-      query: q,
-      documents_matched: totalHits,
-      documents_searched: candidates.length,
-      results,
-      warnings,
-      notes: [
-        `BC Laws full-site search returns documents, not sections: the top ${MAX_PAGE} documents by its own ranking were taken, point-in-time versions and legislative-change tables were dropped, and up to ${MAX_DOCS_SEARCHED} current acts/regulations were searched section by section.`,
-        LITERAL_NOTE,
-        SNIPPET_NOTE,
-      ],
-      notice: BC_LAWS_NOTICE,
+      output: {
+        query: q,
+        documents_matched: totalHits,
+        documents_searched: candidates.length,
+        results,
+        warnings,
+        notes: [
+          `BC Laws full-site search returns documents, not sections: the top ${MAX_PAGE} documents by its own ranking were taken, point-in-time versions and legislative-change tables were dropped, and up to ${MAX_DOCS_SEARCHED} current acts/regulations were searched section by section.`,
+          LITERAL_NOTE,
+          SNIPPET_NOTE,
+        ],
+        notice: BC_LAWS_NOTICE,
+      },
+      scored: top.map((h, i) => ({ result: results[i], score: score(h) })),
     };
   }
 
