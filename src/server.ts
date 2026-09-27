@@ -12,7 +12,7 @@ import { registerSearchLaw } from './tools/search-law.js';
 import { VERSION } from './version.js';
 
 // The same rules and answer format as skills/canada-employment-law/SKILL.md (tests/docs.test.ts keeps them in step).
-// Claude Code passes these to the model; Claude Desktop and claude.ai do not (anthropics/claude-ai-mcp#93), so the
+// Claude Code passes these to the model; Claude Desktop and claude.ai reportedly do not (anthropics/claude-ai-mcp#93), so the
 // answer format and rules (src/answer-rules.ts) also come back with the text from get_section, search_law and get_toc.
 export const INSTRUCTIONS = `This server returns the current official text of British Columbia and federal (Canada) statutes and regulations.
 

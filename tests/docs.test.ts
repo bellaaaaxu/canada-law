@@ -46,7 +46,7 @@ describe('published documents', () => {
   });
 
   // SPEC-开源分发.md: the rules for the AI are written into SKILL.md and are the same in the MCP instructions.
-  // Claude Desktop does not pass the instructions to the model, so their answer part also comes back with the text
+  // Claude Desktop reportedly does not pass the instructions to the model, so their answer part also comes back with the text
   // (src/answer-rules.ts; tests/server.test.ts checks it is word for word the same).
   it.each([
     'Never answer a BC or federal employment-law question from memory',
@@ -79,6 +79,8 @@ describe('published documents', () => {
     'not an official version',
     'not legal advice',
     'federally regulated',
+    // 2026-09-27: the tools give the current text only, but people ask about things that already happened
+    'say that this is the current text and that the law at that time may have been different',
   ])('SKILL.md and the MCP instructions both say: %s', (rule) => {
     expect(doc('skills/canada-employment-law/SKILL.md')).toContain(rule);
     expect(INSTRUCTIONS).toContain(rule);

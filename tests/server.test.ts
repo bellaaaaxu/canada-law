@@ -60,7 +60,7 @@ describe('MCP server', () => {
     expect(instructions).toMatch(/not legal advice/);
   });
 
-  // Claude Desktop and claude.ai do not pass the initialize instructions to the model (anthropics/claude-ai-mcp#93),
+  // Claude Desktop and claude.ai reportedly do not pass the initialize instructions to the model (anthropics/claude-ai-mcp#93),
   // so the answer format and rules also come back with the text.
   it.each([
     ['get_section', { jurisdiction: 'bc', act_id: '96113_01', section: '40' }],

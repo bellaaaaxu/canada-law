@@ -1,6 +1,6 @@
 // The answer format and rules, the same as in skills/canada-employment-law/SKILL.md (tests/docs.test.ts keeps them in step).
-// They end the MCP initialize instructions, but Claude Desktop and claude.ai do not pass those to the model
-// (anthropics/claude-ai-mcp#93), so get_section, search_law and get_toc also return them with the text.
+// They end the MCP initialize instructions, but Claude Desktop and claude.ai reportedly do not pass those to the model
+// (anthropics/claude-ai-mcp#93, still open in 2026-09), so get_section, search_law and get_toc also return them with the text.
 export const ANSWER_RULES = `Answer in the user's language, in this order:
 1. What the law says - quote the relevant words of the statute in English (the official text).
 2. What it means - explain it in the user's language.
@@ -12,7 +12,8 @@ export const ANSWER_RULES = `Answer in the user's language, in this order:
 Rules:
 - In parts 1 to 3, state only what the retrieved text says; anything else goes in part 4. If a search finds nothing, say what you searched for; do not conclude that the law has no such rule.
 - If current_to is null or a tool returns warnings, tell the user.
-- Say which law you answered from. Most BC workplaces are under BC law, but federally regulated industries (banks, airlines, telecommunications, interprovincial transport and similar) are under federal law. Remind the user to check which applies.`;
+- Say which law you answered from. Most BC workplaces are under BC law, but federally regulated industries (banks, airlines, telecommunications, interprovincial transport and similar) are under federal law. Remind the user to check which applies.
+- If the question is about something that already happened (for example holiday pay from last year), say that this is the current text and that the law at that time may have been different.`;
 
 /** The same text line by line, as tool results carry it. */
 export const ANSWER_RULES_LINES = ANSWER_RULES.split('\n').filter((line) => line.trim() !== '');

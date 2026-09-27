@@ -181,7 +181,7 @@ type Citation = {
 - 回答时引用法名、条号、`source_url` 和 `current_to`
 - 提醒用户确认适用哪一级法规：大多数企业受 BC 法规管辖，联邦监管行业适用联邦法规（M2 起的具体做法见「联邦部分怎么做」第 9 项）
 - 注明回答内容不构成法律意见
-- ⚠️ 2026-09-27 实测：**Claude 桌面版和 claude.ai 不把 initialize instructions 交给模型**（anthropics/claude-ai-mcp#93，2026-03 报告，9 月仍未修；Claude Code 会交）。所以回答格式和规则（`src/answer-rules.ts`，instructions 的后半段）也附在 `get_section`、`search_law`、`get_toc` 的返回内容里：`answer_rules` 字段，一行一项，和 instructions 逐字相同（测试管着）。这三个工具的描述里各加一句「结果里带 answer_rules，回答时照着做」：模型可能把工具结果里的指示当成不可信内容，工具自己的描述替它背书。`map_term`、`find_act` 返回的是列表、不带原文，不加；skill 小程序的输出也不加，SKILL.md 本身就是规则
+- ⚠️ 2026-09-27 查到：**据公开问题 anthropics/claude-ai-mcp#93，Claude 桌面版和 claude.ai 不把 initialize instructions 交给模型**（2026-03 报告，9/23 仍开着，官方说放进了待办；Claude Code 会交）。这不是我们直接测出来的：我们在桌面版 2.9939.2（微软商店版，`.mcpb` 安装）看到的回答都没按格式，和它一致，但不算直接证据；以后要再核。所以回答格式和规则（`src/answer-rules.ts`，instructions 的后半段）也附在 `get_section`、`search_law`、`get_toc` 的返回内容里：`answer_rules` 字段，一行一项，和 instructions 逐字相同（测试管着）。这三个工具的描述里各加一句「结果里带 answer_rules，回答时照着做」：模型可能把工具结果里的指示当成不可信内容，工具自己的描述替它背书。`map_term`、`find_act` 返回的是列表、不带原文，不加；skill 小程序的输出也不加，SKILL.md 本身就是规则
 
 ## 项目结构
 
