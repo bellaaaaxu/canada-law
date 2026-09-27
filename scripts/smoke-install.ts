@@ -1,6 +1,9 @@
 // npm run smoke:install (after npm run bundle): the installer end to end, in a fake home folder with a Chinese
 // name. Isolation is checked before anything runs, and the real config files are fingerprinted before and after:
 // on 2026-09-25 a hand-typed test forgot APPDATA and briefly wrote to the real Claude Desktop config.
+//
+//   npm run smoke:install -- --from <release .tgz URL>   the same, through npx, from a published release
+//                                                       (npm's cache is inside the fake home, so it downloads afresh)
 import { execFileSync, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -53,7 +56,14 @@ const put = (file: string, text: string) => {
   mkdirSync(join(file, '..'), { recursive: true });
   writeFileSync(file, text);
 };
-const run = (...args: string[]) => spawnSync(process.execPath, [bin, ...args], { env: fakeEnv, encoding: 'utf8' });
+const fromAt = process.argv.indexOf('--from');
+const from = fromAt >= 0 ? process.argv[fromAt + 1] : null;
+if (fromAt >= 0 && !/^https:\/\/\S+\.tgz$/.test(from ?? '')) throw new Error('--from takes the https URL of a release .tgz');
+const run = (...args: string[]) =>
+  from
+    ? spawnSync(`npx --yes ${from} ${args.join(' ')}`, { env: fakeEnv, encoding: 'utf8', shell: true })
+    : spawnSync(process.execPath, [bin, ...args], { env: fakeEnv, encoding: 'utf8' });
+if (from) console.log(`installer from ${from}`);
 const json = (f: string) => JSON.parse(readFileSync(f, 'utf8'));
 const at = (...p: string[]) => join(home, ...p);
 
