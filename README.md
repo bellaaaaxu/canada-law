@@ -4,12 +4,13 @@
 
 [中文说明](README.zh.md)
 
-Ask your AI assistant about employment law in British Columbia and in federally regulated workplaces — overtime, breaks, statutory holidays, pay, leaves, termination — in English or Chinese. Answers come from the **current official text** on BC Laws and the Justice Laws Website, with the act, section number, a link to the section, and the official "current to" date.
+Tools that let your AI assistant look up employment law in British Columbia and in federally regulated workplaces — overtime, breaks, statutory holidays, pay, leaves, termination — when you ask in English or Chinese. With them the AI can fetch the **current official text** from BC Laws and the Justice Laws Website, with the act, section number, a link to the section, and the official "current to" date.
 
 It plugs into most AI coding assistants through two open standards, [Agent Skills](https://agentskills.io) and [MCP](https://modelcontextprotocol.io): Claude, OpenAI Codex / ChatGPT desktop, GitHub Copilot, Cursor, Gemini CLI, Google Antigravity, Kiro, Qwen Code, Kimi Code, and more.
 
 > **Please read**
 > - This is general legal information, **not legal advice**.
+> - **Whether and how the AI uses these tools is up to the app and the model you use.** It sometimes answers from memory without looking anything up (seen in Claude Desktop). To make sure it checks the official text, ask it to "check the official text with Canada Law".
 > - **BC law, and federal labour law.** Most BC workplaces are under BC law. Federally regulated workplaces (banks, airlines, telecommunications, interprovincial transport and similar) are under the *Canada Labour Code*, which is included with its regulations. Other federal law, such as Employment Insurance (EI) or the Canada Pension Plan (CPP), is not searched.
 > - The statute text is **not an official version** (see [Licence](#licence)).
 > - The AI may add things that are not in the official text (such as the dates of holidays). It is told to put them in a separate part marked as not checked, but it does not always manage. **Rely on the quoted sections and their links.**
