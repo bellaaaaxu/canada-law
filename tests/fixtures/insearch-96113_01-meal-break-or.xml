@@ -1,0 +1,20 @@
+<?xml version="1.0"?><!-- This information is licensed under the Queen's Printer License of British Columbia found: www.bclaws.ca/standards/2014/QP-License_1.0.html. Please review the license terms carefully. --><snippet><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e2702">
+        <bcl:marginalnote><hit loc="1">Meal breaks</hit></bcl:marginalnote>
+        <bcl:num>32</bcl:num>
+        <bcl:subsection id="d2e2710">
+          <bcl:num>1</bcl:num>
+          <bcl:text>An employer must ensure</bcl:text>
+          <bcl:paragraph id="d2e2719">
+            <bcl:num>a</bcl:num>
+            <bcl:text>that no employee works more than 5 consecutive hours without a <hit loc="2">meal break</hit>, and</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2728">
+            <bcl:num>b</bcl:num>
+            <bcl:text>that each <hit loc="3">meal break</hit> lasts at least a 1/2 hour.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e2738">
+          <bcl:num>2</bcl:num>
+          <bcl:text>An employer who requires an employee to work or be available for work during a <hit loc="4">meal break</hit> must count the <hit loc="5">meal break</hit> as time worked by the employee.</bcl:text>
+        </bcl:subsection>
+      </bcl:section></snippet>

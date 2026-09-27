@@ -1,0 +1,1373 @@
+<?xml version="1.0"?><!-- This information is licensed under the Queen's Printer License of British Columbia found: www.bclaws.ca/standards/2014/QP-License_1.0.html. Please review the license terms carefully. --><snippet><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e30">
+        <bcl:marginalnote>Definitions</bcl:marginalnote>
+        <bcl:num>1</bcl:num>
+        <bcl:subsection id="d2e38">
+          <bcl:num>1</bcl:num>
+          <bcl:text>In this Act:</bcl:text>
+          <bcl:definition id="d2e47">
+            <bcl:text>
+              <in:term>assignment of wages</in:term> includes a written authorization to pay all or part of an employee's wages to another person;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e56">
+            <bcl:text>
+              <in:term>collective agreement</in:term> means the same as in the <bcl:link resource="leg" xlink:href="/legislation/96150_01" xlink:type="locator"><in:doc>Fishing Collective Bargaining Act</in:doc></bcl:link>, the <bcl:link resource="leg" xlink:href="/legislation/96244_01" xlink:type="locator"><in:doc>Labour Relations Code</in:doc></bcl:link>, or the <bcl:link resource="leg" xlink:href="/legislation/96388_01" xlink:type="locator"><in:doc>Public Service Labour Relations Act</in:doc></bcl:link>;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e75">
+            <bcl:text>
+              <in:term>conditions of employment</in:term> means all matters and circumstances that in any way affect the employment relationship of employers and employees;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e84">
+            <bcl:text>
+              <in:term>construction</in:term> means the construction, renovation, repair or demolition of property or the alteration or improvement of land;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e93">
+            <bcl:text>
+              <in:term>day</in:term> means</bcl:text>
+            <bcl:paragraph id="d2e102">
+              <bcl:num>a</bcl:num>
+              <bcl:text>a 24 hour period ending at midnight, or</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e111">
+              <bcl:num>b</bcl:num>
+              <bcl:text>in relation to an employee's shift that continues over midnight, the 24 hour period beginning at the start of the employee's shift;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e120">
+            <bcl:text>
+              <in:term>determination</in:term> means any decision made by the director under section 30 (2), 66, 68 (3), 73, 74 (5), <?amendment-start citation="2026-10-1" eff="2026-08-01" bif="141/2026"?>76 (2), (3) or (8)<?amendment-end?>, 79, 80 (3), 100 or 119;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e130">
+            <bcl:text>
+              <in:term>director</in:term> means the Director of Employment Standards appointed under the <bcl:link resource="leg" xlink:href="/legislation/96385_01" xlink:type="locator"><in:doc>Public Service Act</in:doc></bcl:link> and, in relation to a function, duty or power that the director has under section 117 of this Act delegated to another person, <in:term>director</in:term> includes that other person;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e145">
+            <bcl:text>
+              <in:term>domestic worker</in:term> means a person who is employed at an employer's private residence to provide cooking, cleaning, child care or other prescribed services;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e172">
+            <bcl:text>
+              <in:term>employee</in:term> includes</bcl:text>
+            <bcl:paragraph id="d2e181">
+              <bcl:num>a</bcl:num>
+              <bcl:text>a person, including a deceased person, receiving or entitled to wages for work performed for another,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e191">
+              <bcl:num>b</bcl:num>
+              <bcl:text>a person an employer allows, directly or indirectly, to perform work normally performed by an employee,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e200">
+              <bcl:num>c</bcl:num>
+              <bcl:text>a person being trained by an employer for the employer's business,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e209">
+              <bcl:num>d</bcl:num>
+              <bcl:text>a person on leave from an employer, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e218">
+              <bcl:num>e</bcl:num>
+              <bcl:text>a person who has a right of recall;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e227">
+            <bcl:text>
+              <in:term>employer</in:term> includes a person</bcl:text>
+            <bcl:paragraph id="d2e236">
+              <bcl:num>a</bcl:num>
+              <bcl:text>who has or had control or direction of an employee, or</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e246">
+              <bcl:num>b</bcl:num>
+              <bcl:text>who is or was responsible, directly or indirectly, for the employment of an employee;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e255">
+            <bcl:text>
+              <in:term>employment agency</in:term> means a person who, for a fee and for employers, recruits or offers to recruit employees, except employees</bcl:text>
+            <bcl:paragraph id="d1e276">
+              <bcl:num>a</bcl:num>
+              <bcl:text>who are foreign nationals, as defined in the <bcl:link resource="leg" xlink:href="/legislation/18045" xlink:type="locator"><in:doc>Temporary Foreign Worker Protection Act</in:doc></bcl:link>, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e284">
+              <bcl:num>b</bcl:num>
+              <bcl:text>to whom recruitment services, as defined in that Act, must be provided in accordance with that Act;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e264">
+            <bcl:text>
+              <in:term>farm labour contractor</in:term> means an employer whose employees work, for or under the control or direction of another person, in connection with the planting, cultivating or harvesting of an agricultural product;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e273">
+            <bcl:text>
+              <in:term>former Act</in:term> means the <in:doc>Employment Standards Act</in:doc>, S.B.C. 1980, c. 10;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d1e298">
+            <bcl:text>
+              <in:term>gratuity</in:term> means</bcl:text>
+            <bcl:paragraph id="d1e305">
+              <bcl:num>a</bcl:num>
+              <bcl:text>a payment voluntarily made to or left for an employee by a customer of the employee's employer in circumstances in which a reasonable person would be likely to infer that the customer intended or assumed that the payment would be kept by the employee or shared by the employee with other employees,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e314">
+              <bcl:num>b</bcl:num>
+              <bcl:text>a payment voluntarily made to an employer by a customer in circumstances in which a reasonable person would be likely to infer that the customer intended or assumed that the payment would be redistributed to an employee or employees,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e323">
+              <bcl:num>c</bcl:num>
+              <bcl:text>a payment of a service charge or similar charge imposed by an employer on a customer in circumstances in which a reasonable person would be likely to infer that the customer intended or assumed that the payment would be redistributed to an employee or employees, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e332">
+              <bcl:num>d</bcl:num>
+              <bcl:text>other payments as may be prescribed,</bcl:text>
+            </bcl:paragraph>
+            <bcl:text>but does not include</bcl:text>
+            <bcl:paragraph id="d1e345">
+              <bcl:num>e</bcl:num>
+              <bcl:text>payments as may be prescribed, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e354">
+              <bcl:num>f</bcl:num>
+              <bcl:text>charges as may be prescribed relating to the method of payment used, or a prescribed portion of those charges;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e285">
+            <bcl:text>
+              <in:term>immediate family</in:term> means</bcl:text>
+            <bcl:paragraph id="d2e294">
+              <bcl:num>a</bcl:num>
+              <bcl:text>the spouse, child, parent, guardian, sibling, grandchild or grandparent of an employee,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e385">
+              <bcl:num>a.1</bcl:num>
+              <bcl:text>the child or parent of an employee's spouse, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e304">
+              <bcl:num>b</bcl:num>
+              <bcl:text>any person who lives with an employee as a member of the employee's family;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e313">
+            <bcl:text>
+              <in:term>insolvency Act</in:term> means the <bcl:link resource="leg" xlink:href="http://laws-lois.justice.gc.ca/eng/acts/B-3/" xlink:type="locator"><in:doc>Bankruptcy and Insolvency Act</in:doc></bcl:link> (Canada), the <bcl:link resource="leg" xlink:href="http://laws-lois.justice.gc.ca/eng/acts/C-36/" xlink:type="locator"><in:doc>Companies' Creditors Arrangement Act</in:doc></bcl:link> (Canada) or the <bcl:link resource="leg" xlink:href="http://laws-lois.justice.gc.ca/eng/acts/W-11/" xlink:type="locator"><in:doc>Winding-up and Restructuring Act</in:doc></bcl:link> (Canada);</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e331">
+            <bcl:text>
+              <in:term>Labour Relations Board</in:term> means the board as defined in the <bcl:link resource="leg" xlink:href="/legislation/96244_01" xlink:type="locator"><in:doc>Labour Relations Code</in:doc></bcl:link>;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d1e359">
+            <bcl:text>
+              <in:term>online platform worker</in:term> means a person who performs prescribed work that the person accepts through an online platform;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e343">
+            <bcl:text>
+              <in:term><hit loc="1">overtime</hit> wages</in:term> means the wages an employee is entitled to receive under section 37 (4), (5) or (6) or 40;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e352">
+            <bcl:text>
+              <in:term>pay period</in:term> means a period of up to 16 consecutive days of employment;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e361">
+            <bcl:text>
+              <in:term>payroll record</in:term> means a record required under section 28 to be kept by an employer;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e371">
+            <bcl:text>
+              <in:term>penalty</in:term> means a monetary penalty imposed under section 98;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e380">
+            <bcl:text>
+              <in:term>producer</in:term> means a person who engages the services of a farm labour contractor;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e389">
+            <bcl:text>
+              <in:term>regular wage</in:term> means</bcl:text>
+            <bcl:paragraph id="d2e398">
+              <bcl:num>a</bcl:num>
+              <bcl:text>if an employee is paid by the hour, the hourly wage,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e407">
+              <bcl:num>b</bcl:num>
+              <bcl:text>if an employee is paid on a flat rate, piece rate, commission or other incentive basis, the employee's wages in a pay period divided by the employee's total hours of work during that pay period,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e416">
+              <bcl:num>c</bcl:num>
+              <bcl:text>if an employee is paid a weekly wage, the weekly wage divided by the lesser of the employee's normal or average weekly hours of work,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e426">
+              <bcl:num>d</bcl:num>
+              <bcl:text>if an employee is paid a monthly wage, the monthly wage multiplied by 12 and divided by the product of 52 times the lesser of the employee's normal or average weekly hours of work, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e435">
+              <bcl:num>e</bcl:num>
+              <bcl:text>if an employee is paid a yearly wage, the yearly wage divided by the product of 52 times the lesser of the employee's normal or average weekly hours of work;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e444">
+            <bcl:text>
+              <in:term>representative member</in:term> means a member of the tribunal appointed under section 102 (c);</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e453">
+            <bcl:text>
+              <in:term>right of recall</in:term> means the right of an employee under a collective agreement to be recalled to employment within a specified period after being laid off;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e462">
+            <bcl:text>
+              <in:term>settlement agreement</in:term> means a settlement agreement under section 78;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e471">
+            <bcl:text>
+              <in:term>special clothing</in:term> includes a uniform and a specified brand of clothing;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d1e586">
+            <bcl:text>
+              <in:term>spouse</in:term> means a person who</bcl:text>
+            <bcl:paragraph id="d1e593">
+              <bcl:num>a</bcl:num>
+              <bcl:text>is married to another person, or</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e602">
+              <bcl:num>b</bcl:num>
+              <bcl:text>is living with another person in a marriage-like relationship;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e481">
+            <bcl:text>
+              <in:term>statutory holiday</in:term> means New Year's Day, Family Day, Good Friday, Victoria Day, Canada Day, British Columbia Day, Labour Day, National Day for Truth and Reconciliation, Thanksgiving Day, Remembrance Day, Christmas Day and any other holiday prescribed by regulation;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e490">
+            <bcl:text>
+              <in:term>talent agency</in:term> means a person that, for a fee, engages in the occupation of offering to procure, promising to procure or procuring employment for actors, performers, extras or technical creative film personnel;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e499">
+            <bcl:text>
+              <in:term>temporary layoff</in:term> means</bcl:text>
+            <bcl:paragraph id="d2e508">
+              <bcl:num>a</bcl:num>
+              <bcl:text>in the case of an employee who has a right of recall, a layoff that exceeds the specified period within which the employee is entitled to be recalled to employment, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e517">
+              <bcl:num>b</bcl:num>
+              <bcl:text>in any other case, a layoff of up to 13 weeks in any period of 20 consecutive weeks;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e526">
+            <bcl:text>
+              <in:term>termination of employment</in:term> includes a layoff other than a temporary layoff;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e536">
+            <bcl:text>
+              <in:term>termination pay</in:term> means, for each week of notice an employee is entitled to, the amount obtained by totalling the employee's weekly wages, at the regular wage, during the last 8 weeks in which the employee worked normal or average hours of work and dividing the total by 8;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e545">
+            <bcl:text>
+              <in:term>time bank</in:term> means a time bank established under section 42 at the request of an employee;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e554">
+            <bcl:text>
+              <in:term>trade union</in:term> means the same as in the <bcl:link resource="leg" xlink:href="/legislation/96244_01" xlink:type="locator"><in:doc>Labour Relations Code</in:doc></bcl:link>;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e566">
+            <bcl:text>
+              <in:term>tribunal</in:term> means the Employment Standards Tribunal;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e575">
+            <bcl:text>
+              <in:term>wages</in:term> includes</bcl:text>
+            <bcl:paragraph id="d2e584">
+              <bcl:num>a</bcl:num>
+              <bcl:text>salaries, commissions or money, paid or payable by an employer to an employee for work,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e594">
+              <bcl:num>b</bcl:num>
+              <bcl:text>money that is paid or payable by an employer as an incentive and relates to hours of work, production or efficiency,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e603">
+              <bcl:num>c</bcl:num>
+              <bcl:text>money, including the amount of any liability under section 63, required to be paid by an employer to an employee under this Act,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e612">
+              <bcl:num>d</bcl:num>
+              <bcl:text>money required to be paid in accordance with</bcl:text>
+              <bcl:subparagraph id="d2e621">
+                <bcl:num>i</bcl:num>
+                <bcl:text>a determination, other than costs required to be paid under section 79 (1) (f), or</bcl:text>
+              </bcl:subparagraph>
+              <bcl:subparagraph id="d2e630">
+                <bcl:num>ii</bcl:num>
+                <bcl:text>a settlement agreement or an order of the tribunal, and</bcl:text>
+              </bcl:subparagraph>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e639">
+              <bcl:num>e</bcl:num>
+              <bcl:text>in Parts 10 and 11, money required under a contract of employment to be paid, for an employee's benefit, to a fund, insurer or other person,</bcl:text>
+            </bcl:paragraph>
+            <bcl:text>but does not include</bcl:text>
+            <bcl:paragraph id="d2e652">
+              <bcl:num>f</bcl:num>
+              <bcl:text>gratuities,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e661">
+              <bcl:num>g</bcl:num>
+              <bcl:text>money that is paid at the discretion of the employer and is not related to hours of work, production or efficiency,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e670">
+              <bcl:num>h</bcl:num>
+              <bcl:text>allowances or expenses,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e679">
+              <bcl:num>i</bcl:num>
+              <bcl:text>penalties, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e688">
+              <bcl:num>j</bcl:num>
+              <bcl:text>an administrative fee imposed under section 30.1;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e698">
+            <bcl:text>
+              <in:term>week</in:term> means a period of 7 consecutive days beginning,</bcl:text>
+            <bcl:paragraph id="d2e707">
+              <bcl:num>a</bcl:num>
+              <bcl:text>for the purpose of calculating <hit loc="2">overtime</hit>, on Sunday,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e716">
+              <bcl:num>b</bcl:num>
+              <bcl:text>for the purposes of sections 37 and 52.1, on Sunday, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e725">
+              <bcl:num>c</bcl:num>
+              <bcl:text>for any other purpose, on any day;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e734">
+            <bcl:text>
+              <in:term>work</in:term> means the labour or services an employee performs for an employer whether in the employee's residence or elsewhere.</bcl:text>
+          </bcl:definition>
+        </bcl:subsection>
+        <bcl:subsection id="d2e743">
+          <bcl:num>2</bcl:num>
+          <bcl:text>An employee is deemed to be at work while on call at a location designated by the employer unless the designated location is the employee's residence.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e820">
+        <bcl:marginalnote>Scope of this Act</bcl:marginalnote>
+        <bcl:num>3</bcl:num>
+        <bcl:subsection id="d2e828">
+          <bcl:num>1</bcl:num>
+          <bcl:text>Subject to this section, this Act applies to all employees other than those excluded by regulation.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e837">
+          <bcl:num>2</bcl:num>
+          <bcl:text>If a collective agreement contains any provisions respecting a matter set out in column 1 of the following table, and the provisions, when considered together, meet or exceed the requirements, when considered together, of the Part or section of this Act specified opposite the matter in column 2 of the table, those provisions of the collective agreement replace the requirements of that Part or section of the Act in respect of employees covered by the collective agreement:</bcl:text>
+          <oasis:table style="2" id="d0e865">
+            <oasis:tgroup cols="2">
+              <oasis:colspec colname="c1" colnum="1" align="center" border="1"/>
+              <oasis:colspec colname="c2" colnum="2" align="center" border="1"/>
+              <oasis:thead>
+                <oasis:trow>
+                  <oasis:entry colname="c1" align="center">
+                    <oasis:line>
+                      <in:strong>Column 1 <in:br/> Matter</in:strong>
+                    </oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line>
+                      <in:strong>Column 2 <in:br/> Part or Section</in:strong>
+                    </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:thead>
+              <oasis:tbody>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>Special clothing</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line> Section 25 (1) or (2) </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>Hours of work or <hit loc="3">overtime</hit></oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line>
+                      Part 4
+                    </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>Statutory holidays</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line>
+                      Part 5
+                    </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>Annual vacation or vacation pay</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line>
+                      Part 7
+                    </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>Seniority retention, recall, termination of employment or layoff</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line>
+                      Section 63
+                    </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+        </bcl:subsection>
+        <bcl:subsection id="d2e903">
+          <bcl:num>2.1</bcl:num>
+          <bcl:text>Despite subsection (2), any provisions of a collective agreement respecting statutory holidays only replace the requirements of Part 5 of this Act as that Part applies to statutory holidays other than the National Day for Truth and Reconciliation.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e905">
+          <bcl:num>3</bcl:num>
+          <bcl:text>If a collective agreement contains no provisions respecting a matter set out in column 1 of the following table, or contains any provisions respecting a matter set out in column 1 that, when considered together, do not meet or exceed the requirements, when considered together, of the Part or section of this Act specified opposite the matter in column 2 of the table, that Part or section of the Act is deemed to be incorporated in the collective agreement as part of its terms:</bcl:text>
+          <oasis:table style="2" id="d0e987">
+            <oasis:tgroup cols="2">
+              <oasis:colspec colname="c1" colnum="1" align="center" border="1"/>
+              <oasis:colspec colname="c2" colnum="2" align="center" border="1"/>
+              <oasis:thead>
+                <oasis:trow>
+                  <oasis:entry colname="c1" align="center">
+                    <oasis:line>
+                      <in:strong>Column 1 <in:br/> Matter</in:strong>
+                    </oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line>
+                      <in:strong>Column 2 <in:br/> Part or Section</in:strong>
+                    </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:thead>
+              <oasis:tbody>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>Special clothing</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line> Section 25 (1) or (2) </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>Hours of work or <hit loc="4">overtime</hit></oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line> Part 4, except section 37</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>Statutory holidays</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line>
+                      Part 5
+                    </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>Annual vacation or vacation pay</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line>
+                      Part 7
+                    </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>Seniority retention, recall, termination of employment or layoff</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="center">
+                    <oasis:line>
+                      Section 63
+                    </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+        </bcl:subsection>
+        <bcl:subsection id="d2e972">
+          <bcl:num>4) and (5</bcl:num>
+          <bcl:text>[Repealed 2019-27-3.]</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e1064">
+          <bcl:num>6</bcl:num>
+          <bcl:text>Parts 10, 11 and 13 of this Act do not apply in relation to the enforcement of the following provisions of this Act in respect of an employee covered by a collective agreement:</bcl:text>
+          <bcl:paragraph id="d1e1201">
+            <bcl:text>section 3 (2) <in:desc>[when provisions of collective agreement replace requirements of this Act]</in:desc>;</bcl:text>
+            <bcl:text>section 3 (2.1) <in:desc>[collective agreement does not replace Part 5 in relation to National Day for Truth and Reconciliation]</in:desc>;</bcl:text>
+            <bcl:text>section 3 (3) <in:desc>[when requirements of this Act are deemed incorporated into collective agreement]</in:desc>;</bcl:text>
+            <bcl:text> section 9 <in:desc>[hiring children]</in:desc>;</bcl:text>
+            <bcl:text> section 10 <in:desc>[no charge for hiring or providing information]</in:desc>;</bcl:text>
+            <bcl:text> section 16 <in:desc>[employers required to pay minimum wage]</in:desc>;</bcl:text>
+            <bcl:text>section 16.1 <in:desc>[minimum wage]</in:desc>;</bcl:text>
+            <bcl:text>section 16.2 <in:desc>[annual adjustment of minimum wage]</in:desc>;</bcl:text>
+            <bcl:text>section 17 <in:desc>[paydays]</in:desc>;</bcl:text>
+            <bcl:text>section 18 (1) <in:desc>[payment of wages when employer terminates]</in:desc>;</bcl:text>
+            <bcl:text>section 18 (2) <in:desc>[payment of wages when employee terminates]</in:desc>;</bcl:text>
+            <bcl:text>section 20 <in:desc>[how wages are paid]</in:desc>;</bcl:text>
+            <bcl:text>
+              section 21 <in:desc>[deductions]</in:desc>;</bcl:text>
+            <bcl:text>section 22 <in:desc>[assignment of wages]</in:desc>;</bcl:text>
+            <bcl:text>section 23 <in:desc>[employer's duty to make assigned payments]</in:desc>;</bcl:text>
+            <bcl:text>section 24 <in:desc>[how an assignment is cancelled]</in:desc>;</bcl:text>
+            <bcl:text>section 26 <in:desc>[payments by employer to funds, insurers or others]</in:desc>;</bcl:text>
+            <bcl:text>section 27 <in:desc>[wage statements]</in:desc>;</bcl:text>
+            <bcl:text>section 28 (1) <in:desc>[content of payroll records]</in:desc>;</bcl:text>
+            <bcl:text>section 28 (2) <in:desc>[payroll record requirements]</in:desc>;</bcl:text>
+            <bcl:text>section 30.3 <in:desc>[gratuities]</in:desc>;</bcl:text>
+            <bcl:text>section 30.4 <in:desc>[redistribution of gratuities]</in:desc>;</bcl:text>
+            <bcl:text>Part 5 <in:desc>[Statutory Holidays]</in:desc>, as that Part applies to the National Day for Truth and Reconciliation;</bcl:text>
+            <bcl:text>Part 6 <in:desc>[leaves and jury duty]</in:desc>;</bcl:text>
+            <bcl:text>
+              section 64 <in:desc>[group terminations]</in:desc>;</bcl:text>
+            <bcl:text>
+              section 65 <in:desc>[exceptions to section 64]</in:desc>;</bcl:text>
+            <bcl:text>
+              section 67 <in:desc>[rules about notice of termination]</in:desc>;</bcl:text>
+            <bcl:text>
+              section 68 <in:desc>[rules about payments on termination]</in:desc>.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e1129">
+          <bcl:num>7</bcl:num>
+          <bcl:text>If a dispute arises respecting the application, interpretation or operation of</bcl:text>
+          <bcl:paragraph id="d2e1138">
+            <bcl:num>a</bcl:num>
+            <bcl:text>a Part or provision of this Act deemed by subsection (3) to be incorporated in a collective agreement, or</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e1147">
+            <bcl:num>b</bcl:num>
+            <bcl:text>a provision specified in subsection (6),</bcl:text>
+          </bcl:paragraph>
+          <bcl:text>the grievance procedure contained in the collective agreement or, if applicable, deemed to be contained in the collective agreement under section 84 (3) of the <bcl:link resource="leg" xlink:href="/legislation/96244_01" xlink:type="locator"><in:doc>Labour Relations Code</in:doc></bcl:link>, applies for the purposes of resolving the dispute.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e1163">
+          <bcl:num>8</bcl:num>
+          <bcl:text>Despite subsection (6), if an arbitration board makes a decision on the merits of a matter in dispute referred to in subsection (7) and the decision is in respect of wages, the arbitration board may refer the decision to the director for the purpose of collecting the wages and, for that purpose, the director may collect the wages under sections 87 to 97 and 99 as if the decision of the arbitration board were an order of the tribunal.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e1172">
+          <bcl:num>9</bcl:num>
+          <bcl:text>In subsection (8), <in:term>arbitration board</in:term> has the same meaning as in Part 8 of the <bcl:link resource="leg" xlink:href="/legislation/96244_01" xlink:type="locator"><in:doc>Labour Relations Code</in:doc></bcl:link>.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e1618">
+        <bcl:marginalnote>Paydays</bcl:marginalnote>
+        <bcl:num>17</bcl:num>
+        <bcl:subsection id="d2e1626">
+          <bcl:num>1</bcl:num>
+          <bcl:text>At least semimonthly and within 8 days after the end of the pay period, an employer must pay to an employee all wages earned by the employee in a pay period.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e1635">
+          <bcl:num>2</bcl:num>
+          <bcl:text>
+            Subsection (1) does not apply to</bcl:text>
+          <bcl:paragraph id="d2e1644">
+            <bcl:num>a</bcl:num>
+            <bcl:text><hit loc="5">overtime</hit> wages credited to an employee's time bank, or</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e1654">
+            <bcl:num>b</bcl:num>
+            <bcl:text>vacation pay.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e2119">
+        <bcl:marginalnote>Wage statements</bcl:marginalnote>
+        <bcl:num>27</bcl:num>
+        <bcl:subsection id="d2e2127">
+          <bcl:num>1</bcl:num>
+          <bcl:text>On every payday, an employer must give each employee a written wage statement for the pay period stating all of the following:</bcl:text>
+          <bcl:paragraph id="d2e2136">
+            <bcl:num>a</bcl:num>
+            <bcl:text>the employer's name and address;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2145">
+            <bcl:num>b</bcl:num>
+            <bcl:text>the hours worked by the employee;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2155">
+            <bcl:num>c</bcl:num>
+            <bcl:text>the employee's wage rate, whether paid hourly, on a salary basis or on a flat rate, piece rate, commission or other incentive basis;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2164">
+            <bcl:num>d</bcl:num>
+            <bcl:text>the employee's <hit loc="6">overtime</hit> wage rate;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2173">
+            <bcl:num>e</bcl:num>
+            <bcl:text>the hours worked by the employee at the <hit loc="7">overtime</hit> wage rate;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2182">
+            <bcl:num>f</bcl:num>
+            <bcl:text>any money, allowance or other payment the employee is entitled to;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2191">
+            <bcl:num>g</bcl:num>
+            <bcl:text>the amount of each deduction from the employee's wages and the purpose of each deduction;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2200">
+            <bcl:num>h</bcl:num>
+            <bcl:text>if the employee is paid other than by the hour or by salary, how the wages were calculated for the work the employee is paid for;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2210">
+            <bcl:num>i</bcl:num>
+            <bcl:text>the employee's gross and net wages;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2219">
+            <bcl:num>j</bcl:num>
+            <bcl:text>how much money the employee has taken from the employee's time bank and how much remains.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e2228">
+          <bcl:num>2</bcl:num>
+          <bcl:text>An employer may provide a wage statement to an employee electronically if the employer provides to the employee, through the workplace,</bcl:text>
+          <bcl:paragraph id="d2e2237">
+            <bcl:num>a</bcl:num>
+            <bcl:text>confidential access to the electronic wage statement, and</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e2246">
+            <bcl:num>b</bcl:num>
+            <bcl:text>a means of making a paper copy of that wage statement.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e2255">
+          <bcl:num>3</bcl:num>
+          <bcl:text>[Repealed 2002-42-8.]</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e2265">
+          <bcl:num>4</bcl:num>
+          <bcl:text>If a wage statement would be the same as the wage statement given for the previous pay period, another wage statement need not be given until a change occurs.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e2851">
+        <bcl:marginalnote>Maximum hours of work before <hit loc="9">overtime</hit> applies</bcl:marginalnote>
+        <bcl:num>35</bcl:num>
+        <bcl:subsection id="d2e2859">
+          <bcl:num>1</bcl:num>
+          <bcl:text>An employer must pay an employee <hit loc="10">overtime</hit> wages in accordance with section 40 if the employer requires, or directly or indirectly allows, the employee to work more than 8 hours a day or 40 hours a week.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e2868">
+          <bcl:num>2</bcl:num>
+          <bcl:text>Subsection (1) does not apply for the purposes of an employee who is working under an averaging agreement under section 37.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e2934">
+        <bcl:marginalnote>Agreements to average hours of work</bcl:marginalnote>
+        <bcl:num>37</bcl:num>
+        <bcl:subsection id="d2e2942">
+          <bcl:num>1</bcl:num>
+          <bcl:text>Despite sections 35, 36 (1) and 40 but subject to this section, an employer and employee may agree to average the employee's hours of work over a period of 1, 2, 3 or 4 weeks for the purpose of determining the employee's entitlement, if any, to <hit loc="11">overtime</hit> wages under subsections (4) and (6) of this section and wages payable under subsection (8) or (9) (b).</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e2951">
+          <bcl:num>2</bcl:num>
+          <bcl:text>An averaging agreement under subsection (1) is not valid unless</bcl:text>
+          <bcl:paragraph id="d2e2960">
+            <bcl:num>a</bcl:num>
+            <bcl:text>the agreement</bcl:text>
+            <bcl:subparagraph id="d2e2970">
+              <bcl:num>i</bcl:num>
+              <bcl:text>is in writing,</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e2979">
+              <bcl:num>ii</bcl:num>
+              <bcl:text>is signed by the employer and employee before the start date provided in the agreement,</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e2988">
+              <bcl:num>iii</bcl:num>
+              <bcl:text>specifies the number of weeks over which the agreement applies,</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e2997">
+              <bcl:num>iv</bcl:num>
+              <bcl:text>specifies the work schedule for each day covered by the agreement,</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e3006">
+              <bcl:num>v</bcl:num>
+              <bcl:text>specifies the number of times, if any, that the agreement may be repeated, and</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e3015">
+              <bcl:num>vi</bcl:num>
+              <bcl:text>provides for a start date and an expiry date for the period specified under subparagraph (iii),</bcl:text>
+            </bcl:subparagraph>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3025">
+            <bcl:num>b</bcl:num>
+            <bcl:text>the schedule in the agreement under paragraph (a) (iv) is in compliance with subsection (3), and</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3034">
+            <bcl:num>c</bcl:num>
+            <bcl:text>the employee receives a copy of the agreement before the date on which the period specified in the agreement begins.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3043">
+          <bcl:num>3</bcl:num>
+          <bcl:text>A work schedule in an agreement under this section must not provide for more than the following hours of work for the employee:</bcl:text>
+          <bcl:paragraph id="d2e3052">
+            <bcl:num>a</bcl:num>
+            <bcl:text>40 hours, if the agreement specifies a 1 week period under subsection (2) (a) (iii);</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3061">
+            <bcl:num>b</bcl:num>
+            <bcl:text>an average of 40 hours per week, if the agreement specifies more than a 1 week period under subsection (2) (a) (iii).</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3070">
+          <bcl:num>4</bcl:num>
+          <bcl:text>An employer under this section who requires, or directly or indirectly allows, an employee to work more than 12 hours a day, at any time during the period specified in the agreement, must pay the employee double the employee's regular wage for the time over 12 hours.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3080">
+          <bcl:num>5</bcl:num>
+          <bcl:text>An employer under this section who requires, or directly or indirectly allows, an employee to work more than an average of 40 hours a week within the period specified in the agreement must pay the employee 1 1/2 times the employee's regular wage for the time over 40 hours.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3089">
+          <bcl:num>6</bcl:num>
+          <bcl:text>An employer under this section who requires, or directly or indirectly allows, an employee to work more than the hours scheduled for a day during the period of the agreement must pay the employee</bcl:text>
+          <bcl:paragraph id="d2e3098">
+            <bcl:num>a</bcl:num>
+            <bcl:text>1 1/2 times the employee's regular wage for,</bcl:text>
+            <bcl:subparagraph id="d2e3107">
+              <bcl:num>i</bcl:num>
+              <bcl:text>if fewer than 8 hours were scheduled for that day, any time worked over 8 hours, or</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e3116">
+              <bcl:num>ii</bcl:num>
+              <bcl:text>if 8 or more hours were scheduled for that day, any time worked over the number of hours scheduled, and</bcl:text>
+            </bcl:subparagraph>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3125">
+            <bcl:num>b</bcl:num>
+            <bcl:text>double the employee's regular wage for any time worked over 12 hours that day.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3135">
+          <bcl:num>7</bcl:num>
+          <bcl:text>For the purpose of calculating average weekly hours for an employee under subsection (5),</bcl:text>
+          <bcl:paragraph id="d2e3144">
+            <bcl:num>a</bcl:num>
+            <bcl:text>only the first 12 hours worked by the employee in each day are counted, no matter how long the employee works on any day of the week, and</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3153">
+            <bcl:num>b</bcl:num>
+            <bcl:text>if subsection (6) applies, the time that the employee works beyond the scheduled hours and for which the employee is paid in accordance with that subsection, is excluded.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3162">
+          <bcl:num>8</bcl:num>
+          <bcl:text>
+            Section 36 (1) applies in relation to an averaging agreement if the period specified in the agreement is 1 week.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3171">
+          <bcl:num>9</bcl:num>
+          <bcl:text>If the period specified in an averaging agreement is more than 1 week, the employer must either</bcl:text>
+          <bcl:paragraph id="d2e3180">
+            <bcl:num>a</bcl:num>
+            <bcl:text>ensure that for each week covered by the agreement, the employee has an interval free from work of 32 consecutive hours, whether the interval is taken in the same week, different weeks or consecutively any time during the weeks covered by the agreement, or</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3190">
+            <bcl:num>b</bcl:num>
+            <bcl:text>pay the employee 1 1/2 times the regular wage for time worked by the employee during the periods the employee would otherwise be entitled to have free from work under paragraph (a).</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3199">
+          <bcl:num>10</bcl:num>
+          <bcl:text>At the employee's written request, the employer and employee may agree to adjust the work schedule referred to in subsection (2) (a) (iv) provided that the total number of hours scheduled in the agreement remain the same.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3208">
+          <bcl:num>11</bcl:num>
+          <bcl:text>The parties to an averaging agreement under this section are bound by that agreement until the expiry date set out in the agreement or a later date provided in an agreement to repeat the averaging agreement, as the case may be, and the provisions of the averaging agreement apply for the purpose of determining the employee's entitlement, if any, to <hit loc="12">overtime</hit> wages under subsections (4) and (6) and wages payable under subsection (8) or (9) (b).</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3217">
+          <bcl:num>12</bcl:num>
+          <bcl:text>
+            Subsections (2) to (11) are deemed to be incorporated in an averaging agreement under this section as terms of the agreement.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3226">
+          <bcl:num>13</bcl:num>
+          <bcl:text>An employer must retain an averaging agreement under this section for 4 years after the following, as applicable:</bcl:text>
+          <bcl:paragraph id="d1e3966">
+            <bcl:num>a</bcl:num>
+            <bcl:text>the expiry date set out in the averaging agreement, unless paragraph (b) applies;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e3975">
+            <bcl:num>b</bcl:num>
+            <bcl:text>the expiry date set out in one or more agreements to repeat the averaging agreement, whichever date is the latest.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3235">
+          <bcl:num>14</bcl:num>
+          <bcl:text>The application and operation of an averaging agreement under this section must not be interpreted as a waiver described in section 4.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e3269">
+        <bcl:marginalnote><hit loc="13">Overtime</hit> wages for employees not working under an averaging agreement</bcl:marginalnote>
+        <bcl:num>40</bcl:num>
+        <bcl:subsection id="d2e3277">
+          <bcl:num>1</bcl:num>
+          <bcl:text>An employer must pay an employee who works over 8 hours a day, and is not working under an averaging agreement under section 37,</bcl:text>
+          <bcl:paragraph id="d2e3286">
+            <bcl:num>a</bcl:num>
+            <bcl:text>1 1/2 times the employee's regular wage for the time over 8 hours, and</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3295">
+            <bcl:num>b</bcl:num>
+            <bcl:text>double the employee's regular wage for any time over 12 hours.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3305">
+          <bcl:num>2</bcl:num>
+          <bcl:text>An employer must pay an employee who works over 40 hours a week, and is not working under an averaging agreement under section 37, 1 1/2 times the employee's regular wage for the time over 40 hours.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3314">
+          <bcl:num>3</bcl:num>
+          <bcl:text>For the purpose of calculating weekly <hit loc="14">overtime</hit> under subsection (2), only the first 8 hours worked by an employee in each day are counted, no matter how long the employee works on any day of the week.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3323">
+          <bcl:num>4</bcl:num>
+          <bcl:text>[Repealed 2002-42-19.]</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e3346">
+        <bcl:marginalnote>Banking of <hit loc="15">overtime</hit> wages</bcl:marginalnote>
+        <bcl:num>42</bcl:num>
+        <bcl:subsection id="d2e3354">
+          <bcl:num>1</bcl:num>
+          <bcl:text>At the written request of an employee, an employer may establish a time bank for the employee and credit the employee's <hit loc="16">overtime</hit> wages to the time bank instead of paying them to the employee within the time required under section 17.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3363">
+          <bcl:num>2</bcl:num>
+          <bcl:text><hit loc="17">Overtime</hit> wages must be credited to a time bank at the rates required under section 37 (4), (5) or (6) or 40.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3372">
+          <bcl:num>3</bcl:num>
+          <bcl:text>If a time bank is established, the employee may at any time request the employer to do one or more of the following:</bcl:text>
+          <bcl:paragraph id="d2e3382">
+            <bcl:num>a</bcl:num>
+            <bcl:text>pay the employee all or part of the <hit loc="18">overtime</hit> wages credited to the time bank;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3391">
+            <bcl:num>b</bcl:num>
+            <bcl:text>allow the employee to use the credited <hit loc="19">overtime</hit> wages to take time off with pay at a time agreed by the employer and the employee;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3400">
+            <bcl:num>c</bcl:num>
+            <bcl:text>close the time bank.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3409">
+          <bcl:num>3.1</bcl:num>
+          <bcl:text>The employer may close an employee's time bank after one month's written notice to the employee.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3418">
+          <bcl:num>3.2</bcl:num>
+          <bcl:text>Within 6 months of closing an employee's time bank under subsection (3.1), the employer must do one of the following:</bcl:text>
+          <bcl:paragraph id="d2e3427">
+            <bcl:num>a</bcl:num>
+            <bcl:text>pay the employee all of the <hit loc="20">overtime</hit> wages credited to the time bank at the time it was closed;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3437">
+            <bcl:num>b</bcl:num>
+            <bcl:text>allow the employee to use the credited <hit loc="21">overtime</hit> wages to take time off with pay;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3446">
+            <bcl:num>c</bcl:num>
+            <bcl:text>pay the employee for part of the <hit loc="22">overtime</hit> wages credited to the time bank at the time it was closed and allow the employee to use the remainder of the credited <hit loc="23">overtime</hit> wages to take time off with pay.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3455">
+          <bcl:num>4</bcl:num>
+          <bcl:text>[Repealed 2003-65-6.]</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3464">
+          <bcl:num>5</bcl:num>
+          <bcl:text>On termination of employment or on receiving the employee's written request to close the time bank, the employer must pay the employee any amount credited to the time bank.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3473">
+          <bcl:num>6</bcl:num>
+          <bcl:text>[Repealed 2003-65-6.]</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e3534">
+        <bcl:marginalnote>Statutory holiday pay</bcl:marginalnote>
+        <bcl:num>45</bcl:num>
+        <bcl:subsection id="d2e3542">
+          <bcl:num>1</bcl:num>
+          <bcl:text>An employee who is given a day off on a statutory holiday, or is given a day off instead of the statutory holiday under section 48, must be paid an amount equal to at least an average day's pay determined by the formula</bcl:text>
+          <oasis:table style="1" id="d0e3905">
+            <oasis:tgroup cols="1">
+              <oasis:colspec colname="c1" colnum="1" align="center" border="0"/>
+              <oasis:tbody>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>amount paid ÷ days worked</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+          <oasis:table style="4" id="d0e3925">
+            <oasis:tgroup cols="2">
+              <oasis:colspec colname="c1" colnum="1"/>
+              <oasis:colspec colname="c2" colnum="2"/>
+              <oasis:tbody>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>where</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2">
+                    <oasis:line> </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1" valign="top">
+                    <oasis:line>amount paid</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" valign="top">
+                    <oasis:line> is the amount paid or payable to the employee for work that is done during and wages that are earned within the 30 calendar day period preceding the statutory holiday, including vacation pay that is paid or payable for any days of vacation taken within that period, less any amounts paid or payable for <hit loc="24">overtime</hit>, and</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1" valign="top">
+                    <oasis:line>days worked</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" valign="top">
+                    <oasis:line>is the number of days the employee worked or earned wages within that 30 calendar day period.</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3591">
+          <bcl:num>2</bcl:num>
+          <bcl:text>The average day's pay provided under subsection (1) applies whether or not the statutory holiday falls on the employee's regularly scheduled day off.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d1e4494">
+        <bcl:marginalnote>Illness or injury leave</bcl:marginalnote>
+        <bcl:num>49.1</bcl:num>
+        <bcl:subsection id="d1e4502">
+          <bcl:num>1</bcl:num>
+          <bcl:text>After 90 consecutive days of employment with an employer, an employee, for personal illness or injury, is entitled, in each calendar year, to</bcl:text>
+          <bcl:paragraph id="d1e3706">
+            <bcl:num>a</bcl:num>
+            <bcl:text>paid leave for up to the number of days prescribed, and</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e3713">
+            <bcl:num>b</bcl:num>
+            <bcl:text>unpaid leave for up to 3 days.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d1e4511">
+          <bcl:num>2</bcl:num>
+          <bcl:text>If requested by the employer, the employee must, as soon as practicable, provide to the employer reasonably sufficient proof that the employee is entitled to leave under this section.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d1e3733">
+          <bcl:num>3</bcl:num>
+          <bcl:text>Subject to subsection (4), an employer must pay an employee who takes leave under subsection (1) (a) an amount in money equal to at least the amount calculated by multiplying the period of the leave and the average day's pay, where the average day's pay is determined by the formula</bcl:text>
+          <oasis:table style="1" id="d1e643">
+            <oasis:tgroup cols="1">
+              <oasis:tbody>
+                <oasis:trow colspan="4">
+                  <oasis:entry valign="top" align="center">
+                    <oasis:line>amount paid ÷ days worked</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+          <oasis:table style="3" id="d1e662">
+            <oasis:tgroup cols="2">
+              <oasis:tbody>
+                <oasis:trow>
+                  <oasis:entry colname="c1" valign="top" colspan="2">
+                    <oasis:line>where</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow valign="top">
+                  <oasis:entry colname="c1" align="left" valign="top">
+                    <oasis:line>amount paid</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="left">
+                    <oasis:line>is the amount paid or payable to the employee for work that is done during and wages that are earned within the 30 calendar day period preceding the leave, including vacation pay that is paid or payable for any days of vacation taken within that period, less any amounts paid or payable for <hit loc="25">overtime</hit>, and</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow valign="top">
+                  <oasis:entry colname="c1" align="left" valign="top">
+                    <oasis:line>days worked</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="left">
+                    <oasis:line>is the number of days the employee worked or earned wages within that 30 calendar day period.</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+        </bcl:subsection>
+        <bcl:subsection id="d1e3800">
+          <bcl:num>4</bcl:num>
+          <bcl:text>An employer must pay an employee in a prescribed circumstance who takes leave under subsection (1) (a) an amount in money equal to at least the amount calculated in accordance with the regulations.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d1e5377">
+        <bcl:marginalnote>Leave for COVID-19 vaccination</bcl:marginalnote>
+        <bcl:num>52.13</bcl:num>
+        <bcl:subsection id="d1e5385">
+          <bcl:num>1</bcl:num>
+          <bcl:text>An employee who requests leave under this section is entitled to paid leave for the period described in subsection (2) to be vaccinated against COVID-19.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d1e5394">
+          <bcl:num>2</bcl:num>
+          <bcl:text>An employee is entitled to leave under this section for up to 3 hours for each request for leave made under this section.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d1e5403">
+          <bcl:num>3</bcl:num>
+          <bcl:text>Subject to subsection (4), an employer must pay an employee who takes leave under this section an amount in money equal to at least the amount calculated by multiplying the number of hours of the leave and the average hourly wage, where the average hourly wage is determined by the formula</bcl:text>
+          <oasis:table style="1" id="d1e442">
+            <oasis:tgroup cols="1">
+              <oasis:tbody>
+                <oasis:trow colspan="4">
+                  <oasis:entry valign="top" align="center">
+                    <oasis:line>amount paid ÷ hours worked</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+          <oasis:table style="3" id="d1e461">
+            <oasis:tgroup cols="2">
+              <oasis:tbody>
+                <oasis:trow>
+                  <oasis:entry colname="c1" valign="top" colspan="2">
+                    <oasis:line>where</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow valign="top">
+                  <oasis:entry colname="c1" align="left" valign="top">
+                    <oasis:line>amount paid</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="left">
+                    <oasis:line>is the amount paid or payable to the employee for work that is done during and wages that are earned within the 30 calendar day period preceding the leave, including vacation pay that is paid or payable for any days of vacation taken within that period, less any amounts paid or payable for <hit loc="26">overtime</hit>, and</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow valign="top">
+                  <oasis:entry colname="c1" align="left" valign="top">
+                    <oasis:line>hours worked</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" align="left">
+                    <oasis:line>is the number of hours the employee worked or earned wages within that 30 calendar day period.</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+        </bcl:subsection>
+        <bcl:subsection id="d1e5485">
+          <bcl:num>4</bcl:num>
+          <bcl:text>An employer must pay an employee in a prescribed circumstance who takes leave under this section an amount in money equal to at least the amount calculated in accordance with the regulations.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d1e5494">
+          <bcl:num>5</bcl:num>
+          <bcl:text>If requested by the employer, the employee must, as soon as practicable, provide to the employer reasonably sufficient proof that the employee is entitled to leave under this section.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d1e5503">
+          <bcl:num>6</bcl:num>
+          <bcl:text>An employer must not request, and an employee is not required to provide, a note, document or other record that is produced by a specified health practitioner at the request of the employee for the purposes of a request for leave under this section.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d1e5512">
+          <bcl:num>7</bcl:num>
+          <bcl:text>This section may be repealed by order of the Lieutenant Governor in Council.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d1e5760">
+        <bcl:marginalnote>Leave respecting domestic or sexual violence</bcl:marginalnote>
+        <bcl:num>52.5</bcl:num>
+        <bcl:subsection id="d1e5768">
+          <bcl:num>1</bcl:num>
+          <bcl:text>In this section:</bcl:text>
+          <bcl:definition id="d1e5776">
+            <bcl:text>
+              <in:term>child</in:term> means a person under 19 years of age;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d1e5784">
+            <bcl:text>
+              <in:term>domestic or sexual violence</in:term> includes, with or without an intent to harm an intimate partner or family member,</bcl:text>
+            <bcl:paragraph id="d1e5791">
+              <bcl:num>a</bcl:num>
+              <bcl:text>physical abuse by an intimate partner or by a family member, including forced confinement or deprivation of the necessities of life, but not including the use of reasonable force to protect oneself or others from harm,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e5800">
+              <bcl:num>b</bcl:num>
+              <bcl:text>sexual abuse by any person,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e5809">
+              <bcl:num>c</bcl:num>
+              <bcl:text>attempts to commit</bcl:text>
+              <bcl:subparagraph id="d1e5817">
+                <bcl:num>i</bcl:num>
+                <bcl:text>physical abuse by an intimate partner or by a family member, or</bcl:text>
+              </bcl:subparagraph>
+              <bcl:subparagraph id="d1e5826">
+                <bcl:num>ii</bcl:num>
+                <bcl:text>sexual abuse by any person, and</bcl:text>
+              </bcl:subparagraph>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e5836">
+              <bcl:num>d</bcl:num>
+              <bcl:text>psychological or emotional abuse by an intimate partner or by a family member, including</bcl:text>
+              <bcl:subparagraph id="d1e5844">
+                <bcl:num>i</bcl:num>
+                <bcl:text>intimidation, harassment, coercion or threats, including threats respecting other persons, pets or property,</bcl:text>
+              </bcl:subparagraph>
+              <bcl:subparagraph id="d1e5853">
+                <bcl:num>ii</bcl:num>
+                <bcl:text>unreasonable restrictions on, or prevention of, financial or personal autonomy,</bcl:text>
+              </bcl:subparagraph>
+              <bcl:subparagraph id="d1e5862">
+                <bcl:num>iii</bcl:num>
+                <bcl:text>stalking or following, and</bcl:text>
+              </bcl:subparagraph>
+              <bcl:subparagraph id="d1e5872">
+                <bcl:num>iv</bcl:num>
+                <bcl:text>intentional damage to property;</bcl:text>
+              </bcl:subparagraph>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d1e5883">
+            <bcl:text>
+              <in:term>eligible person</in:term> means, with respect to an employee,</bcl:text>
+            <bcl:paragraph id="d1e5890">
+              <bcl:num>a</bcl:num>
+              <bcl:text>a child who is under the day-to-day care and control of the employee by way of agreement or court order or because the employee is the child's parent or guardian,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e5899">
+              <bcl:num>b</bcl:num>
+              <bcl:text>a person who</bcl:text>
+              <bcl:subparagraph id="d1e5907">
+                <bcl:num>i</bcl:num>
+                <bcl:text>is 19 years of age or older,</bcl:text>
+              </bcl:subparagraph>
+              <bcl:subparagraph id="d1e5916">
+                <bcl:num>ii</bcl:num>
+                <bcl:text>is unable, because of illness, disability or another reason, to obtain the necessities of life or withdraw from the charge of the person's parent or former guardian, and</bcl:text>
+              </bcl:subparagraph>
+              <bcl:subparagraph id="d1e5925">
+                <bcl:num>iii</bcl:num>
+                <bcl:text>is under the day-to-day care and control of the employee, who is the person's parent or former guardian, and</bcl:text>
+              </bcl:subparagraph>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e5935">
+              <bcl:num>c</bcl:num>
+              <bcl:text>a prescribed person;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d1e5946">
+            <bcl:text>
+              <in:term>family member</in:term> means any of the following:</bcl:text>
+            <bcl:paragraph id="d1e5953">
+              <bcl:num>a</bcl:num>
+              <bcl:text>with respect to a person,</bcl:text>
+              <bcl:subparagraph id="d1e5961">
+                <bcl:num>i</bcl:num>
+                <bcl:text>the spouse, child, parent, guardian, sibling, grandchild or grandparent of the person, or</bcl:text>
+              </bcl:subparagraph>
+              <bcl:subparagraph id="d1e5970">
+                <bcl:num>ii</bcl:num>
+                <bcl:text>an individual who lives with the person as a member of the person's family;</bcl:text>
+              </bcl:subparagraph>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e5980">
+              <bcl:num>b</bcl:num>
+              <bcl:text>any other individual who is a member of a prescribed class;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d1e5990">
+            <bcl:text>
+              <in:term>intimate partner</in:term> means, with respect to a person, any of the following:</bcl:text>
+            <bcl:paragraph id="d1e5997">
+              <bcl:num>a</bcl:num>
+              <bcl:text>an individual who is or was a spouse, dating partner or sexual partner of the person;</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e6006">
+              <bcl:num>b</bcl:num>
+              <bcl:text>an individual who is or was in a relationship with the person that is similar to a relationship described in paragraph (a).</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+        </bcl:subsection>
+        <bcl:subsection id="d1e6017">
+          <bcl:num>2</bcl:num>
+          <bcl:text>In addition to experiencing domestic or sexual violence in the circumstances described in the definition of "domestic or sexual violence" in subsection (1), a child who is an employee or eligible person also experiences domestic or sexual violence if the child is exposed, directly or indirectly, to domestic or sexual violence experienced by any of the following individuals:</bcl:text>
+          <bcl:paragraph id="d1e6025">
+            <bcl:num>a</bcl:num>
+            <bcl:text>an intimate partner of the child;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e6034">
+            <bcl:num>b</bcl:num>
+            <bcl:text>a family member of the child.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d1e6044">
+          <bcl:num>3</bcl:num>
+          <bcl:text>If an employee or eligible person experiences domestic or sexual violence, the employee may request leave for one or more of the following purposes:</bcl:text>
+          <bcl:paragraph id="d1e6052">
+            <bcl:num>a</bcl:num>
+            <bcl:text>to seek medical attention for the employee or eligible person in respect of a physical or psychological injury or disability caused by the domestic or sexual violence;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e6061">
+            <bcl:num>b</bcl:num>
+            <bcl:text>to obtain for the employee or eligible person victim services or other social services relating to domestic or sexual violence;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e6070">
+            <bcl:num>c</bcl:num>
+            <bcl:text>to obtain for the employee or eligible person psychological or other professional counselling services in respect of a psychological or emotional condition caused by the domestic or sexual violence;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e6080">
+            <bcl:num>d</bcl:num>
+            <bcl:text>to temporarily or permanently relocate the employee or eligible person or both the employee and eligible person;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e6089">
+            <bcl:num>e</bcl:num>
+            <bcl:text>to seek legal or law enforcement assistance for the employee or eligible person, including preparing for or participating in any civil or criminal legal proceeding related to the domestic or sexual violence;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e6098">
+            <bcl:num>f</bcl:num>
+            <bcl:text>any prescribed purpose.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d1e6109">
+          <bcl:num>4</bcl:num>
+          <bcl:text>If an employee requests leave under subsection (3), the employee is entitled during each calendar year to</bcl:text>
+          <bcl:paragraph id="d1e6117">
+            <bcl:num>a</bcl:num>
+            <bcl:text>up to 5 days of paid leave,</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e6126">
+            <bcl:num>b</bcl:num>
+            <bcl:text>up to 5 days of unpaid leave, and</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e6345">
+            <bcl:num>c</bcl:num>
+            <bcl:text>up to 15 weeks of additional unpaid leave.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d1e6355">
+          <bcl:num>4.1</bcl:num>
+          <bcl:text>A leave under subsection (4) (a) or (b) may be taken by the employee in one or more units of time.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d1e6136">
+          <bcl:num>5</bcl:num>
+          <bcl:text>A leave under subsection (4) (c) may be taken by the employee in</bcl:text>
+          <bcl:paragraph id="d1e6144">
+            <bcl:num>a</bcl:num>
+            <bcl:text>one unit of time, or</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e6153">
+            <bcl:num>b</bcl:num>
+            <bcl:text>more than one unit of time, with the employer's consent.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d1e6399">
+          <bcl:num>5.1</bcl:num>
+          <bcl:text>Subject to subsection (5.2), an employer must pay an employee who takes leave under subsection (4) (a) an amount in money equal to at least the amount calculated by multiplying the period of the leave and the average day's pay determined by the formula</bcl:text>
+          <oasis:table style="1" id="d1e6407">
+            <oasis:tgroup cols="2">
+              <oasis:colspec colname="c1" colnum="1" align="left" border="0"/>
+              <oasis:colspec colname="c2" colnum="2" align="left" border="0"/>
+              <oasis:tbody>
+                <oasis:trow>
+                  <oasis:entry colspan="2" align="center">
+                    <oasis:line>amount paid ÷ days worked</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colspan="2">
+                    <oasis:line>where</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry valign="top">
+                    <oasis:line>amount paid</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry valign="top">
+                    <oasis:line>is the amount paid or payable to the employee for work that is done during and wages that are earned within the 30 calendar day period preceding the leave, including vacation pay that is paid or payable for any days of vacation taken within that period, less any amounts paid or payable for <hit loc="27">overtime</hit>, and</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry valign="top">
+                    <oasis:line>days worked</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry valign="top">
+                    <oasis:line>is the number of days the employee worked or earned wages within that 30 calendar day period.</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+        </bcl:subsection>
+        <bcl:subsection id="d1e6470">
+          <bcl:num>5.2</bcl:num>
+          <bcl:text>An employer must pay an employee in a prescribed circumstance who takes leave under subsection (4) (a) an amount in money equal to at least the amount calculated in accordance with the regulations.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d1e6163">
+          <bcl:num>6</bcl:num>
+          <bcl:text>An employee is not entitled to leave under this section respecting an eligible person if the employee commits the domestic or sexual violence against the eligible person.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d1e6172">
+          <bcl:num>7</bcl:num>
+          <bcl:text>If requested by the employer, the employee must, as soon as practicable, provide to the employer reasonably sufficient proof in the circumstances that the employee is entitled to the leave.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e5622">
+        <bcl:marginalnote>Application for variance</bcl:marginalnote>
+        <bcl:num>72</bcl:num>
+        <bcl:text>An employer and any of the employer's employees may, in accordance with the regulations, join in a written application to the director for a variance of any of the following:</bcl:text>
+        <bcl:paragraph id="d2e5633">
+          <bcl:num>a</bcl:num>
+          <bcl:text>a time period specified in the definition of "temporary layoff";</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e5642">
+          <bcl:num>b</bcl:num>
+          <bcl:text>
+            section 17 (1) (paydays);</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e5652">
+          <bcl:num>c</bcl:num>
+          <bcl:text>section 25 (special clothing);</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e5661">
+          <bcl:num>d</bcl:num>
+          <bcl:text>
+            section 33 (split shifts);</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e5670">
+          <bcl:num>e</bcl:num>
+          <bcl:text>section 34 (minimum daily hours);</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e5679">
+          <bcl:num>f</bcl:num>
+          <bcl:text>section 35 (maximum hours of work);</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e5688">
+          <bcl:num>g</bcl:num>
+          <bcl:text>section 36 (hours free from work);</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e5697">
+          <bcl:num>h</bcl:num>
+          <bcl:text>
+            section 40 (<hit loc="28">overtime</hit> wages for employees not working under an averaging agreement);</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e5707">
+          <bcl:num>h.1</bcl:num>
+          <bcl:text>a period specified in section 37 (1) (number of weeks covered by an agreement to average hours of work);</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e5716">
+          <bcl:num>i</bcl:num>
+          <bcl:text>section 64 (notice and termination pay requirements for group terminations).</bcl:text>
+        </bcl:paragraph>
+      </bcl:section></snippet>

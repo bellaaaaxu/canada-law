@@ -1,0 +1,65 @@
+{
+  "manifest_version": "0.3",
+  "name": "canada-law",
+  "display_name": "Canada Law (BC employment law)",
+  "version": "0.0.0",
+  "description": "Current official text of BC statutes and regulations from BC Laws, with section citations and the official current-to date. Includes a Chinese and everyday-English employment-law glossary.",
+  "author": {
+    "name": "canada-law contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bellaaaaxu/canada-law.git"
+  },
+  "homepage": "https://github.com/bellaaaaxu/canada-law",
+  "support": "https://github.com/bellaaaaxu/canada-law/issues",
+  "license": "MIT",
+  "keywords": [
+    "british columbia",
+    "employment standards",
+    "law",
+    "legislation",
+    "chinese"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server/index.mjs"
+      ]
+    }
+  },
+  "tools": [
+    {
+      "name": "find_act",
+      "description": "Find BC acts and regulations by title"
+    },
+    {
+      "name": "get_toc",
+      "description": "Table of contents of an act or regulation"
+    },
+    {
+      "name": "get_section",
+      "description": "Verbatim text of one section with its citation"
+    },
+    {
+      "name": "search_law",
+      "description": "Search current legislation down to sections"
+    },
+    {
+      "name": "map_term",
+      "description": "Map a Chinese or everyday-English term to statutory wording"
+    }
+  ],
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32"
+    ],
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  }
+}

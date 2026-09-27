@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 15 * * 1' # Mondays 15:00 UTC: check that BC Laws still answers the way the code expects
+  workflow_dispatch:
+
+jobs:
+  test:
+    # Offline: unit tests use saved BC Laws responses; bundling checks the release files build on every system.
+    if: github.event_name != 'schedule'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm run bundle
+
+  live:
+    # Online, weekly: the golden questions, the glossary against the official text, and the built files end to end.
+    # A failure here usually means BC Laws changed; GitHub emails the repository owner.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run golden
+      - run: npm run verify-glossary
+      - run: npm run smoke

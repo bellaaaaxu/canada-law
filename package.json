@@ -1,0 +1,53 @@
+{
+  "name": "canada-law",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Current official BC employment law for any AI assistant: an Agent Skill and an MCP server, with a Chinese and everyday-English glossary.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bellaaaaxu/canada-law.git"
+  },
+  "homepage": "https://github.com/bellaaaaxu/canada-law#readme",
+  "bugs": {
+    "url": "https://github.com/bellaaaaxu/canada-law/issues"
+  },
+  "type": "module",
+  "bin": {
+    "canada-law": "bin/canada-law.mjs"
+  },
+  "files": [
+    "bin/",
+    "mcp/",
+    "skills/",
+    "README.md",
+    "README.zh.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "golden": "npm run bundle && tsx scripts/golden.ts",
+    "verify-glossary": "tsx scripts/verify-glossary.ts",
+    "start": "node dist/index.js",
+    "bundle": "tsx scripts/build.ts",
+    "smoke": "tsx scripts/smoke.ts",
+    "smoke:install": "tsx scripts/smoke-install.ts",
+    "activation": "npm run bundle && tsx scripts/activation.ts"
+  },
+  "devDependencies": {
+    "@anthropic-ai/mcpb": "^2.1.2",
+    "@modelcontextprotocol/sdk": "^1.30.1",
+    "@types/node": "^24.13.6",
+    "esbuild": "^0.28.2",
+    "fast-xml-parser": "^5.11.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.1",
+    "zod": "^3.25.76"
+  }
+}

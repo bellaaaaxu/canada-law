@@ -1,0 +1,7 @@
+{"q": "BC 一天工作超过几小时要付加班费？", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "40"}}
+{"q": "BC 员工连续工作多久必须给餐休？", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "32"}}
+{"q": "BC 的法定假日有哪些？", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "1"}}
+{"q": "联邦监管行业的法定假日怎么规定？", "expect": {"jurisdiction": "federal", "act_id": "L-2", "section": null}}
+{"q": "In BC, after how many hours of work in a day does overtime pay start?", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "40"}}
+{"q": "How long can I work in BC before my employer has to give me a lunch break?", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "32"}}
+{"q": "What are the stat holidays in BC?", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "1"}}

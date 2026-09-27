@@ -1,0 +1,704 @@
+<?xml version="1.0"?><!-- This information is licensed under the Queen's Printer License of British Columbia found: www.bclaws.ca/standards/2014/QP-License_1.0.html. Please review the license terms carefully. --><snippet><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e30">
+        <bcl:marginalnote>Definitions</bcl:marginalnote>
+        <bcl:num>1</bcl:num>
+        <bcl:subsection id="d2e38">
+          <bcl:num>1</bcl:num>
+          <bcl:text>In this Act:</bcl:text>
+          <bcl:definition id="d2e47">
+            <bcl:text>
+              <in:term>assignment of wages</in:term> includes a written authorization to pay all or part of an employee's wages to another person;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e56">
+            <bcl:text>
+              <in:term>collective agreement</in:term> means the same as in the <bcl:link resource="leg" xlink:href="/legislation/96150_01" xlink:type="locator"><in:doc>Fishing Collective Bargaining Act</in:doc></bcl:link>, the <bcl:link resource="leg" xlink:href="/legislation/96244_01" xlink:type="locator"><in:doc>Labour Relations Code</in:doc></bcl:link>, or the <bcl:link resource="leg" xlink:href="/legislation/96388_01" xlink:type="locator"><in:doc>Public Service Labour Relations Act</in:doc></bcl:link>;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e75">
+            <bcl:text>
+              <in:term>conditions of employment</in:term> means all matters and circumstances that in any way affect the employment relationship of employers and employees;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e84">
+            <bcl:text>
+              <in:term>construction</in:term> means the construction, renovation, repair or demolition of property or the alteration or improvement of land;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e93">
+            <bcl:text>
+              <in:term>day</in:term> means</bcl:text>
+            <bcl:paragraph id="d2e102">
+              <bcl:num>a</bcl:num>
+              <bcl:text>a 24 hour period ending at midnight, or</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e111">
+              <bcl:num>b</bcl:num>
+              <bcl:text>in relation to an employee's shift that continues over midnight, the 24 hour period beginning at the start of the employee's shift;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e120">
+            <bcl:text>
+              <in:term>determination</in:term> means any decision made by the director under section 30 (2), 66, 68 (3), 73, 74 (5), <?amendment-start citation="2026-10-1" eff="2026-08-01" bif="141/2026"?>76 (2), (3) or (8)<?amendment-end?>, 79, 80 (3), 100 or 119;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e130">
+            <bcl:text>
+              <in:term>director</in:term> means the Director of Employment Standards appointed under the <bcl:link resource="leg" xlink:href="/legislation/96385_01" xlink:type="locator"><in:doc>Public Service Act</in:doc></bcl:link> and, in relation to a function, duty or power that the director has under section 117 of this Act delegated to another person, <in:term>director</in:term> includes that other person;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e145">
+            <bcl:text>
+              <in:term>domestic worker</in:term> means a person who is employed at an employer's private residence to provide cooking, cleaning, child care or other prescribed services;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e172">
+            <bcl:text>
+              <in:term>employee</in:term> includes</bcl:text>
+            <bcl:paragraph id="d2e181">
+              <bcl:num>a</bcl:num>
+              <bcl:text>a person, including a deceased person, receiving or entitled to wages for work performed for another,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e191">
+              <bcl:num>b</bcl:num>
+              <bcl:text>a person an employer allows, directly or indirectly, to perform work normally performed by an employee,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e200">
+              <bcl:num>c</bcl:num>
+              <bcl:text>a person being trained by an employer for the employer's business,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e209">
+              <bcl:num>d</bcl:num>
+              <bcl:text>a person on leave from an employer, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e218">
+              <bcl:num>e</bcl:num>
+              <bcl:text>a person who has a right of recall;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e227">
+            <bcl:text>
+              <in:term>employer</in:term> includes a person</bcl:text>
+            <bcl:paragraph id="d2e236">
+              <bcl:num>a</bcl:num>
+              <bcl:text>who has or had control or direction of an employee, or</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e246">
+              <bcl:num>b</bcl:num>
+              <bcl:text>who is or was responsible, directly or indirectly, for the employment of an employee;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e255">
+            <bcl:text>
+              <in:term>employment agency</in:term> means a person who, for a fee and for employers, recruits or offers to recruit employees, except employees</bcl:text>
+            <bcl:paragraph id="d1e276">
+              <bcl:num>a</bcl:num>
+              <bcl:text>who are foreign nationals, as defined in the <bcl:link resource="leg" xlink:href="/legislation/18045" xlink:type="locator"><in:doc>Temporary Foreign Worker Protection Act</in:doc></bcl:link>, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e284">
+              <bcl:num>b</bcl:num>
+              <bcl:text>to whom recruitment services, as defined in that Act, must be provided in accordance with that Act;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e264">
+            <bcl:text>
+              <in:term>farm labour contractor</in:term> means an employer whose employees work, for or under the control or direction of another person, in connection with the planting, cultivating or harvesting of an agricultural product;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e273">
+            <bcl:text>
+              <in:term>former Act</in:term> means the <in:doc>Employment Standards Act</in:doc>, S.B.C. 1980, c. 10;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d1e298">
+            <bcl:text>
+              <in:term>gratuity</in:term> means</bcl:text>
+            <bcl:paragraph id="d1e305">
+              <bcl:num>a</bcl:num>
+              <bcl:text>a payment voluntarily made to or left for an employee by a customer of the employee's employer in circumstances in which a reasonable person would be likely to infer that the customer intended or assumed that the payment would be kept by the employee or shared by the employee with other employees,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e314">
+              <bcl:num>b</bcl:num>
+              <bcl:text>a payment voluntarily made to an employer by a customer in circumstances in which a reasonable person would be likely to infer that the customer intended or assumed that the payment would be redistributed to an employee or employees,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e323">
+              <bcl:num>c</bcl:num>
+              <bcl:text>a payment of a service charge or similar charge imposed by an employer on a customer in circumstances in which a reasonable person would be likely to infer that the customer intended or assumed that the payment would be redistributed to an employee or employees, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e332">
+              <bcl:num>d</bcl:num>
+              <bcl:text>other payments as may be prescribed,</bcl:text>
+            </bcl:paragraph>
+            <bcl:text>but does not include</bcl:text>
+            <bcl:paragraph id="d1e345">
+              <bcl:num>e</bcl:num>
+              <bcl:text>payments as may be prescribed, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e354">
+              <bcl:num>f</bcl:num>
+              <bcl:text>charges as may be prescribed relating to the method of payment used, or a prescribed portion of those charges;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e285">
+            <bcl:text>
+              <in:term>immediate family</in:term> means</bcl:text>
+            <bcl:paragraph id="d2e294">
+              <bcl:num>a</bcl:num>
+              <bcl:text>the spouse, child, parent, guardian, sibling, grandchild or grandparent of an employee,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e385">
+              <bcl:num>a.1</bcl:num>
+              <bcl:text>the child or parent of an employee's spouse, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e304">
+              <bcl:num>b</bcl:num>
+              <bcl:text>any person who lives with an employee as a member of the employee's family;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e313">
+            <bcl:text>
+              <in:term>insolvency Act</in:term> means the <bcl:link resource="leg" xlink:href="http://laws-lois.justice.gc.ca/eng/acts/B-3/" xlink:type="locator"><in:doc>Bankruptcy and Insolvency Act</in:doc></bcl:link> (Canada), the <bcl:link resource="leg" xlink:href="http://laws-lois.justice.gc.ca/eng/acts/C-36/" xlink:type="locator"><in:doc>Companies' Creditors Arrangement Act</in:doc></bcl:link> (Canada) or the <bcl:link resource="leg" xlink:href="http://laws-lois.justice.gc.ca/eng/acts/W-11/" xlink:type="locator"><in:doc>Winding-up and Restructuring Act</in:doc></bcl:link> (Canada);</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e331">
+            <bcl:text>
+              <in:term>Labour Relations Board</in:term> means the board as defined in the <bcl:link resource="leg" xlink:href="/legislation/96244_01" xlink:type="locator"><in:doc>Labour Relations Code</in:doc></bcl:link>;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d1e359">
+            <bcl:text>
+              <in:term>online platform worker</in:term> means a person who performs prescribed work that the person accepts through an online platform;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e343">
+            <bcl:text>
+              <in:term>overtime wages</in:term> means the wages an employee is entitled to receive under section 37 (4), (5) or (6) or 40;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e352">
+            <bcl:text>
+              <in:term>pay period</in:term> means a period of up to 16 consecutive days of employment;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e361">
+            <bcl:text>
+              <in:term>payroll record</in:term> means a record required under section 28 to be kept by an employer;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e371">
+            <bcl:text>
+              <in:term>penalty</in:term> means a monetary penalty imposed under section 98;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e380">
+            <bcl:text>
+              <in:term>producer</in:term> means a person who engages the services of a farm labour contractor;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e389">
+            <bcl:text>
+              <in:term>regular wage</in:term> means</bcl:text>
+            <bcl:paragraph id="d2e398">
+              <bcl:num>a</bcl:num>
+              <bcl:text>if an employee is paid by the hour, the hourly wage,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e407">
+              <bcl:num>b</bcl:num>
+              <bcl:text>if an employee is paid on a flat rate, piece rate, commission or other incentive basis, the employee's wages in a pay period divided by the employee's total hours of work during that pay period,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e416">
+              <bcl:num>c</bcl:num>
+              <bcl:text>if an employee is paid a weekly wage, the weekly wage divided by the lesser of the employee's normal or average weekly hours of work,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e426">
+              <bcl:num>d</bcl:num>
+              <bcl:text>if an employee is paid a monthly wage, the monthly wage multiplied by 12 and divided by the product of 52 times the lesser of the employee's normal or average weekly hours of work, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e435">
+              <bcl:num>e</bcl:num>
+              <bcl:text>if an employee is paid a yearly wage, the yearly wage divided by the product of 52 times the lesser of the employee's normal or average weekly hours of work;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e444">
+            <bcl:text>
+              <in:term>representative member</in:term> means a member of the tribunal appointed under section 102 (c);</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e453">
+            <bcl:text>
+              <in:term>right of recall</in:term> means the right of an employee under a collective agreement to be recalled to employment within a specified period after being laid off;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e462">
+            <bcl:text>
+              <in:term>settlement agreement</in:term> means a settlement agreement under section 78;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e471">
+            <bcl:text>
+              <in:term>special clothing</in:term> includes a uniform and a specified brand of clothing;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d1e586">
+            <bcl:text>
+              <in:term>spouse</in:term> means a person who</bcl:text>
+            <bcl:paragraph id="d1e593">
+              <bcl:num>a</bcl:num>
+              <bcl:text>is married to another person, or</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d1e602">
+              <bcl:num>b</bcl:num>
+              <bcl:text>is living with another person in a marriage-like relationship;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e481">
+            <bcl:text>
+              <in:term><hit loc="1">statutory holiday</hit></in:term> means New Year's Day, Family Day, Good Friday, Victoria Day, Canada Day, British Columbia Day, Labour Day, National Day for Truth and Reconciliation, Thanksgiving Day, Remembrance Day, Christmas Day and any other holiday prescribed by regulation;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e490">
+            <bcl:text>
+              <in:term>talent agency</in:term> means a person that, for a fee, engages in the occupation of offering to procure, promising to procure or procuring employment for actors, performers, extras or technical creative film personnel;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e499">
+            <bcl:text>
+              <in:term>temporary layoff</in:term> means</bcl:text>
+            <bcl:paragraph id="d2e508">
+              <bcl:num>a</bcl:num>
+              <bcl:text>in the case of an employee who has a right of recall, a layoff that exceeds the specified period within which the employee is entitled to be recalled to employment, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e517">
+              <bcl:num>b</bcl:num>
+              <bcl:text>in any other case, a layoff of up to 13 weeks in any period of 20 consecutive weeks;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e526">
+            <bcl:text>
+              <in:term>termination of employment</in:term> includes a layoff other than a temporary layoff;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e536">
+            <bcl:text>
+              <in:term>termination pay</in:term> means, for each week of notice an employee is entitled to, the amount obtained by totalling the employee's weekly wages, at the regular wage, during the last 8 weeks in which the employee worked normal or average hours of work and dividing the total by 8;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e545">
+            <bcl:text>
+              <in:term>time bank</in:term> means a time bank established under section 42 at the request of an employee;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e554">
+            <bcl:text>
+              <in:term>trade union</in:term> means the same as in the <bcl:link resource="leg" xlink:href="/legislation/96244_01" xlink:type="locator"><in:doc>Labour Relations Code</in:doc></bcl:link>;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e566">
+            <bcl:text>
+              <in:term>tribunal</in:term> means the Employment Standards Tribunal;</bcl:text>
+          </bcl:definition>
+          <bcl:definition id="d2e575">
+            <bcl:text>
+              <in:term>wages</in:term> includes</bcl:text>
+            <bcl:paragraph id="d2e584">
+              <bcl:num>a</bcl:num>
+              <bcl:text>salaries, commissions or money, paid or payable by an employer to an employee for work,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e594">
+              <bcl:num>b</bcl:num>
+              <bcl:text>money that is paid or payable by an employer as an incentive and relates to hours of work, production or efficiency,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e603">
+              <bcl:num>c</bcl:num>
+              <bcl:text>money, including the amount of any liability under section 63, required to be paid by an employer to an employee under this Act,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e612">
+              <bcl:num>d</bcl:num>
+              <bcl:text>money required to be paid in accordance with</bcl:text>
+              <bcl:subparagraph id="d2e621">
+                <bcl:num>i</bcl:num>
+                <bcl:text>a determination, other than costs required to be paid under section 79 (1) (f), or</bcl:text>
+              </bcl:subparagraph>
+              <bcl:subparagraph id="d2e630">
+                <bcl:num>ii</bcl:num>
+                <bcl:text>a settlement agreement or an order of the tribunal, and</bcl:text>
+              </bcl:subparagraph>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e639">
+              <bcl:num>e</bcl:num>
+              <bcl:text>in Parts 10 and 11, money required under a contract of employment to be paid, for an employee's benefit, to a fund, insurer or other person,</bcl:text>
+            </bcl:paragraph>
+            <bcl:text>but does not include</bcl:text>
+            <bcl:paragraph id="d2e652">
+              <bcl:num>f</bcl:num>
+              <bcl:text>gratuities,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e661">
+              <bcl:num>g</bcl:num>
+              <bcl:text>money that is paid at the discretion of the employer and is not related to hours of work, production or efficiency,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e670">
+              <bcl:num>h</bcl:num>
+              <bcl:text>allowances or expenses,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e679">
+              <bcl:num>i</bcl:num>
+              <bcl:text>penalties, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e688">
+              <bcl:num>j</bcl:num>
+              <bcl:text>an administrative fee imposed under section 30.1;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e698">
+            <bcl:text>
+              <in:term>week</in:term> means a period of 7 consecutive days beginning,</bcl:text>
+            <bcl:paragraph id="d2e707">
+              <bcl:num>a</bcl:num>
+              <bcl:text>for the purpose of calculating overtime, on Sunday,</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e716">
+              <bcl:num>b</bcl:num>
+              <bcl:text>for the purposes of sections 37 and 52.1, on Sunday, and</bcl:text>
+            </bcl:paragraph>
+            <bcl:paragraph id="d2e725">
+              <bcl:num>c</bcl:num>
+              <bcl:text>for any other purpose, on any day;</bcl:text>
+            </bcl:paragraph>
+          </bcl:definition>
+          <bcl:definition id="d2e734">
+            <bcl:text>
+              <in:term>work</in:term> means the labour or services an employee performs for an employer whether in the employee's residence or elsewhere.</bcl:text>
+          </bcl:definition>
+        </bcl:subsection>
+        <bcl:subsection id="d2e743">
+          <bcl:num>2</bcl:num>
+          <bcl:text>An employee is deemed to be at work while on call at a location designated by the employer unless the designated location is the employee's residence.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e3504">
+        <bcl:marginalnote>Entitlement to <hit loc="2">statutory holiday</hit></bcl:marginalnote>
+        <bcl:num>44</bcl:num>
+        <bcl:text>An employer must comply with section 45 or 46 in respect of an employee who has been employed by the employer for at least 30 calendar days before the <hit loc="3">statutory holiday</hit> and has</bcl:text>
+        <bcl:paragraph id="d2e3515">
+          <bcl:num>a</bcl:num>
+          <bcl:text>worked or earned wages for 15 of the 30 calendar days preceding the <hit loc="4">statutory holiday</hit>, or</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e3524">
+          <bcl:num>b</bcl:num>
+          <bcl:text>worked under an averaging agreement under section 37 at any time within that 30 calendar day period.</bcl:text>
+        </bcl:paragraph>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e3534">
+        <bcl:marginalnote><hit loc="5">Statutory holiday</hit> pay</bcl:marginalnote>
+        <bcl:num>45</bcl:num>
+        <bcl:subsection id="d2e3542">
+          <bcl:num>1</bcl:num>
+          <bcl:text>An employee who is given a day off on a <hit loc="6">statutory holiday</hit>, or is given a day off instead of the <hit loc="7">statutory holiday</hit> under section 48, must be paid an amount equal to at least an average day's pay determined by the formula</bcl:text>
+          <oasis:table style="1" id="d0e3905">
+            <oasis:tgroup cols="1">
+              <oasis:colspec colname="c1" colnum="1" align="center" border="0"/>
+              <oasis:tbody>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>amount paid ÷ days worked</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+          <oasis:table style="4" id="d0e3925">
+            <oasis:tgroup cols="2">
+              <oasis:colspec colname="c1" colnum="1"/>
+              <oasis:colspec colname="c2" colnum="2"/>
+              <oasis:tbody>
+                <oasis:trow>
+                  <oasis:entry colname="c1">
+                    <oasis:line>where</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2">
+                    <oasis:line> </oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1" valign="top">
+                    <oasis:line>amount paid</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" valign="top">
+                    <oasis:line> is the amount paid or payable to the employee for work that is done during and wages that are earned within the 30 calendar day period preceding the <hit loc="8">statutory holiday</hit>, including vacation pay that is paid or payable for any days of vacation taken within that period, less any amounts paid or payable for overtime, and</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+                <oasis:trow>
+                  <oasis:entry colname="c1" valign="top">
+                    <oasis:line>days worked</oasis:line>
+                  </oasis:entry>
+                  <oasis:entry colname="c2" valign="top">
+                    <oasis:line>is the number of days the employee worked or earned wages within that 30 calendar day period.</oasis:line>
+                  </oasis:entry>
+                </oasis:trow>
+              </oasis:tbody>
+            </oasis:tgroup>
+          </oasis:table>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3591">
+          <bcl:num>2</bcl:num>
+          <bcl:text>The average day's pay provided under subsection (1) applies whether or not the <hit loc="9">statutory holiday</hit> falls on the employee's regularly scheduled day off.</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e3601">
+        <bcl:marginalnote>If employee is required to work on <hit loc="10">statutory holiday</hit></bcl:marginalnote>
+        <bcl:num>46</bcl:num>
+        <bcl:text>An employee who works on a <hit loc="11">statutory holiday</hit> must be paid for that day</bcl:text>
+        <bcl:paragraph id="d2e3612">
+          <bcl:num>a</bcl:num>
+          <bcl:text>1 1/2 times the employee's regular wage for the time worked up to 12 hours,</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e3621">
+          <bcl:num>b</bcl:num>
+          <bcl:text>double the employee's regular wage for any time worked over 12 hours, and</bcl:text>
+        </bcl:paragraph>
+        <bcl:paragraph id="d2e3631">
+          <bcl:num>c</bcl:num>
+          <bcl:text>an average day's pay, as determined using the formula in section 45 (1).</bcl:text>
+        </bcl:paragraph>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e3654">
+        <bcl:marginalnote>Substituting another day for a <hit loc="12">statutory holiday</hit></bcl:marginalnote>
+        <bcl:num>48</bcl:num>
+        <bcl:subsection id="d2e3662">
+          <bcl:num>1</bcl:num>
+          <bcl:text>An employer may for one or more employees at a workplace substitute another day off for a <hit loc="13">statutory holiday</hit> if the employer and the employee or a majority of those employees, as the case may be, agree to the substitution.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3671">
+          <bcl:num>2</bcl:num>
+          <bcl:text>Any employees affected by the substitution of another day for a <hit loc="14">statutory holiday</hit> have the same rights under this Act and their employer has the same duties under this Act as if the other day were a <hit loc="15">statutory holiday</hit>.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3680">
+          <bcl:num>3</bcl:num>
+          <bcl:text>An employer must retain for 4 years records of agreements made under subsection (1).</bcl:text>
+        </bcl:subsection>
+      </bcl:section><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e9706">
+        <bcl:marginalnote>Power to make regulations</bcl:marginalnote>
+        <bcl:num>127</bcl:num>
+        <bcl:subsection id="d2e9714">
+          <bcl:num>1</bcl:num>
+          <bcl:text>The Lieutenant Governor in Council may make regulations referred to in section 41 of the <bcl:link resource="leg" xlink:href="/legislation/96238_01" xlink:type="locator"><in:doc>Interpretation Act</in:doc></bcl:link>.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e9726">
+          <bcl:num>2</bcl:num>
+          <bcl:text>Without limiting subsection (1), the Lieutenant Governor in Council may make regulations as follows:</bcl:text>
+          <bcl:paragraph id="d2e9735">
+            <bcl:num>a</bcl:num>
+            <bcl:text>excluding, on any conditions, for any periods, and in any circumstances that are considered advisable, a class of persons from all or part of this Act or the regulations;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9745">
+            <bcl:num>a.1</bcl:num>
+            <bcl:text>providing that, in respect of an employee covered by a collective agreement,</bcl:text>
+            <bcl:subparagraph id="d2e9754">
+              <bcl:num>i</bcl:num>
+              <bcl:text>all or part of a regulation under this Act does not apply, or</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e9763">
+              <bcl:num>ii</bcl:num>
+              <bcl:text>
+                Parts 10, 11 and 13 of this Act do not apply in relation to the enforcement of all or part of a regulation under this Act and that if a dispute arises respecting the application, interpretation or operation of all or part of that regulation, the grievance procedure contained in the collective agreement or, if applicable, deemed to be contained in the collective agreement under section 84 (3) of the <bcl:link resource="leg" xlink:href="/legislation/96244_01" xlink:type="locator"><in:doc>Labour Relations Code</in:doc></bcl:link>, applies for the purposes of resolving the dispute;</bcl:text>
+            </bcl:subparagraph>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9775">
+            <bcl:num>b</bcl:num>
+            <bcl:text>establishing conditions of employment for employees or classes of employees, whether or not they have been excluded from a part of this Act;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e11208">
+            <bcl:num>b.01</bcl:num>
+            <bcl:text>prescribing work for the purposes of the definition of "online platform worker" and section 3.1 (b);</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e11215">
+            <bcl:num>b.02</bcl:num>
+            <bcl:text>respecting online platforms and work accepted through online platforms;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9784">
+            <bcl:num>b.1</bcl:num>
+            <bcl:text>establishing conditions of employment for children under 15 years of age that the Lieutenant Governor in Council considers necessary or advisable to protect their health, safety, physical or emotional well-being, education or financial interests;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e10939">
+            <bcl:num>b.2</bcl:num>
+            <bcl:text>for the purposes of section 9.1, prescribing the minimum age for employment in a hazardous industry and in hazardous work, which may be different for different types of hazardous industry and different types of hazardous work;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9793">
+            <bcl:num>c</bcl:num>
+            <bcl:text>respecting the licensing of employment agencies, talent agencies and farm labour contractors, including the following:</bcl:text>
+            <bcl:subparagraph id="d2e9803">
+              <bcl:num>i</bcl:num>
+              <bcl:text>establishing terms and conditions of licences, or terms and conditions that must be met for obtaining, continuing to hold or renewing a licence;</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d1e12545">
+              <bcl:num>i.1</bcl:num>
+              <bcl:text>establishing the process for obtaining a licence, including information that must be provided, which may be different for different types of licences;</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e9812">
+              <bcl:num>ii</bcl:num>
+              <bcl:text>providing for the refusal, suspension, cancellation, renewal or reinstatement of licences, including the circumstances under which a licence may be refused, suspended, cancelled, renewed or reinstated;</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e9821">
+              <bcl:num>iii</bcl:num>
+              <bcl:text>providing for appeals of decisions made with respect to the refusal, suspension, cancellation, renewal or reinstatement of licences;</bcl:text>
+            </bcl:subparagraph>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9830">
+            <bcl:num>d</bcl:num>
+            <bcl:text>prescribing the duties of employment agencies, talent agencies and farm labour contractors;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9839">
+            <bcl:num>e</bcl:num>
+            <bcl:text>prescribing a form of employment contract that must be used by employers when employing domestic workers;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9848">
+            <bcl:num>f</bcl:num>
+            <bcl:text>prescribing the information employers, or different classes of employers, must provide for the purpose of establishing and maintaining a register of employees working in private residences and the time limits for providing that information;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9858">
+            <bcl:num>g</bcl:num>
+            <bcl:text>for the purposes of section 16.1 (2), prescribing classes of employees and specifying the minimum wage, or a method for calculating the minimum wage, for a prescribed class of employees;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9861">
+            <bcl:num>g.1</bcl:num>
+            <bcl:text>in relation to the adjustment under section 16.2 of a minimum wage referred to in section 16.1 (2),</bcl:text>
+            <bcl:subparagraph id="d1e11254">
+              <bcl:num>i</bcl:num>
+              <bcl:text>respecting the date each year, beginning on a specified date, the minimum wage is adjusted under section 16.2 (3), and</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d1e11261">
+              <bcl:num>ii</bcl:num>
+              <bcl:text>respecting the rounding of the adjusted minimum wage under section 16.2 (3) (b);</bcl:text>
+            </bcl:subparagraph>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9867">
+            <bcl:num>h</bcl:num>
+            <bcl:text>[Repealed 2002-42-64.]</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9876">
+            <bcl:num>i</bcl:num>
+            <bcl:text>governing time banks;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9885">
+            <bcl:num>j</bcl:num>
+            <bcl:text>designating days as statutory holidays and respecting calculation of <hit loc="16">statutory holiday</hit> pay;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9894">
+            <bcl:num>k</bcl:num>
+            <bcl:text>respecting applications for variances or renewal of variances;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9903">
+            <bcl:num>l</bcl:num>
+            <bcl:text>specifying requirements of the regulations contravention of which may be the subject of a complaint under section 74;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9913">
+            <bcl:num>m</bcl:num>
+            <bcl:text>prescribing interest rates for the purposes of section 88 and providing for different rates for different purposes;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9922">
+            <bcl:num>m.1</bcl:num>
+            <bcl:text>[Repealed 2019-27-35.]</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9931">
+            <bcl:num>n</bcl:num>
+            <bcl:text>prescribing penalties or schedules of penalties for determinations in respect of contraventions of a requirement of this Act or the regulations or a requirement imposed under section 100, which penalties or schedules of penalties may</bcl:text>
+            <bcl:subparagraph id="d2e9940">
+              <bcl:num>i</bcl:num>
+              <bcl:text>vary according to the nature or frequency of the contraventions or the number of employees affected by any contravention, and</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e9949">
+              <bcl:num>ii</bcl:num>
+              <bcl:text>provide for greater penalties for a second contravention and for third or subsequent contraventions in a 3 year period or any other period that may be prescribed;</bcl:text>
+            </bcl:subparagraph>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9958">
+            <bcl:num>n.1</bcl:num>
+            <bcl:text>prescribing an appeal fee for the purposes of <?amendment-start citation="2026-10-15" eff="2026-08-01" bif="141/2026"?>section 112 (2) (a.1) (ii)<?amendment-end?>;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9968">
+            <bcl:num>o</bcl:num>
+            <bcl:text>providing for appeals from determinations to a person or body other than the tribunal in cases involving the tribunal as an employer and providing for the enforcement of decisions on those appeals;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e9977">
+            <bcl:num>p</bcl:num>
+            <bcl:text>respecting fees, including regulations</bcl:text>
+            <bcl:subparagraph id="d2e9986">
+              <bcl:num>i</bcl:num>
+              <bcl:text>prescribing fees for licences issued under this Act,</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e9995">
+              <bcl:num>ii</bcl:num>
+              <bcl:text>prescribing fees to be paid in respect of services provided by the government under this Act,</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e10004">
+              <bcl:num>iii</bcl:num>
+              <bcl:text>prescribing administrative fees for the purposes of section 30.1, and</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e10013">
+              <bcl:num>iv</bcl:num>
+              <bcl:text>specifying the time, manner and method for payment of prescribed fees payable under this Act;</bcl:text>
+            </bcl:subparagraph>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e10023">
+            <bcl:num>p.1</bcl:num>
+            <bcl:text>[Repealed 2010-3-29.]</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e10032">
+            <bcl:num>q</bcl:num>
+            <bcl:text>governing the production and inspection of employers' records;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e10041">
+            <bcl:num>r</bcl:num>
+            <bcl:text>defining any word or expression used but not defined in this Act;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e10050">
+            <bcl:num>s</bcl:num>
+            <bcl:text>[Repealed 2019-27-36.]</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e10059">
+            <bcl:num>t</bcl:num>
+            <bcl:text>prescribing a period for the purposes of section 52.1 (2);</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e10068">
+            <bcl:num>u</bcl:num>
+            <bcl:text>for the purposes of section 52.2,</bcl:text>
+            <bcl:subparagraph id="d2e10078">
+              <bcl:num>i</bcl:num>
+              <bcl:text>restricting the number of leaves within a specified period of time to which an employee who is a reservist is entitled,</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e10087">
+              <bcl:num>ii</bcl:num>
+              <bcl:text>prescribing circumstances for the purposes of subsection (2) (c) of that section and periods of time for the purposes of subsections (3), (4) (b) (iii) and (5) (b) (iii) of that section, and</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e10096">
+              <bcl:num>iii</bcl:num>
+              <bcl:text>respecting information to be provided for the purposes of subsection (8) of that section;</bcl:text>
+            </bcl:subparagraph>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e11886">
+            <bcl:num>u.01</bcl:num>
+            <bcl:text>prescribing designated health professions for the purposes of paragraph (c) of the definition of "health practitioner" in section 49.01 (1);</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e11893">
+            <bcl:num>u.02</bcl:num>
+            <bcl:text>prescribing a number of consecutive days of employment for the purposes of section 49.01 (2);</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e13156">
+            <bcl:num>u.1</bcl:num>
+            <bcl:text>for the purposes of sections 49.1 (4), 52.13 (4) and 52.5 (5.2),</bcl:text>
+            <bcl:subparagraph id="d1e13164">
+              <bcl:num>i</bcl:num>
+              <bcl:text>specifying circumstances, and</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d1e13173">
+              <bcl:num>ii</bcl:num>
+              <bcl:text>respecting calculation of minimum amounts, which regulations may be different for different circumstances;</bcl:text>
+            </bcl:subparagraph>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e11677">
+            <bcl:num>u.2</bcl:num>
+            <bcl:text>for the purposes of section 49.2,</bcl:text>
+            <bcl:subparagraph id="d2e11683">
+              <bcl:num>i</bcl:num>
+              <bcl:text>prescribing designated health professions for the purposes of paragraph (c) of the definition of "health practitioner",</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e11690">
+              <bcl:num>ii</bcl:num>
+              <bcl:text>prescribing individuals, including by reference to classes of individuals, and specifying types of leave or other absences from work, for the purposes of the definition of "health-related leave",</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e11697">
+              <bcl:num>iii</bcl:num>
+              <bcl:text>specifying circumstances in relation to health-related leave taken on a short-term basis for the purposes of the definition of "specified circumstances", including by reference to consecutive, non-consecutive and cumulative periods of health-related leave in a calendar year or other specified period, and</bcl:text>
+            </bcl:subparagraph>
+            <bcl:subparagraph id="d2e11705">
+              <bcl:num>iv</bcl:num>
+              <bcl:text>providing for exceptions to subsection (2) of that section, and establishing limits or conditions for those exceptions;</bcl:text>
+            </bcl:subparagraph>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e12886">
+            <bcl:num>v</bcl:num>
+            <bcl:text>prescribing methods of service for the purposes of section 122 (1) (d), including time frames within which documents sent, transmitted or delivered by a prescribed method of service are deemed to have been served, which may be different for different methods of service;</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d1e12895">
+            <bcl:num>w</bcl:num>
+            <bcl:text>respecting any matter for which regulations are contemplated by this Act.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e10105">
+          <bcl:num>3</bcl:num>
+          <bcl:text>Regulations made under subsection (2) (b.1) may be specific or general in their application and may provide differently for children of different age groups or different industries or classes of industries.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e10114">
+          <bcl:num>4</bcl:num>
+          <bcl:text>Regulations made under subsection (2) (c) may delegate a matter to or confer a discretion on the director.</bcl:text>
+        </bcl:subsection>
+      </bcl:section></snippet>

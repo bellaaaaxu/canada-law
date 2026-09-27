@@ -1,0 +1,6 @@
+# LF everywhere: the bundled scripts start with "#!/usr/bin/env node", which breaks on macOS and Linux with CRLF.
+* text=auto eol=lf
+# Saved BC Laws responses stay byte for byte as downloaded.
+tests/fixtures/** -text
+*.mcpb binary
+*.tgz binary

@@ -1,0 +1,28 @@
+<?xml version="1.0"?><!-- This information is licensed under the Queen's Printer License of British Columbia found: www.bclaws.ca/standards/2014/QP-License_1.0.html. Please review the license terms carefully. --><snippet><bcl:section xmlns:act="http://www.gov.bc.ca/2013/legislation/act" xmlns:bcl="http://www.gov.bc.ca/2013/bclegislation" xmlns:fun="http://www.bclaws.ca/xslt/functions" xmlns:in="http://www.qp.gov.bc.ca/2013/inline" xmlns:oasis="http://docs.oasis-open.org/ns/oasis-exchange/table" xmlns:reg="http://www.gov.bc.ca/2013/legislation/regulation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="d2e3269">
+        <bcl:marginalnote>Overtime wages for employees not working under an averaging agreement</bcl:marginalnote>
+        <bcl:num>40</bcl:num>
+        <bcl:subsection id="d2e3277">
+          <bcl:num>1</bcl:num>
+          <bcl:text>An employer must pay an employee who works over 8 hours a day, and is not working under an averaging agreement under section 37,</bcl:text>
+          <bcl:paragraph id="d2e3286">
+            <bcl:num>a</bcl:num>
+            <bcl:text>1 1/2 times the employee's regular wage for the time over 8 hours, and</bcl:text>
+          </bcl:paragraph>
+          <bcl:paragraph id="d2e3295">
+            <bcl:num>b</bcl:num>
+            <bcl:text>double the employee's regular wage for any time over 12 hours.</bcl:text>
+          </bcl:paragraph>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3305">
+          <bcl:num>2</bcl:num>
+          <bcl:text>An employer must pay an employee who works over 40 hours a week, and is not working under an averaging agreement under section 37, 1 1/2 times the employee's regular wage for the time over 40 hours.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3314">
+          <bcl:num>3</bcl:num>
+          <bcl:text>For the purpose of calculating weekly overtime under subsection (2), only the first 8 hours worked by an employee in each day are counted, no matter how long the employee works on any day of the week.</bcl:text>
+        </bcl:subsection>
+        <bcl:subsection id="d2e3323">
+          <bcl:num>4</bcl:num>
+          <bcl:text>[Repealed 2002-42-19.]</bcl:text>
+        </bcl:subsection>
+      </bcl:section></snippet>
