@@ -1,9 +1,9 @@
 {
   "manifest_version": "0.3",
   "name": "canada-law",
-  "display_name": "Canada Law (BC employment law)",
+  "display_name": "Canada Law (BC and federal employment law)",
   "version": "0.0.0",
-  "description": "Current official text of BC statutes and regulations from BC Laws, with section citations and the official current-to date. Includes a Chinese and everyday-English employment-law glossary.",
+  "description": "Current official text of BC and federal (Canada) statutes and regulations from BC Laws and the Justice Laws Website, with section citations and the official current-to date. Includes a Chinese and everyday-English employment-law glossary.",
   "author": {
     "name": "canada-law contributors"
   },
@@ -16,7 +16,9 @@
   "license": "MIT",
   "keywords": [
     "british columbia",
+    "canada labour code",
     "employment standards",
+    "federal",
     "law",
     "legislation",
     "chinese"
@@ -34,7 +36,7 @@
   "tools": [
     {
       "name": "find_act",
-      "description": "Find BC acts and regulations by title"
+      "description": "Find BC and federal acts and regulations by title"
     },
     {
       "name": "get_toc",

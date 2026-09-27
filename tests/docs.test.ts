@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { USER_AGENT } from '../src/http.js';
 import { TOOLS } from '../src/install/tools.js';
-import { BC_LAWS_NOTICE } from '../src/notice.js';
+import { BC_LAWS_NOTICE, FEDERAL_NOTICE } from '../src/notice.js';
 import { INSTRUCTIONS } from '../src/server.js';
 import { VERSION } from '../src/version.js';
 
@@ -16,8 +16,19 @@ describe('published documents', () => {
     expect(USER_AGENT).toContain(`/${VERSION} `);
   });
 
+  it.each(['README.md', 'README.zh.md'])('%s points to the release of this version', (name) => {
+    const text = doc(name);
+    expect(text).toContain(`releases/download/v${VERSION}/canada-law-${VERSION}.tgz`);
+    expect(text).toContain(`canada-law-${VERSION}.mcpb`);
+    expect(text.match(/canada-law-\d+\.\d+\.\d+\.(?:tgz|mcpb)/g)?.every((m) => m.includes(VERSION))).toBe(true);
+  });
+
   it.each(['README.md', 'README.zh.md', 'NOTICE', 'tests/fixtures/NOTICE'])('%s carries the licence statement word for word', (name) => {
     expect(doc(name)).toContain(BC_LAWS_NOTICE);
+  });
+
+  it.each(['README.md', 'README.zh.md', 'NOTICE', 'tests/fixtures/NOTICE'])('%s carries the federal reproduction statement word for word', (name) => {
+    expect(doc(name)).toContain(FEDERAL_NOTICE);
   });
 
   it('README.md lists every supported tool', () => {

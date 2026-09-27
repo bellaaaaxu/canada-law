@@ -1,16 +1,16 @@
-# Canada Law — BC employment law for your AI assistant
+# Canada Law — BC and federal employment law for your AI assistant
 
 [![CI](https://github.com/bellaaaaxu/canada-law/actions/workflows/ci.yml/badge.svg)](https://github.com/bellaaaaxu/canada-law/actions/workflows/ci.yml) [![Release](https://img.shields.io/github/v/release/bellaaaaxu/canada-law)](https://github.com/bellaaaaxu/canada-law/releases) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 [中文说明](README.zh.md)
 
-Ask your AI assistant about employment law in British Columbia — overtime, breaks, statutory holidays, pay, leaves, termination — in English or Chinese. Answers come from the **current official text** on BC Laws, with the act, section number, a link to the section, and the official "current to" date.
+Ask your AI assistant about employment law in British Columbia and in federally regulated workplaces — overtime, breaks, statutory holidays, pay, leaves, termination — in English or Chinese. Answers come from the **current official text** on BC Laws and the Justice Laws Website, with the act, section number, a link to the section, and the official "current to" date.
 
 It plugs into most AI coding assistants through two open standards, [Agent Skills](https://agentskills.io) and [MCP](https://modelcontextprotocol.io): Claude, OpenAI Codex / ChatGPT desktop, GitHub Copilot, Cursor, Gemini CLI, Google Antigravity, Kiro, Qwen Code, Kimi Code, and more.
 
 > **Please read**
 > - This is general legal information, **not legal advice**.
-> - **BC law only for now.** Federally regulated workplaces (banks, airlines, telecommunications, interprovincial transport and similar) are covered by federal law, which is not included yet.
+> - **BC law, and federal labour law.** Most BC workplaces are under BC law. Federally regulated workplaces (banks, airlines, telecommunications, interprovincial transport and similar) are under the *Canada Labour Code*, which is included with its regulations. Other federal law, such as Employment Insurance (EI) or the Canada Pension Plan (CPP), is not searched.
 > - The statute text is **not an official version** (see [Licence](#licence)).
 > - The AI may add things that are not in the official text (such as the dates of holidays). It is told to put them in a separate part marked as not checked, but it does not always manage. **Rely on the quoted sections and their links.**
 
@@ -44,12 +44,14 @@ A real answer from our tests (Claude Code with this skill, 26 September 2026), w
 >
 > Text from BC Laws (www.bclaws.gov.bc.ca) under the King's Printer Licence; not an official version. This is general legal information, not legal advice.
 
+(This answer is from version 0.1, before federal law was added. The answer format has not changed.)
+
 ## Install
 
 You need [Node.js](https://nodejs.org) 20 or newer. Then run:
 
 ```bash
-npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.1.0/canada-law-0.1.0.tgz install
+npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.0/canada-law-0.2.0.tgz install
 ```
 
 The installer finds the AI tools on your computer, **shows exactly what it will change, and asks before changing anything**. It backs up every config file it edits, and it never overwrites your own settings.
@@ -64,11 +66,11 @@ The installer finds the AI tools on your computer, **shows exactly what it will 
 | `… list` | show the supported tools |
 | `… uninstall` | remove everything the installer added |
 
-(`…` stands for `npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.1.0/canada-law-0.1.0.tgz`.)
+(`…` stands for `npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.0/canada-law-0.2.0.tgz`.)
 
 ### Claude Desktop, without Node.js
 
-Download `canada-law-0.1.0.mcpb` from the [release page](https://github.com/bellaaaaxu/canada-law/releases) and double-click it. You can also drag it into the Claude Desktop window, or use Settings → Extensions → Advanced settings → Install Extension…. Claude Desktop brings its own Node.js.
+Download `canada-law-0.2.0.mcpb` from the [release page](https://github.com/bellaaaaxu/canada-law/releases) and double-click it. You can also drag it into the Claude Desktop window, or use Settings → Extensions → Advanced settings → Install Extension…. Claude Desktop brings its own Node.js.
 
 ## Supported AI tools
 
@@ -109,13 +111,15 @@ The Claude Desktop extension (`.mcpb`) was also checked on a real installation (
 ## How it works
 
 - **Five tools:** `find_act`, `get_toc`, `get_section`, `search_law` and `map_term`. The skill runs the same functions as the commands `find`, `toc`, `section`, `search` and `term`.
-- **Glossary:** 52 everyday words, in Chinese and in plain English (such as 加班费, "stat holiday", "severance"), mapped to the words the statute actually uses. Each entry is checked against the official text.
-- **Citations:** every result carries the act, the section, a link to the section, and the official "current to" date, read from the official page. Acts and regulations are updated on different dates.
-- **Privacy:** everything runs on your computer. Your questions go only to the AI assistant you already use. This package only asks BC Laws (www.bclaws.gov.bc.ca) for statute text, and collects nothing.
+- **Glossary:** 58 everyday words, in Chinese and in plain English (such as 加班费, "stat holiday", "severance"), mapped to the words each statute actually uses: BC law says "statutory holiday" where federal law says "general holiday". Each of its 104 entries is checked against the official text.
+- **What is searched:** all of BC's statutes and regulations; for federal law, the *Canada Labour Code* and the regulations made under it (32 on the official list in September 2026). Any other federal act or regulation can still be read section by section.
+- **Citations:** every result carries the act, the section, a link to the section, and the official "current to" date, read from the official page.
+- **Privacy:** everything runs on your computer. Your questions go only to the AI assistant you already use. This package only asks BC Laws (www.bclaws.gov.bc.ca) and the Justice Laws Website (laws-lois.justice.gc.ca) for statute text, and collects nothing.
 
 ## A real problem at work?
 
-The **Employment Standards Branch** can help, in the language of your choice: <https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us>
+- **BC workplaces:** the **Employment Standards Branch** can help, in the language of your choice: <https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us>
+- **Federally regulated workplaces:** the federal **Labour Program** takes complaints: <https://www.canada.ca/en/services/jobs/workplace/federal-labour-standards/filing-complaint.html>
 
 ## Feedback
 
@@ -127,7 +131,11 @@ The code is MIT-licensed (see [LICENSE](LICENSE)). The statute text comes from B
 
 > These materials contain information that has been derived from information originally made available by the Province of British Columbia at: http://www.bclaws.gov.bc.ca and this information is being used in accordance with the King's Printer Licence – British Columbia available at: https://www.bclaws.gov.bc.ca/standards/Licence.html. They have not, however, been produced in affiliation with, or with the endorsement of, the Province of British Columbia and THESE MATERIALS ARE NOT AN OFFICIAL VERSION.
 
-This project is not affiliated with or endorsed by the Province of British Columbia.
+Federal statute text comes from the Justice Laws Website. The Reproduction of Federal Law Order (SI/97-5) lets anyone reproduce federal law without charge or permission, provided the reproduction is accurate and is not represented as an official version:
+
+> These materials reproduce the consolidated Acts and regulations of Canada from the Justice Laws Website (https://laws-lois.justice.gc.ca), as permitted by the Reproduction of Federal Law Order (SI/97-5). They have not been produced in affiliation with, or with the endorsement of, the Government of Canada, and THESE MATERIALS ARE NOT AN OFFICIAL VERSION.
+
+This project is not affiliated with or endorsed by the Province of British Columbia or the Government of Canada.
 
 ## Development
 
@@ -141,6 +149,6 @@ npm run golden           # golden questions, through the skill and through MCP (
 npm run verify-glossary  # check every glossary entry against the official text (online)
 ```
 
-The design notes are in Chinese: [SPEC.md](SPEC.md) (tools, citations, how BC Laws behaves) and [SPEC-开源分发.md](SPEC-开源分发.md) (packaging and installer).
+The design notes are in Chinese: [SPEC.md](SPEC.md) (tools, citations, how BC Laws and the Justice Laws Website behave) and [SPEC-开源分发.md](SPEC-开源分发.md) (packaging and installer).
 
-**Roadmap:** federal law (Canada Labour Code) is next.
+**Not covered yet:** federal benefits law, such as Employment Insurance (EI) and the Canada Pension Plan (CPP).
