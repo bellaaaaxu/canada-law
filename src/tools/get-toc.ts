@@ -8,7 +8,7 @@ export function registerGetToc(server: McpServer, { bc, federal }: Sources) {
     {
       title: 'Table of contents',
       description:
-        "Table of contents of an act or regulation: Parts, Divisions and Schedules with every section number and heading, plus the act's citation, source_url and official current_to date. Use it to pick the right section number before calling get_section.",
+        "Table of contents of an act or regulation: Parts, Divisions and Schedules with every section number and heading, plus the act's citation, source_url and official current_to date. Use it to pick the right section number before calling get_section. The result also carries answer_rules, the answer format and rules for using this text: follow them when you answer.",
       inputSchema: {
         jurisdiction,
         act_id: z.string().min(1).describe('The act_id returned by find_act, e.g. "96113_01" (BC Employment Standards Act) or "L-2" (Canada Labour Code).'),

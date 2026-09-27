@@ -81,6 +81,15 @@ describe('MCP server', () => {
     }
   });
 
+  // A model may treat directions inside a tool result as untrusted; the tool's own description vouches for them.
+  it('get_section, search_law and get_toc say in their descriptions that answer_rules come back and are to be followed', async () => {
+    const client = await connect();
+    const { tools } = await client.listTools();
+    for (const name of ['get_section', 'search_law', 'get_toc']) {
+      expect(tools.find((t) => t.name === name)!.description, name).toMatch(/answer_rules.*follow/);
+    }
+  });
+
   it('get_section returns the citation contract and the text as JSON', async () => {
     const client = await connect();
     const r = await client.callTool({ name: 'get_section', arguments: { jurisdiction: 'bc', act_id: '96113_01', section: '40' } });

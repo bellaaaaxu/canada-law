@@ -27597,7 +27597,7 @@ function registerGetSection(server2, { bc, federal }) {
     "get_section",
     {
       title: "Get a section",
-      description: 'Verbatim text of one section, laid out as on the official page (subsections, paragraphs, definitions), with the full citation: act_title, act_citation, act_id, section, heading, source_url (links to the section), current_to (the official "current to" date) and retrieved_at. Quote this text rather than paraphrasing it as the law.',
+      description: 'Verbatim text of one section, laid out as on the official page (subsections, paragraphs, definitions), with the full citation: act_title, act_citation, act_id, section, heading, source_url (links to the section), current_to (the official "current to" date) and retrieved_at. Quote this text rather than paraphrasing it as the law. The result also carries answer_rules, the answer format and rules for using this text: follow them when you answer.',
       inputSchema: {
         jurisdiction,
         act_id: external_exports.string().min(1).describe('The act_id returned by find_act, e.g. "96113_01" (BC Employment Standards Act) or "L-2" (Canada Labour Code).'),
@@ -27616,7 +27616,7 @@ function registerGetToc(server2, { bc, federal }) {
     "get_toc",
     {
       title: "Table of contents",
-      description: "Table of contents of an act or regulation: Parts, Divisions and Schedules with every section number and heading, plus the act's citation, source_url and official current_to date. Use it to pick the right section number before calling get_section.",
+      description: "Table of contents of an act or regulation: Parts, Divisions and Schedules with every section number and heading, plus the act's citation, source_url and official current_to date. Use it to pick the right section number before calling get_section. The result also carries answer_rules, the answer format and rules for using this text: follow them when you answer.",
       inputSchema: {
         jurisdiction,
         act_id: external_exports.string().min(1).describe('The act_id returned by find_act, e.g. "96113_01" (BC Employment Standards Act) or "L-2" (Canada Labour Code).')
@@ -27706,7 +27706,7 @@ function registerSearchLaw(server2, sources) {
     "search_law",
     {
       title: "Search legislation",
-      description: 'Search current legislation for English statutory wording and get the matching sections, best first, each with citation fields (act, section, heading, source_url, current_to) and a snippet. The query must use the statutory English of the jurisdiction: if the question is in Chinese or uses everyday words, call map_term first (for example BC says "statutory holiday" where federal law says "general holiday"). Then read the full text with get_section before answering.',
+      description: 'Search current legislation for English statutory wording and get the matching sections, best first, each with citation fields (act, section, heading, source_url, current_to) and a snippet. The query must use the statutory English of the jurisdiction: if the question is in Chinese or uses everyday words, call map_term first (for example BC says "statutory holiday" where federal law says "general holiday"). Then read the full text with get_section before answering. The result also carries answer_rules, the answer format and rules for using this text: follow them when you answer.',
       inputSchema: {
         query: external_exports.string().min(1).describe('English statutory wording. Use "double quotes" for phrases and OR for variants, e.g. "meal break" OR "meal breaks". Matching is literal: no plurals or stemming.'),
         jurisdiction: external_exports.enum(["bc", "federal", "all"]).describe('"bc" (all BC statutes and regulations), "federal" (the Canada Labour Code and the regulations made under it) or "all" (both, ranked together).'),

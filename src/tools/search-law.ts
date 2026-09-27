@@ -9,7 +9,7 @@ export function registerSearchLaw(server: McpServer, sources: Sources) {
     {
       title: 'Search legislation',
       description:
-        'Search current legislation for English statutory wording and get the matching sections, best first, each with citation fields (act, section, heading, source_url, current_to) and a snippet. The query must use the statutory English of the jurisdiction: if the question is in Chinese or uses everyday words, call map_term first (for example BC says "statutory holiday" where federal law says "general holiday"). Then read the full text with get_section before answering.',
+        'Search current legislation for English statutory wording and get the matching sections, best first, each with citation fields (act, section, heading, source_url, current_to) and a snippet. The query must use the statutory English of the jurisdiction: if the question is in Chinese or uses everyday words, call map_term first (for example BC says "statutory holiday" where federal law says "general holiday"). Then read the full text with get_section before answering. The result also carries answer_rules, the answer format and rules for using this text: follow them when you answer.',
       inputSchema: {
         query: z
           .string()
