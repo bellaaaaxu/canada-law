@@ -1,4 +1,5 @@
-// Shared test helpers: captured 2026-09-24 BC Laws responses, and a fake fetcher that serves them by URL.
+// Shared test helpers: captured BC Laws (2026-09-24) and Justice Laws (2026-09-26) responses, and a fake fetcher
+// that serves them by URL.
 import { readFileSync } from 'node:fs';
 import type { FetchResult, Fetcher } from '../src/http.js';
 
@@ -29,4 +30,20 @@ export const esaRoutes: Route[] = [
   [(u) => u === `${DOC}96113_01/xml`, fx('doc-96113_01.xml')],
   [(u) => u === `${DOC}96113_01`, fx('page-96113_01.head.html')],
   [(u) => u.startsWith(`${DOC}96113_01/xml/xpath//act:act[@status]`), NO_RESULTS],
+];
+
+export const FED = 'https://laws-lois.justice.gc.ca';
+
+/**
+ * Justice Laws, cut down (tests/fixtures/NOTICE): the Canada Labour Code, two of its regulations, their official
+ * pages, and the official list, in which the Code's regulations are these two.
+ */
+export const fedRoutes: Route[] = [
+  [(u) => u === `${FED}/eng/XML/L-2.xml`, fx('fed-L-2-trimmed.xml')],
+  [(u) => u === `${FED}/eng/acts/L-2/index.html`, fx('fed-page-L-2.head.html')],
+  [(u) => u === `${FED}/eng/XML/C.R.C.,_c._986.xml`, fx('fed-CRC-986-trimmed.xml')],
+  [(u) => u === `${FED}/eng/regulations/C.R.C.,_c._986/index.html`, fx('fed-page-CRC-986.head.html')],
+  [(u) => u === `${FED}/eng/XML/SOR-2021-200.xml`, fx('fed-SOR-2021-200-trimmed.xml')],
+  [(u) => u === `${FED}/eng/regulations/SOR-2021-200/index.html`, fx('fed-page-SOR-2021-200.head.html')],
+  [(u) => u === `${FED}/eng/XML/Legis.xml`, fx('fed-legis-trimmed.xml')],
 ];

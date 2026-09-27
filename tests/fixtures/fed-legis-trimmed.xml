@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ActsRegsList>
+<Acts>
+<Act>
+<UniqueId>L-2</UniqueId>
+<OfficialNumber>L-2</OfficialNumber>
+<Language>eng</Language>
+<LinkToXML>http://laws-lois.justice.gc.ca/eng/XML/L-2.xml</LinkToXML>
+<LinkToHTMLToC>http://laws-lois.justice.gc.ca/eng/acts/L-2/index.html</LinkToHTMLToC>
+<Title>Canada Labour Code</Title>
+<CurrentToDate>2026-07-21</CurrentToDate>
+<RegsMadeUnderAct><Reg idRef="602863e" /><Reg idRef="1315618e" /></RegsMadeUnderAct>
+</Act>
+<Act>
+<UniqueId>L-2</UniqueId>
+<OfficialNumber>L-2</OfficialNumber>
+<Language>fra</Language>
+<LinkToXML>http://laws-lois.justice.gc.ca/fra/XML/L-2.xml</LinkToXML>
+<LinkToHTMLToC>http://laws-lois.justice.gc.ca/fra/lois/L-2/index.html</LinkToHTMLToC>
+<Title>Code canadien du travail</Title>
+<CurrentToDate>2026-07-21</CurrentToDate>
+<RegsMadeUnderAct><Reg idRef="464848f" /><Reg idRef="591312f" /><Reg idRef="592767f" /><Reg idRef="592902f" /><Reg idRef="592991f" /><Reg idRef="593010f" /><Reg idRef="655043f" /><Reg idRef="666582f" /><Reg idRef="687459f" /><Reg idRef="717286f" /><Reg idRef="736548f" /><Reg idRef="744046f" /><Reg idRef="769297f" /><Reg idRef="806387f" /><Reg idRef="854223f" /><Reg idRef="881369f" /><Reg idRef="885047f" /><Reg idRef="889207f" /><Reg idRef="889220f" /><Reg idRef="889473f" /><Reg idRef="889914f" /><Reg idRef="896369f" /><Reg idRef="919576f" /><Reg idRef="920757f" /><Reg idRef="1006891f" /><Reg idRef="1006927f" /><Reg idRef="1006959f" /><Reg idRef="1238832f" /><Reg idRef="1240444f" /><Reg idRef="1267467f" /><Reg idRef="1304900f" /><Reg idRef="1419945f" /></RegsMadeUnderAct>
+</Act>
+<Act>
+<UniqueId>C-49</UniqueId>
+<OfficialNumber>C-49</OfficialNumber>
+<Language>eng</Language>
+<LinkToXML>http://laws-lois.justice.gc.ca/eng/XML/C-49.xml</LinkToXML>
+<LinkToHTMLToC>http://laws-lois.justice.gc.ca/eng/acts/C-49/index.html</LinkToHTMLToC>
+<Title>Advance Payments for Crops Act</Title>
+<CurrentToDate>2026-07-21</CurrentToDate>
+<RegsMadeUnderAct><Reg idRef="556712e" /><Reg idRef="896970e" /></RegsMadeUnderAct>
+</Act>
+<Act>
+<UniqueId>E-5.6</UniqueId>
+<OfficialNumber>1996, c. 23</OfficialNumber>
+<Language>eng</Language>
+<LinkToXML>http://laws-lois.justice.gc.ca/eng/XML/E-5.6.xml</LinkToXML>
+<LinkToHTMLToC>http://laws-lois.justice.gc.ca/eng/acts/E-5.6/index.html</LinkToHTMLToC>
+<Title>Employment Insurance Act</Title>
+<CurrentToDate>2026-07-21</CurrentToDate>
+<RegsMadeUnderAct><Reg idRef="529701e" /><Reg idRef="803553e" /><Reg idRef="803960e" /><Reg idRef="881708e" /><Reg idRef="926498e" /><Reg idRef="926550e" /><Reg idRef="939883e" /><Reg idRef="977093e" /><Reg idRef="982600e" /><Reg idRef="1000638e" /><Reg idRef="1006033e" /></RegsMadeUnderAct>
+</Act>
+</Acts>
+<Regulations>
+<Regulation id="602863e" olid="591312f">
+<UniqueId>C.R.C., c. 986</UniqueId>
+<Language>eng</Language>
+<LinkToXML>http://laws-lois.justice.gc.ca/eng/XML/C.R.C.,_c._986.xml</LinkToXML>
+<LinkToHTMLToC>http://laws-lois.justice.gc.ca/eng/regulations/C.R.C.,_c._986/index.html</LinkToHTMLToC>
+<Title>Canada Labour Standards Regulations</Title>
+<CurrentToDate>2026-07-21</CurrentToDate>
+</Regulation>
+<Regulation id="893041e" olid="881369f">
+<UniqueId>SOR-86-304</UniqueId>
+<Language>eng</Language>
+<LinkToXML>http://laws-lois.justice.gc.ca/eng/XML/SOR-86-304.xml</LinkToXML>
+<LinkToHTMLToC>http://laws-lois.justice.gc.ca/eng/regulations/SOR-86-304/index.html</LinkToHTMLToC>
+<Title>Canada Occupational Health and Safety Regulations</Title>
+<CurrentToDate>2026-07-21</CurrentToDate>
+</Regulation>
+<Regulation id="1315618e" olid="1304900f">
+<UniqueId>SOR-2021-200</UniqueId>
+<Language>eng</Language>
+<LinkToXML>http://laws-lois.justice.gc.ca/eng/XML/SOR-2021-200.xml</LinkToXML>
+<LinkToHTMLToC>http://laws-lois.justice.gc.ca/eng/regulations/SOR-2021-200/index.html</LinkToHTMLToC>
+<Title>Exemptions from and Modifications to Hours of Work Provisions Regulations</Title>
+<CurrentToDate>2026-07-21</CurrentToDate>
+</Regulation>
+</Regulations>
+</ActsRegsList>
