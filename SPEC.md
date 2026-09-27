@@ -217,7 +217,7 @@ canada-law/
 - [x] 术语表补联邦词条（对照联邦原文核对）
 - [x] SKILL.md、MCP instructions、README 两份、NOTICE
 - [x] golden 12 题经两条路全部命中；smoke；自动启用测试 4 题
-- [ ] 发布 v0.2.0（推送前问她）
+- [x] 发布 v0.2.0（2026-09-27，你选「合并并发布」）：`m2-federal` 快进合并进 main 并推送；发布页 https://github.com/bellaaaaxu/canada-law/releases/tag/v0.2.0 （`canada-law-0.2.0.tgz` 279 KB、`canada-law-0.2.0.mcpb` 205 KB，标签指向 a8e851f）。推送前隐私扫描：分支上新增的每一行都查过，没有本机路径、姓名、邮箱或雇主字样；重新打包后仓库里的打包产物没有变化。发布后：两个安装包从发布页下载回来和本地逐字节相同，包里的小程序读得到联邦 s.169.1；`smoke:install -- --from <真实地址>` 15/15；GitHub 自动测试三个系统都通过；手动触发一次联网检查，在 GitHub 的服务器上 golden、术语表核对、smoke 都通过（从那边的网络也读得到联邦网站）
 
 #### M2 验收记录（2026-09-26）
 
