@@ -3,13 +3,26 @@
 import type { FetchResult, Fetcher } from '../http.js';
 import { FEDERAL_NOTICE } from '../notice.js';
 import { ToolError } from '../tool-error.js';
-import type { ActCandidate, Citation } from '../types.js';
-import { CURRENT_TO_WARNING, mapLimit, normalizeSection } from './bc.js';
+import type { ActCandidate, Citation, SearchResult } from '../types.js';
+import { CURRENT_TO_WARNING, LITERAL_NOTE, SNIPPET_NOTE, mapLimit, normalizeSection } from './bc.js';
 import { FED_BASE, normalizeFedId, parseFedPage, parseLegis, type FedPageMeta, type LegisEntry } from './federal-meta.js';
-import { bodySections, fedDocInfo, fedToc, findFedSections, hasNotInForcePart, notInForce, renderFedSection, type FedDocInfo } from './federal-xml.js';
-import { parseXml, type XNode } from './xml.js';
+import {
+  bodySections,
+  fedDocInfo,
+  fedToc,
+  findFedSections,
+  hasNotInForcePart,
+  notInForce,
+  renderFedSection,
+  sectionRecords,
+  type FedDocInfo,
+  type SectionRecord,
+} from './federal-xml.js';
+import { cutSnippet, parseXml, type XNode } from './xml.js';
 
 const CONCURRENCY = 4;
+/** Search covers this act and the regulations the official list puts under it (SPEC 2026-09-26). */
+const SEARCHED_ACT = 'L-2';
 const LEGIS_URL = `${FED_BASE}/eng/XML/Legis.xml`;
 const xmlUrl = (id: string) => `${FED_BASE}/eng/XML/${id}.xml`;
 const folder = (kind: FedDocInfo['kind'] | LegisEntry['kind']) => (kind === 'regulation' ? 'regulations' : 'acts');
@@ -18,10 +31,13 @@ const sectionUrl = (kind: FedDocInfo['kind'], id: string, num: string) => `${FED
 const word = (kind: FedDocInfo['kind']) => (kind === 'regulation' ? 'regulation' : 'act');
 
 type Loaded = { id: string; doc: XNode; info: FedDocInfo; fetchedAt: string };
+type Searchable = { info: FedDocInfo; records: SectionRecord[] };
+export type Scored = { result: SearchResult; score: number };
 
 export class FederalClient {
   private fetcher: Fetcher;
   private parsed = new Map<string, XNode>();
+  private searchable = new Map<string, Searchable>();
   private legisCache: { key: string; entries: LegisEntry[] } | null = null;
 
   constructor(opts: { fetcher: Fetcher }) {
@@ -129,6 +145,135 @@ export class FederalClient {
     return { ...first, ...(others.length > 0 ? { other_matches: others } : {}), warnings, notice: FEDERAL_NOTICE };
   }
 
+  // ---------- search_law ----------
+
+  async search(query: string, limit = 10) {
+    return (await this.searchScored(query, limit)).output;
+  }
+
+  /** search() plus each result's score, so that search_law "all" can rank BC and federal results together. */
+  async searchScored(query: string, limit = 10) {
+    const phrases = parsePhrases(query);
+    if (phrases.length === 0) throw new ToolError('query is empty.');
+    const alternatives = phrases.map(phrasePattern).join('|');
+    const hitsIn = (s: string) => (s.match(new RegExp(alternatives, 'gi')) ?? []).length;
+    const has = (s: string | null) => s !== null && new RegExp(alternatives, 'i').test(s);
+    const whole = new RegExp(`^(?:${alternatives})$`, 'i');
+    const mark = (s: string) => s.replace(new RegExp(alternatives, 'gi'), (m) => `**${m}**`);
+
+    const warnings: string[] = [];
+    const scope = await this.searchScope(warnings);
+    let searched = 0;
+    type Hit = { entry: (typeof scope)[number]; r: SectionRecord; info: FedDocInfo; fetchedAt: string; score: number; match: string[]; order: number };
+    const perDoc = await mapLimit(scope, CONCURRENCY, async (entry, docIndex): Promise<Hit[]> => {
+      const res = await this.fetcher(xmlUrl(entry.id));
+      if (res.status !== 200) {
+        warnings.push(`${entry.title} (${entry.id}) could not be read (HTTP ${res.status}), so it was not searched.`);
+        return [];
+      }
+      searched++;
+      const { info, records } = this.toSearchable(res);
+      return records.flatMap((r, secIndex) => {
+        const hits = hitsIn(r.text) + hitsIn(r.notes);
+        const above = has(r.nearestHeading);
+        if (hits === 0 && !above) return [];
+        const exact = r.definedTerms.some((t) => whole.test(t));
+        const partial = !exact && r.definedTerms.some((t) => has(t));
+        const heading = has(r.heading);
+        const headingFirst = heading && new RegExp(`^(?:${alternatives})`, 'i').test(r.heading ?? '');
+        const score =
+          (exact ? 100 : partial ? 20 : 0) + (heading ? 50 : 0) + (headingFirst ? 10 : 0) + (above ? 30 : 0) + Math.min(hits, 10) + (entry.kind === 'act' ? 15 : 0);
+        const match = [
+          ...(exact ? ['defines the term'] : partial ? ['inside a defined term'] : []),
+          ...(heading ? ['heading'] : []),
+          ...(above ? ['heading above the section'] : []),
+          `${hits} hit${hits === 1 ? '' : 's'}`,
+        ];
+        return [{ entry, r, info, fetchedAt: res.fetchedAt, score, match, order: docIndex * 100_000 + secIndex }];
+      });
+    });
+    const top = perDoc
+      .flat()
+      .sort((a, b) => b.score - a.score || a.order - b.order)
+      .slice(0, limit);
+
+    const pages = new Map<string, FedPageMeta>();
+    await mapLimit([...new Set(top.map((h) => h.entry.id))], CONCURRENCY, async (id) => {
+      const h = top.find((x) => x.entry.id === id)!;
+      pages.set(id, await this.pageMeta(h.info.kind, id));
+    });
+    const undated = [...pages].filter(([, p]) => !p.currentTo).map(([id]) => id);
+    if (undated.length > 0) warnings.push(`${CURRENT_TO_WARNING} (${undated.join(', ')})`);
+
+    const scored: Scored[] = top.map(({ entry, r, info, fetchedAt, score, match }) => {
+      const page = pages.get(entry.id)!;
+      const body = r.text.split('\n').map(mark).join(' ').replace(/\s+/g, ' ');
+      const lead = has(r.heading) ? mark(r.heading!) : has(r.nearestHeading) ? mark(r.nearestHeading!) : null;
+      const snippet = cutSnippet(body, () => `${lead ? `[${lead}] ` : ''}${body.length > 240 ? body.slice(0, 240) + '…' : body}`);
+      return {
+        score,
+        result: {
+          jurisdiction: 'federal',
+          act_title: info.title ?? entry.title,
+          act_citation: page.citation ?? info.instrumentNumber ?? '',
+          act_id: entry.id,
+          section: r.num,
+          heading: r.heading,
+          source_url: sectionUrl(info.kind, entry.id, r.num),
+          current_to: page.currentTo,
+          retrieved_at: fetchedAt,
+          snippet,
+          match,
+        },
+      };
+    });
+
+    const regs = scope.length - 1;
+    return {
+      output: {
+        query: phrases.map((p) => `"${p}"`).join(' OR '),
+        documents_searched: searched,
+        results: scored.map((s) => s.result),
+        warnings,
+        notes: [
+          `Federal search covers the Canada Labour Code and the ${regs} regulation${regs === 1 ? '' : 's'} made under it, from the official list of acts and regulations. Other federal acts and regulations, and amendments not in force yet, are not searched: find an act with find_act, then read it with get_toc and get_section.`,
+          LITERAL_NOTE,
+          SNIPPET_NOTE,
+        ],
+        notice: FEDERAL_NOTICE,
+      },
+      scored,
+    };
+  }
+
+  /** The Canada Labour Code and, from the official list, the regulations made under it. */
+  private async searchScope(warnings: string[]): Promise<{ id: string; title: string; kind: LegisEntry['kind'] }[]> {
+    const code = { id: SEARCHED_ACT, title: 'Canada Labour Code', kind: 'act' as const };
+    let list: LegisEntry[];
+    try {
+      list = await this.legis();
+    } catch (e) {
+      if (!(e instanceof ToolError)) throw e;
+      warnings.push(`The official list of acts and regulations could not be read (${e.message.match(/HTTP \d+/)?.[0] ?? 'error'}), so only the Canada Labour Code itself was searched, not its regulations.`);
+      return [code];
+    }
+    const act = list.find((e) => e.id === SEARCHED_ACT);
+    const regs = (act?.regRefs ?? []).flatMap((ref) => list.filter((e) => e.ref === ref));
+    return [{ ...code, title: act?.title ?? code.title }, ...regs.map((e) => ({ id: e.id, title: e.title, kind: e.kind }))];
+  }
+
+  private toSearchable(res: FetchResult): Searchable {
+    const key = `${res.url}@${res.fetchedAt}`;
+    let s = this.searchable.get(key);
+    if (!s) {
+      const doc = parseXml(res.body);
+      s = { info: fedDocInfo(doc), records: sectionRecords(doc) };
+      this.searchable.set(key, s);
+      if (this.searchable.size > 80) this.searchable.delete(this.searchable.keys().next().value as string);
+    }
+    return s;
+  }
+
   // ---------- internals ----------
 
   protected async load(actId: string): Promise<Loaded> {
@@ -181,4 +326,22 @@ function docWarnings(info: FedDocInfo, page: FedPageMeta): string[] {
   }
   if (info.readerNote) w.push(`Official note on this ${word(info.kind)}: ${info.readerNote}`);
   return w;
+}
+
+/** '"general holiday" OR "general holidays"' → ['general holiday', 'general holidays']; quotes and parentheses dropped. */
+export function parsePhrases(query: string): string[] {
+  return query
+    .split(/\s+OR\s+/)
+    .map((p) => p.trim().replace(/^[("\s]+|[)"\s]+$/g, '').trim())
+    .filter(Boolean);
+}
+
+/** A phrase as a regex source: whole words, any spacing between them, ' and ’ alike, and a trailing * for any ending. */
+function phrasePattern(phrase: string): string {
+  const words = phrase.split(/\s+/).map((w) => {
+    const star = w.endsWith('*');
+    const core = (star ? w.slice(0, -1) : w).replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/['\u2019]/g, "['\u2019]");
+    return star ? `${core}\\w*` : core;
+  });
+  return `(?<![\\w])${words.join('\\s+')}(?![\\w])`;
 }

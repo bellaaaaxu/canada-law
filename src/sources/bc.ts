@@ -28,6 +28,11 @@ const MAX_DOCS_SEARCHED = 8;
 const CONCURRENCY = 4;
 const SECTIONS_XPATH = '/xpath///bcl:section%5Bdescendant::hit%5D';
 
+// Search notes that hold for BC and federal search alike.
+export const LITERAL_NOTE = 'Matching is literal (no plurals or stemming): include variants, e.g. "meal break" OR "meal breaks", or a wildcard such as break*.';
+export const SNIPPET_NOTE =
+  'A snippet is the whole section when the section is short; otherwise it is cut short to the clause around the first match (… marks a cut), and other parts of the section can change its meaning. Before quoting, explaining or citing a section, read its full text with get_section (MCP tool) or the section command.';
+
 export const CURRENT_TO_WARNING =
   'current_to is null: the official page did not show a "current to" date, so currency could not be confirmed. Check source_url before relying on this text.';
 
@@ -227,8 +232,8 @@ export class BcClient {
       warnings,
       notes: [
         `BC Laws full-site search returns documents, not sections: the top ${MAX_PAGE} documents by its own ranking were taken, point-in-time versions and legislative-change tables were dropped, and up to ${MAX_DOCS_SEARCHED} current acts/regulations were searched section by section.`,
-        'Matching is literal (no plurals or stemming): include variants, e.g. "meal break" OR "meal breaks", or a wildcard such as break*.',
-        'A snippet is the whole section when the section is short; otherwise it is cut short to the clause around the first match (… marks a cut), and other parts of the section can change its meaning. Before quoting, explaining or citing a section, read its full text with get_section (MCP tool) or the section command.',
+        LITERAL_NOTE,
+        SNIPPET_NOTE,
       ],
       notice: BC_LAWS_NOTICE,
     };

@@ -390,7 +390,6 @@ export type SectionRecord = {
   /** Every marginal note in the section, the subsections' included (" | " between them). */
   notes: string;
   definedTerms: string[];
-  node: XNode;
 };
 
 function allOf(n: XNode, name: string): XNode[] {
@@ -411,6 +410,5 @@ export function sectionRecords(doc: XNode): SectionRecord[] {
         .map((m) => inlineText(m))
         .join(' | '),
       definedTerms: allOf(s.node, 'DefinedTermEn').map((d) => inlineText(d)),
-      node: s.node,
     }));
 }

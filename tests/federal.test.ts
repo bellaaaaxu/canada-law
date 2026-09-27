@@ -128,6 +128,87 @@ describe('FederalClient.getToc', () => {
   });
 });
 
+describe('FederalClient.search (the Canada Labour Code and its regulations, in memory)', () => {
+  const at = (results: { act_id: string; section: string }[], id: string, num: string) => results.findIndex((x) => x.act_id === id && x.section === num) + 1;
+
+  it('ranks the section that defines "general holiday" first, with citation fields and a marked snippet', async () => {
+    const r = await client().fed.search('"general holiday" OR "general holidays"');
+    expect(r.results[0]).toMatchObject({
+      jurisdiction: 'federal',
+      act_title: 'Canada Labour Code',
+      act_citation: 'R.S.C., 1985, c. L-2',
+      act_id: 'L-2',
+      section: '166',
+      heading: 'Definitions',
+      source_url: `${FED}/eng/acts/L-2/section-166.html`,
+      current_to: '2026-09-03',
+      retrieved_at: FETCHED_AT,
+    });
+    expect(r.results[0].match).toContain('defines the term');
+    expect(r.results[0].snippet).toContain('"**general holiday**" means New Year’s Day');
+    expect(at(r.results, 'L-2', '192')).toBeGreaterThan(0);
+    expect(r.notice).toBe(FEDERAL_NOTICE);
+  });
+
+  it('finds severance pay in s.235, whose only mention of it is the Division heading above it', async () => {
+    const r = await client().fed.search('"severance pay"');
+    const rank = at(r.results, 'L-2', '235');
+    expect(rank).toBeGreaterThan(0);
+    expect(rank).toBeLessThanOrEqual(3);
+    const s235 = r.results[rank - 1];
+    expect(s235.match).toContain('heading above the section');
+    expect(s235.snippet.startsWith('[DIVISION XI — **Severance Pay**] 235 (1) An employer who terminates')).toBe(true);
+  });
+
+  it('puts s.174 in the top 3 for overtime', async () => {
+    const rank = at((await client().fed.search('overtime')).results, 'L-2', '174');
+    expect(rank).toBeGreaterThan(0);
+    expect(rank).toBeLessThanOrEqual(3);
+  });
+
+  it('takes a wildcard at the end of a word, and matches ’ and \' alike', async () => {
+    expect(at((await client().fed.search('break*')).results, 'L-2', '169.1')).toBeGreaterThan(0);
+    expect((await client().fed.search("\"employers' organization\"")).results.some((x) => x.section === '166')).toBe(true);
+  });
+
+  it('searches the Code and the regulations the official list puts under it, and nothing else', async () => {
+    const { fed, fetcher } = client([xmlRoute('E-5.6', '<Statute/>')]);
+    const r = await fed.search('"break" OR "breaks"', 20);
+    expect(fetcher.calls).toEqual(expect.arrayContaining([`${FED}/eng/XML/L-2.xml`, `${FED}/eng/XML/C.R.C.,_c._986.xml`, `${FED}/eng/XML/SOR-2021-200.xml`]));
+    expect(fetcher.calls).not.toContain(`${FED}/eng/XML/E-5.6.xml`);
+    expect(r.documents_searched).toBe(3);
+    expect(r.results.some((x) => x.act_id === 'SOR-2021-200')).toBe(true);
+    for (const n of ['438', '2178', '154.1', '177.2', '312']) expect(r.results.some((x) => x.act_id === 'L-2' && x.section === n), n).toBe(false);
+  });
+
+  it('searches the Code alone, and says so, when the official list cannot be read', async () => {
+    const { fed, fetcher } = client([[(u) => u === `${FED}/eng/XML/Legis.xml`, { status: 500, body: 'error' }]]);
+    const r = await fed.search('overtime');
+    expect(fetcher.calls).not.toContain(`${FED}/eng/XML/C.R.C.,_c._986.xml`);
+    expect(r.documents_searched).toBe(1);
+    expect(r.warnings.join(' ')).toMatch(/official list .*could not be read.*only the Canada Labour Code/);
+  });
+
+  it('reports a regulation it could not read, and still searches the rest', async () => {
+    const r = await client([[(u) => u === `${FED}/eng/XML/C.R.C.,_c._986.xml`, { status: 500, body: 'error' }]]).fed.search('overtime');
+    expect(r.warnings.join(' ')).toMatch(/Canada Labour Standards Regulations \(C\.R\.C\.,_c\._986\).*HTTP 500/);
+    expect(r.results.some((x) => x.section === '174')).toBe(true);
+  });
+
+  it('says what it searched, that matching is literal, and that snippets are cut short', async () => {
+    const r = await client().fed.search('overtime');
+    const notes = r.notes.join(' ');
+    expect(notes).toMatch(/the Canada Labour Code and the 2 regulations made under it/);
+    expect(notes).toMatch(/find_act/);
+    expect(notes).toMatch(/literal/);
+    expect(notes).toMatch(/cut short/);
+  });
+
+  it('rejects an empty query', async () => {
+    await expect(client().fed.search(' "" ')).rejects.toBeInstanceOf(ToolError);
+  });
+});
+
 describe('FederalClient.findAct (the official list)', () => {
   it('finds the act by its exact title, with the citation from its official page', async () => {
     const { fed, fetcher } = client();
