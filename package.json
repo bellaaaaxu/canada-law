@@ -37,7 +37,8 @@
     "bundle": "tsx scripts/build.ts",
     "smoke": "tsx scripts/smoke.ts",
     "smoke:install": "tsx scripts/smoke-install.ts",
-    "activation": "npm run bundle && tsx scripts/activation.ts"
+    "activation": "npm run bundle && tsx scripts/activation.ts",
+    "compare": "npm run bundle && tsx scripts/compare.ts"
   },
   "devDependencies": {
     "@anthropic-ai/mcpb": "^2.1.2",
