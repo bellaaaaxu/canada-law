@@ -125,6 +125,16 @@ describe('FederalClient.getSection', () => {
     await expect(client([xmlRoute('C-49', fx('fed-C-49.xml'))]).fed.getSection('C-49', '1')).rejects.toThrow(/Advance Payments for Crops Act.*repealed/i);
   });
 
+  it('reads a range as the table of contents prints it ("163 to 165")', async () => {
+    const r = await client().fed.getSection('L-2', '163 to 165');
+    expect(r.text).toBe('163 to 165 [Repealed, R.S., 1985, c. 9 (1st Supp.), s. 4]');
+  });
+
+  it('points to the right jurisdiction when given a BC act_id', async () => {
+    const r404: Route = [(u) => u === `${FED}/eng/XML/96113_01.xml`, { status: 404, body: 'Page not Found' }];
+    await expect(client([r404]).fed.getSection('96113_01', '40')).rejects.toThrow(/looks like a BC act_id.*"bc"/);
+  });
+
   it('rejects an id that could leave the XML folder, before asking Justice Laws', async () => {
     const { fed, fetcher } = client();
     await expect(fed.getSection('../etc', '1')).rejects.toBeInstanceOf(ToolError);
@@ -341,6 +351,11 @@ describe('FederalClient.findAct (the official list)', () => {
   it('searches English titles only, and returns nothing rather than guessing', async () => {
     expect(await client().fed.findAct('Code canadien du travail')).toEqual([]);
     expect(await client().fed.findAct('Ontario Employment Standards')).toEqual([]);
+  });
+
+  it('says why a citation is missing when the official page cannot be read', async () => {
+    const [act] = await client([[(u) => u === `${FED}/eng/acts/L-2/index.html`, { status: 500, body: 'error' }]]).fed.findAct('Canada Labour Code');
+    expect(act).toMatchObject({ act_id: 'L-2', citation: '', note: expect.stringMatching(/official page could not be read/) });
   });
 
   it('rejects an empty name', async () => {

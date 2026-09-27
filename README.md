@@ -112,7 +112,7 @@ The Claude Desktop extension (`.mcpb`) was also checked on a real installation (
 
 - **Five tools:** `find_act`, `get_toc`, `get_section`, `search_law` and `map_term`. The skill runs the same functions as the commands `find`, `toc`, `section`, `search` and `term`.
 - **Glossary:** 58 everyday words, in Chinese and in plain English (such as 加班费, "stat holiday", "severance"), mapped to the words each statute actually uses: BC law says "statutory holiday" where federal law says "general holiday". Each of its 104 entries is checked against the official text.
-- **What is searched:** all of BC's statutes and regulations; for federal law, the *Canada Labour Code* and the regulations made under it (32 on the official list in September 2026). Any other federal act or regulation can still be read section by section.
+- **What is searched:** all of BC's statutes and regulations; for federal law, the *Canada Labour Code* and the regulations made under it (32 on the official list in September 2026, two of them wholly repealed). Any other federal act or regulation can still be read section by section.
 - **Citations:** every result carries the act, the section, a link to the section, and the official "current to" date, read from the official page.
 - **Privacy:** everything runs on your computer. Your questions go only to the AI assistant you already use. This package only asks BC Laws (www.bclaws.gov.bc.ca) and the Justice Laws Website (laws-lois.justice.gc.ca) for statute text, and collects nothing.
 

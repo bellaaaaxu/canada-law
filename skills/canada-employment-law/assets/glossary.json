@@ -46,7 +46,7 @@
   ],
   "年假": [
     { "jurisdiction": "bc", "en_terms": ["annual vacation"], "acts": [{ "act_id": "96113_01", "where": "s.57; Part 7" }] },
-    { "jurisdiction": "federal", "en_terms": ["annual vacation", "annual vacations"], "acts": [{ "act_id": "L-2", "where": "s.184; Division IV" }] }
+    { "jurisdiction": "federal", "en_terms": ["annual vacation", "annual vacations"], "acts": [{ "act_id": "L-2", "where": "s.184; Part III; Division IV" }] }
   ],
   "年假工资": [
     { "jurisdiction": "bc", "en_terms": ["vacation pay"], "acts": [{ "act_id": "96113_01", "where": "s.58" }] },

@@ -38,6 +38,12 @@ describe('BcClient.getSection', () => {
     await expect(client.getSection('96113_01', '999')).rejects.toThrow(/No section 999 .*get_toc/);
   });
 
+  it('points to the right jurisdiction when given a federal act_id', async () => {
+    const fetcher = fakeFetcher(esaRoutes);
+    await expect(new BcClient({ fetcher }).getSection('L-2', '169.1')).rejects.toThrow(/looks like a federal act_id.*"federal"/);
+    expect(fetcher.calls).toHaveLength(0);
+  });
+
   it('rejects a malformed section number before calling BC Laws', async () => {
     const fetcher = fakeFetcher(esaRoutes);
     const client = new BcClient({ fetcher });

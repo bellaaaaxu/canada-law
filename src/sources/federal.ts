@@ -31,7 +31,7 @@ const sectionUrl = (kind: FedDocInfo['kind'], id: string, num: string) => `${FED
 const word = (kind: FedDocInfo['kind']) => (kind === 'regulation' ? 'regulation' : 'act');
 
 type Loaded = { id: string; doc: XNode; info: FedDocInfo; fetchedAt: string };
-type Searchable = { info: FedDocInfo; records: SectionRecord[] };
+type Searchable = { fetchedAt: string; info: FedDocInfo; records: SectionRecord[] };
 export type Scored = { result: SearchResult; score: number };
 
 export class FederalClient {
@@ -62,7 +62,14 @@ export class FederalClient {
       .slice(0, 10);
     // The list's numbers are not the citations the official pages print (SPEC), so each candidate's page is read.
     const pages = await mapLimit(found, CONCURRENCY, ({ e }) => this.pageMeta(e.kind, e.id));
-    return found.map(({ e }, i) => ({ act_id: e.id, title: e.title, citation: pages[i].citation ?? '', type: e.kind, source_url: fedPageUrl(e.kind, e.id) }));
+    return found.map(({ e }, i) => ({
+      act_id: e.id,
+      title: e.title,
+      citation: pages[i].citation ?? '',
+      type: e.kind,
+      source_url: fedPageUrl(e.kind, e.id),
+      ...(pages[i].citation ? {} : { note: 'citation not shown: the official page could not be read' }),
+    }));
   }
 
   // ---------- get_toc ----------
@@ -94,7 +101,9 @@ export class FederalClient {
   // ---------- get_section ----------
 
   async getSection(actId: string, section: string) {
-    const num = normalizeSection(section);
+    // A range is taken as get_toc prints it ("163 to 165"); anything else must be a plain section number.
+    const range = section.trim().replace(/\s+/g, ' ');
+    const num = /^\d+(?:\.\d+)* (?:to|and) \d+(?:\.\d+)*$/.test(range) ? range : normalizeSection(section);
     const { id, doc, info, fetchedAt } = await this.load(actId);
     const title = info.title ?? id;
     if (info.allRepealed) {
@@ -314,15 +323,13 @@ export class FederalClient {
     return [{ ...code, title: act.title }, ...regs.flatMap((e) => (e ? [{ id: e.id, title: e.title, kind: e.kind }] : []))];
   }
 
+  /** One entry per document: a newer copy (the cache refetches daily) replaces the old one instead of piling up. */
   private toSearchable(res: FetchResult): Searchable {
-    const key = `${res.url}@${res.fetchedAt}`;
-    let s = this.searchable.get(key);
-    if (!s) {
-      const doc = parseXml(res.body);
-      s = { info: fedDocInfo(doc), records: sectionRecords(doc) };
-      this.searchable.set(key, s);
-      if (this.searchable.size > 80) this.searchable.delete(this.searchable.keys().next().value as string);
-    }
+    const held = this.searchable.get(res.url);
+    if (held?.fetchedAt === res.fetchedAt) return held;
+    const doc = parseXml(res.body);
+    const s = { fetchedAt: res.fetchedAt, info: fedDocInfo(doc), records: sectionRecords(doc) };
+    this.searchable.set(res.url, s);
     return s;
   }
 
@@ -331,7 +338,10 @@ export class FederalClient {
   protected async load(actId: string): Promise<Loaded> {
     const id = normalizeFedId(actId);
     const res = await this.fetcher(xmlUrl(id));
-    if (res.status === 404) throw new ToolError(`No federal act or regulation with act_id "${id}". Look up the id with find_act (tool) or find (command).`);
+    if (res.status === 404) {
+      const hint = /^[A-Z]?\d+[A-Z]?_\w+$/.test(id) ? ' It looks like a BC act_id: use jurisdiction "bc".' : '';
+      throw new ToolError(`No federal act or regulation with act_id "${id}".${hint} Look up the id with find_act (tool) or find (command).`);
+    }
     if (res.status !== 200) throw new ToolError(`Justice Laws returned HTTP ${res.status} for ${id}.`);
     const doc = this.parse(res);
     const info = fedDocInfo(doc);

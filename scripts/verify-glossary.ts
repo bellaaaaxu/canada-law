@@ -4,7 +4,7 @@
 // statutory wording). A federal section is read together with the headings above it: federal law often names a thing
 // only there (s.206 is under "Maternity Leave", s.235 under "DIVISION XI — Severance Pay").
 import { fileURLToPath } from 'node:url';
-import { loadGlossary, parseWhere, type GlossaryEntry } from '../src/glossary.js';
+import { findTitleLine, loadGlossary, parseWhere, type GlossaryEntry } from '../src/glossary.js';
 import { createCachedFetcher } from '../src/http.js';
 import { BcClient } from '../src/sources/bc.js';
 import { FederalClient } from '../src/sources/federal.js';
@@ -25,15 +25,6 @@ async function sectionText(e: GlossaryEntry, actId: string, s: string) {
   }
   const r = await bc.getSection(actId, s);
   return { label: `s.${s} ${r.citation.heading}`, text: `${r.citation.heading ?? ''}\n${r.text}` };
-}
-
-/** The outline line of a Part or Division: "Part 4 — …" (BC), "PART III — …" / "DIVISION XI — …" (federal). */
-function titleLine(outline: string, kind: 'Part' | 'Division', num: string): string | null {
-  const re = new RegExp(`^${kind} ${escape(num)} — `, 'i');
-  return outline
-    .split('\n')
-    .map((l) => l.trim())
-    .find((l) => re.test(l)) ?? null;
 }
 
 let failures = 0;
@@ -64,11 +55,13 @@ for (const [key, entries] of Object.entries(glossary)) {
         const toc = e.jurisdiction === 'federal' ? await federal.getToc(ref.act_id) : await bc.getToc(ref.act_id);
         for (const [kind, nums] of [['Part', parts], ['Division', divisions]] as const) {
           for (const n of nums) {
-            const line = titleLine(toc.outline, kind, n);
-            if (!line) {
-              problems.push(`${kind} ${n} not found in ${ref.act_id}`);
+            // "Part III; Division IV": the Division is looked for in that Part
+            const found = findTitleLine(toc.outline, kind, n, kind === 'Division' && parts.length === 1 ? parts[0] : undefined);
+            if ('error' in found) {
+              problems.push(`${ref.act_id}: ${found.error}`);
               continue;
             }
+            const line = found.line;
             evidence.push(`${ref.act_id} ${line}`);
             e.en_terms.filter((t) => has(line, t)).forEach((t) => termSeen.add(t)); // a Part or Division title is statutory text too
           }

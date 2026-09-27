@@ -8,16 +8,15 @@ type Scored = Awaited<ReturnType<FederalClient['searchScored']>>;
 const EMPTY: Scored = { output: { query: '', documents_searched: 0, results: [], warnings: [], notes: [], notice: '' }, scored: [] };
 
 export async function searchAll(sources: { bc: BcClient; federal: FederalClient }, query: string, limit = 10) {
-  // One side failing (BC Laws or Justice Laws down) still returns the other side, with a warning.
+  // One side failing, for any reason (a site down, "fetch failed"), still returns the other side, with a warning.
   const [bs, fs] = await Promise.allSettled([sources.bc.searchScored(query, limit), sources.federal.searchScored(query, limit)]);
-  const failed = [bs, fs].filter((s): s is PromiseRejectedResult => s.status === 'rejected');
-  if (failed.length === 2) throw failed[0].reason;
-  for (const f of failed) if (!(f.reason instanceof ToolError)) throw f.reason;
+  const why = (s: PromiseRejectedResult) => (s.reason instanceof Error ? s.reason.message : String(s.reason));
+  if (bs.status === 'rejected' && fs.status === 'rejected') throw new ToolError(`BC search failed: ${why(bs)} Federal search failed: ${why(fs)}`);
   const b = bs.status === 'fulfilled' ? bs.value : EMPTY;
   const f = fs.status === 'fulfilled' ? fs.value : EMPTY;
   const lost = [
-    ...(bs.status === 'rejected' ? [`BC search failed, so only federal results are shown: ${(bs.reason as Error).message}`] : []),
-    ...(fs.status === 'rejected' ? [`Federal search failed, so only BC results are shown: ${(fs.reason as Error).message}`] : []),
+    ...(bs.status === 'rejected' ? [`BC search failed, so only federal results are shown: ${why(bs)}`] : []),
+    ...(fs.status === 'rejected' ? [`Federal search failed, so only BC results are shown: ${why(fs)}`] : []),
   ];
   const results = [...b.scored, ...f.scored] // BC first among equal scores
     .map((s, order) => ({ ...s, order }))

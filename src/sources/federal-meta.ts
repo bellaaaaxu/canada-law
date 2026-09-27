@@ -84,11 +84,14 @@ export function parseLegis(xml: string): LegisEntry[] {
 
 // ---------- ids ----------
 
-/** "C.R.C., c. 986" → "C.R.C.,_c._986"; "SOR/86-304" → "SOR-86-304"; anything that is not a plain id → ToolError. */
+/**
+ * "C.R.C., c. 986" → "C.R.C.,_c._986"; "SOR/86-304" → "SOR-86-304"; "l-2" → "L-2" (the XML addresses are upper case);
+ * anything that is not a plain id → ToolError.
+ */
 export function normalizeFedId(input: string): string {
   const t = input.trim();
   const crc = t.match(/^C\.R\.C\.,?[\s_]*c\.[\s_]*(\d+)$/i);
-  const id = crc ? `C.R.C.,_c._${crc[1]}` : t.replace(/^(SOR|SI)\/(\d+-\d+)$/i, '$1-$2');
+  const id = crc ? `C.R.C.,_c._${crc[1]}` : t.replace(/^(SOR|SI)\/(\d+-\d+)$/i, '$1-$2').toUpperCase();
   if (!/^[A-Za-z0-9][A-Za-z0-9.,_-]*$/.test(id) || id.includes('..')) {
     throw new ToolError(`act_id "${input}" is not a Justice Laws id (such as L-2 or C.R.C.,_c._986). Look it up with find_act (tool) or find (command).`);
   }

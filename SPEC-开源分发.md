@@ -70,14 +70,16 @@ license: MIT
 compatibility: Requires Node.js 20+ and internet access to www.bclaws.gov.bc.ca
 ```
 
-小程序的命令，输出和 MCP 工具同样格式的 JSON（引用契约不变）：
+小程序的命令，输出和 MCP 工具同样格式的 JSON（引用契约不变）。M2（v0.2）起 `search`、`find` 要写辖区，`section`、`toc` 从 act_id 分辨：
 
 ```bash
 node scripts/bclaw.mjs term 法定假日
-node scripts/bclaw.mjs search "statutory holiday" "statutory holidays"
+node scripts/bclaw.mjs search bc "statutory holiday" "statutory holidays"
+node scripts/bclaw.mjs search federal "general holiday" "general holidays"
 node scripts/bclaw.mjs section 96113_01 40
+node scripts/bclaw.mjs section L-2 166
 node scripts/bclaw.mjs toc 96113_01
-node scripts/bclaw.mjs find "Employment Standards Act"
+node scripts/bclaw.mjs find bc "Employment Standards Act"
 ```
 
 - `search` 每个参数是一个短语，程序自己加引号、用 OR 连起来。这样 AI 不用在 Windows 命令行里嵌套引号

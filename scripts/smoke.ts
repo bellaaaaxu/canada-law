@@ -35,7 +35,10 @@ try {
     `current_to=${fed.citation?.current_to}`,
   );
   const fedSearch = JSON.parse(run('search', 'federal', 'general holiday', 'general holidays'));
-  check('skill: search federal "general holiday"', fedSearch.results?.[0]?.section === '166', `first: ${fedSearch.results?.[0]?.act_id} s.${fedSearch.results?.[0]?.section}; ${fedSearch.documents_searched} documents`);
+  check('skill: search federal "general holiday"', fedSearch.results?.[0]?.section === '166', `first: ${fedSearch.results?.[0]?.act_id} s.${fedSearch.results?.[0]?.section}`);
+  // Canary: every federal golden answer is in the Code itself, so a list that stopped naming its regulations would
+  // pass golden unnoticed. 33 documents on 2026-09-26 (the Code and 32 regulations).
+  check('skill: federal search read the Code and its regulations', fedSearch.documents_searched >= 30 && fedSearch.warnings?.length === 0, `${fedSearch.documents_searched} documents; warnings: ${fedSearch.warnings?.length}`);
 
   // 2. the single-file MCP server on its own
   copyFileSync(join(root, 'mcp', 'canada-law-mcp.mjs'), join(work, 'canada-law-mcp.mjs'));

@@ -51,6 +51,8 @@ describe('published documents', () => {
     'Employment Insurance (EI)',
     'Canada Pension Plan (CPP)',
     'Say which law you answered from',
+    'Decide which law applies',
+    'give the terms of both jurisdictions', // code review 2026-09-26: "all" with one side's terms under-searches the other
     'https://www.canada.ca/en/services/jobs/workplace/federal-labour-standards/filing-complaint.html',
     "Text from BC Laws (www.bclaws.gov.bc.ca) under the King's Printer Licence; not an official version.",
     'Text from the Justice Laws Website (laws-lois.justice.gc.ca); not an official version.',

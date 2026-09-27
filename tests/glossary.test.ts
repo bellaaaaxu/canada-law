@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { loadGlossary, lookupTerm, parseWhere, termsInText, type Glossary } from '../src/glossary.js';
+import { findTitleLine, loadGlossary, lookupTerm, parseWhere, termsInText, type Glossary } from '../src/glossary.js';
 
 const g: Glossary = {
   加班: [{ jurisdiction: 'bc', en_terms: ['overtime'], acts: [{ act_id: '96113_01', where: 's.40; Part 4' }] }],
@@ -116,6 +116,33 @@ describe('data/glossary.json', () => {
     expect(enTerms('sick leave')).toContain('illness or injury leave');
     expect(enTerms('lunch break')).toContain('meal break');
     expect(enTerms('stat holiday')).toContain('statutory holiday');
+  });
+});
+
+describe('findTitleLine (a Part or Division in a table of contents, for verify-glossary)', () => {
+  const outline = [
+    'PART I — Industrial Relations',
+    '  DIVISION IV — Collective Bargaining and Collective Agreements',
+    '    48  Notice to bargain collectively',
+    'PART III — Standard Hours, Wages, Vacations and Holidays',
+    '  DIVISION IV — Annual Vacations',
+    '    184  Annual vacation with pay',
+    '  DIVISION XI — Severance Pay',
+  ].join('\n');
+
+  it('finds a Division within the Part named with it', () => {
+    expect(findTitleLine(outline, 'Division', 'IV', 'III')).toEqual({ line: 'DIVISION IV — Annual Vacations' });
+  });
+
+  it('refuses a Division number the act uses twice when no Part is named (the Code has Divisions I to VII in Parts I and III)', () => {
+    expect(findTitleLine(outline, 'Division', 'IV')).toEqual({ error: 'Division IV appears 2 times: name its Part too, e.g. "Part III; Division IV"' });
+  });
+
+  it('finds a Part, a unique Division, and a BC Part', () => {
+    expect(findTitleLine(outline, 'Part', 'III')).toEqual({ line: 'PART III — Standard Hours, Wages, Vacations and Holidays' });
+    expect(findTitleLine(outline, 'Division', 'XI')).toEqual({ line: 'DIVISION XI — Severance Pay' });
+    expect(findTitleLine('Part 4 — Hours of Work and Overtime\n  35  Maximum hours of work', 'Part', '4')).toEqual({ line: 'Part 4 — Hours of Work and Overtime' });
+    expect(findTitleLine(outline, 'Division', 'XX')).toEqual({ error: 'Division XX not found' });
   });
 });
 

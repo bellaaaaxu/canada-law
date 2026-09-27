@@ -40,6 +40,27 @@ export function parseWhere(where: string): { sections: string[]; parts: string[]
   };
 }
 
+/**
+ * The outline line of a Part or Division ("Part 4 — …", "PART III — …", "DIVISION XI — …"), looked for within the named
+ * Part when there is one. The Canada Labour Code has Divisions I to VII in both Part I and Part III, so a Division number
+ * that appears more than once needs its Part.
+ */
+export function findTitleLine(outline: string, kind: 'Part' | 'Division', num: string, part?: string): { line: string } | { error: string } {
+  const lines = outline.split('\n').map((l) => l.trim());
+  const isTitle = (l: string, k: string, n: string) => new RegExp(`^${k} ${escapeRe(n)} — `, 'i').test(l);
+  let scope = lines;
+  if (kind === 'Division' && part) {
+    const start = lines.findIndex((l) => isTitle(l, 'Part', part));
+    if (start < 0) return { error: `Part ${part} not found` };
+    const end = lines.findIndex((l, i) => i > start && /^Part \S+ — /i.test(l));
+    scope = lines.slice(start + 1, end < 0 ? undefined : end);
+  }
+  const found = scope.filter((l) => isTitle(l, kind, num));
+  if (found.length === 0) return { error: `${kind} ${num} not found` };
+  if (found.length > 1) return { error: `${kind} ${num} appears ${found.length} times: name its Part too, e.g. "Part III; ${kind} ${num}"` };
+  return { line: found[0] };
+}
+
 const isAscii = (s: string) => /^[\x00-\x7f]*$/.test(s);
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 

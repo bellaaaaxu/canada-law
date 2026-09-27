@@ -93,7 +93,7 @@ var init_define_GLOSSARY = __esm({
       ],
       \u5E74\u5047: [
         { jurisdiction: "bc", en_terms: ["annual vacation"], acts: [{ act_id: "96113_01", where: "s.57; Part 7" }] },
-        { jurisdiction: "federal", en_terms: ["annual vacation", "annual vacations"], acts: [{ act_id: "L-2", where: "s.184; Division IV" }] }
+        { jurisdiction: "federal", en_terms: ["annual vacation", "annual vacations"], acts: [{ act_id: "L-2", where: "s.184; Part III; Division IV" }] }
       ],
       \u5E74\u5047\u5DE5\u8D44: [
         { jurisdiction: "bc", en_terms: ["vacation pay"], acts: [{ act_id: "96113_01", where: "s.58" }] },
@@ -26506,6 +26506,61 @@ function classifyDoc(d) {
   return { kind: "other", reason: rest[0].replace(/^\d+_/, "") };
 }
 
+// src/sources/federal-meta.ts
+init_define_GLOSSARY();
+var FED_BASE = "https://laws-lois.justice.gc.ca";
+var text = (html) => decodeEntities(html.replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim();
+function parseFedPage(html) {
+  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
+  const head = h1 ? text(h1[1]).match(/^(.*?)\s*\(((?:[^()]|\([^()]*\))*)\)$/) : null;
+  const line = text(html).match(/(?:Act|Regulations are) current to (\d{4}-\d{2}-\d{2})(?: and last amended on (\d{4}-\d{2}-\d{2}))?/);
+  return {
+    title: head ? head[1] : h1 ? text(h1[1]) || null : null,
+    citation: head ? head[2] : null,
+    currentTo: line ? line[1] : null,
+    lastAmended: line?.[2] ?? null
+  };
+}
+var field = (block, name) => {
+  const m = block.match(new RegExp(`<${name}>([^<]*)</${name}>`));
+  return m ? decodeEntities(m[1]).trim() : null;
+};
+var idFromLink = (link) => link ? decodeURIComponent(link.replace(/^.*\/XML\//, "").replace(/\.xml$/i, "")) : null;
+function parseLegis(xml) {
+  const out = [];
+  for (const m of xml.matchAll(/<Act>([\s\S]*?)<\/Act>/g)) {
+    const b = m[1];
+    const id = idFromLink(field(b, "LinkToXML"));
+    if (field(b, "Language") !== "eng" || !id) continue;
+    out.push({
+      id,
+      uniqueId: field(b, "UniqueId") ?? id,
+      kind: "act",
+      title: field(b, "Title") ?? id,
+      officialNumber: field(b, "OfficialNumber"),
+      ref: null,
+      regRefs: [...b.matchAll(/<Reg idRef="([^"]*)"/g)].map((r) => r[1])
+    });
+  }
+  for (const m of xml.matchAll(/<Regulation id="([^"]*)"[^>]*>([\s\S]*?)<\/Regulation>/g)) {
+    const b = m[2];
+    const id = idFromLink(field(b, "LinkToXML"));
+    if (field(b, "Language") !== "eng" || !id) continue;
+    out.push({ id, uniqueId: field(b, "UniqueId") ?? id, kind: "regulation", title: field(b, "Title") ?? id, officialNumber: null, ref: m[1], regRefs: [] });
+  }
+  return out;
+}
+function normalizeFedId(input) {
+  const t = input.trim();
+  const crc = t.match(/^C\.R\.C\.,?[\s_]*c\.[\s_]*(\d+)$/i);
+  const id = crc ? `C.R.C.,_c._${crc[1]}` : t.replace(/^(SOR|SI)\/(\d+-\d+)$/i, "$1-$2").toUpperCase();
+  if (!/^[A-Za-z0-9][A-Za-z0-9.,_-]*$/.test(id) || id.includes("..")) {
+    throw new ToolError(`act_id "${input}" is not a Justice Laws id (such as L-2 or C.R.C.,_c._986). Look it up with find_act (tool) or find (command).`);
+  }
+  return id;
+}
+var isFederalId = (id) => /[-/]/.test(id) || /^C\.R\.C\./i.test(id.trim());
+
 // src/sources/bc.ts
 var BASE = "https://www.bclaws.gov.bc.ca/civix";
 var DOC = `${BASE}/document/id/complete/statreg/`;
@@ -26698,7 +26753,10 @@ var BcClient = class {
   }
   /** Loads an act/regulation XML. A multi-document act's table-of-contents id is followed to its "_multi" document. */
   async loadDoc(actId) {
-    if (!/^[A-Za-z0-9_]+$/.test(actId)) throw new ToolError(`act_id "${actId}" is not a BC Laws document id. Look it up with find_act (tool) or find (command).`);
+    if (!/^[A-Za-z0-9_]+$/.test(actId)) {
+      const hint = isFederalId(actId) ? ' It looks like a federal act_id: use jurisdiction "federal".' : "";
+      throw new ToolError(`act_id "${actId}" is not a BC Laws document id.${hint} Look it up with find_act (tool) or find (command).`);
+    }
     let id = actId;
     let res = await this.fetchDoc(id);
     if (/<html[^>]*data-ismulti="true"/.test(res.body.slice(0, 3e3)) && !id.endsWith("_multi")) {
@@ -26771,60 +26829,6 @@ async function mapLimit(items, limit, fn) {
 // src/sources/federal.ts
 init_define_GLOSSARY();
 
-// src/sources/federal-meta.ts
-init_define_GLOSSARY();
-var FED_BASE = "https://laws-lois.justice.gc.ca";
-var text = (html) => decodeEntities(html.replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim();
-function parseFedPage(html) {
-  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
-  const head = h1 ? text(h1[1]).match(/^(.*?)\s*\(((?:[^()]|\([^()]*\))*)\)$/) : null;
-  const line = text(html).match(/(?:Act|Regulations are) current to (\d{4}-\d{2}-\d{2})(?: and last amended on (\d{4}-\d{2}-\d{2}))?/);
-  return {
-    title: head ? head[1] : h1 ? text(h1[1]) || null : null,
-    citation: head ? head[2] : null,
-    currentTo: line ? line[1] : null,
-    lastAmended: line?.[2] ?? null
-  };
-}
-var field = (block, name) => {
-  const m = block.match(new RegExp(`<${name}>([^<]*)</${name}>`));
-  return m ? decodeEntities(m[1]).trim() : null;
-};
-var idFromLink = (link) => link ? decodeURIComponent(link.replace(/^.*\/XML\//, "").replace(/\.xml$/i, "")) : null;
-function parseLegis(xml) {
-  const out = [];
-  for (const m of xml.matchAll(/<Act>([\s\S]*?)<\/Act>/g)) {
-    const b = m[1];
-    const id = idFromLink(field(b, "LinkToXML"));
-    if (field(b, "Language") !== "eng" || !id) continue;
-    out.push({
-      id,
-      uniqueId: field(b, "UniqueId") ?? id,
-      kind: "act",
-      title: field(b, "Title") ?? id,
-      officialNumber: field(b, "OfficialNumber"),
-      ref: null,
-      regRefs: [...b.matchAll(/<Reg idRef="([^"]*)"/g)].map((r) => r[1])
-    });
-  }
-  for (const m of xml.matchAll(/<Regulation id="([^"]*)"[^>]*>([\s\S]*?)<\/Regulation>/g)) {
-    const b = m[2];
-    const id = idFromLink(field(b, "LinkToXML"));
-    if (field(b, "Language") !== "eng" || !id) continue;
-    out.push({ id, uniqueId: field(b, "UniqueId") ?? id, kind: "regulation", title: field(b, "Title") ?? id, officialNumber: null, ref: m[1], regRefs: [] });
-  }
-  return out;
-}
-function normalizeFedId(input) {
-  const t = input.trim();
-  const crc = t.match(/^C\.R\.C\.,?[\s_]*c\.[\s_]*(\d+)$/i);
-  const id = crc ? `C.R.C.,_c._${crc[1]}` : t.replace(/^(SOR|SI)\/(\d+-\d+)$/i, "$1-$2");
-  if (!/^[A-Za-z0-9][A-Za-z0-9.,_-]*$/.test(id) || id.includes("..")) {
-    throw new ToolError(`act_id "${input}" is not a Justice Laws id (such as L-2 or C.R.C.,_c._986). Look it up with find_act (tool) or find (command).`);
-  }
-  return id;
-}
-
 // src/sources/federal-xml.ts
 init_define_GLOSSARY();
 var BR2 = "\uE000";
@@ -26838,7 +26842,10 @@ function inlineRaw2(nodes) {
     if (c.name === "HistoricalNote" || c.name === "MarginalNote" || c.name === "Footnote" || c.name === "FootnoteRef" || c.name === "PageBreak") continue;
     if (c.name === "DefinedTermEn") s += `"${inlineRaw2(c.children).trim()}"`;
     else if (c.name === "Repealed") s += (s !== "" && !/\s$/.test(s) ? " " : "") + inlineRaw2(c.children);
-    else if (c.name === "LineBreak") s += BR2;
+    else if (c.name === "Sup" || c.name === "Sub") {
+      const t = inlineRaw2(c.children).trim();
+      s += (c.name === "Sup" ? "^" : "_") + (/^[A-Za-z0-9]{1,3}$/.test(t) ? t : `(${t})`);
+    } else if (c.name === "LineBreak") s += BR2;
     else if (c.name === "Leader" || c.name === "LeaderRightJustified") s += " ";
     else if (c.name === "ImageGroup" || c.name === "Image") s += "[image omitted: see source_url]";
     else s += inlineRaw2(c.children);
@@ -26950,7 +26957,8 @@ function scheduleTitle(s) {
   return text2 || "Schedule";
 }
 var notTheLaw = (s) => s.attrs.id === "RelatedProvs" || s.attrs.id === "NifProvs";
-function walk(container, base, v) {
+var QUOTED = /* @__PURE__ */ new Set(["ReadAsText", "AmendedText", "HistoricalNote", "Identification"]);
+function walk(container, base, v, schedule) {
   let stack = [];
   const location = () => [...base, ...stack.map((s) => s.text)];
   for (const c of container.children) {
@@ -26963,13 +26971,13 @@ function walk(container, base, v) {
         stack.push({ level, text: text2 });
         v.heading?.(text2, location().length - 1);
       }
-    } else if (c.name === "Section") v.section(c, location());
+    } else if (c.name === "Section") v.section(c, location(), schedule);
     else if (c.name === "Schedule") {
       if (notTheLaw(c)) continue;
       const title = scheduleTitle(c);
       v.heading?.(title, location().length);
-      walk(c, [...location(), title], v);
-    } else if (c.name !== "HistoricalNote" && c.name !== "Identification") walk(c, location(), v);
+      walk(c, [...location(), title], v, title);
+    } else if (!QUOTED.has(c.name)) walk(c, location(), v, schedule);
   }
 }
 function walkLaw(doc, v) {
@@ -26977,32 +26985,37 @@ function walkLaw(doc, v) {
   if (!root) return;
   for (const c of root.children) {
     if (!isEl(c)) continue;
-    if (c.name === "Body") walk(c, [], v);
+    if (c.name === "Body") walk(c, [], v, null);
     else if (c.name === "Schedule" && !notTheLaw(c)) {
       const title = scheduleTitle(c);
       v.heading?.(title, 0);
-      walk(c, [title], v);
+      walk(c, [title], v, title);
     }
   }
 }
-var REPEALED_ONLY = /^\[Repealed\b[^\]]*\]$/;
-function toSection(node, location) {
+var REPEALED_ONLY = /^\[(?:Repealed|Revoked)\b[^\]]*\]$/;
+var NOTE_ONLY = /^\[[^\]]*\]$/;
+function toSection(node, location, schedule) {
   const labelNode = child(node, "Label");
   const num = labelNode ? inlineText2(labelNode) : "";
   const note = child(node, "MarginalNote");
+  const rest = renderFedSection(node).slice(num.length).trim();
+  const repealed = REPEALED_ONLY.test(rest);
   return {
     node,
     num,
     heading: note ? inlineText2(note) : null,
     location,
     nearestHeading: location.at(-1) ?? null,
-    repealed: REPEALED_ONLY.test(renderFedSection(node).slice(num.length).trim()),
-    range: /\s(?:to|and)\s/.test(num)
+    repealed,
+    stub: !repealed && NOTE_ONLY.test(rest),
+    range: /\s(?:to|and)\s/.test(num),
+    schedule
   };
 }
 function bodySections(doc) {
   const out = [];
-  walkLaw(doc, { section: (node, location) => out.push(toSection(node, location)) });
+  walkLaw(doc, { section: (node, location, schedule) => out.push(toSection(node, location, schedule)) });
   return out;
 }
 var parts = (n) => n.split(".").map((p) => parseInt(p, 10));
@@ -27048,12 +27061,46 @@ function fedDocInfo(doc) {
 function instruction(n) {
   return n.children.map((c) => !isEl(c) ? c : c.name === "AmendedText" || c.name === "HistoricalNote" || c.name === "Footnote" ? " " : ` ${instruction(c)} `).join("");
 }
-var PROVISION = String.raw`\b(?:sub)?(?:section|paragraph|subparagraph|clause)s?\b`;
-var CHANGED = new RegExp(String.raw`(${PROVISION}\s(?:(?!${PROVISION})[^:;])*?)\s(?:is|are)\s(?:replaced|amended|repealed)\b`, "gi");
+var NUMBER = String.raw`\d+(?:\.\d+)*(?:\s?\([^)\s]*\))*`;
+var REFERENCE = new RegExp(String.raw`\b(?:sub)?(?:section|paragraph|subparagraph|clause)s?\s+(${NUMBER}(?:\s*(?:,|and|or|to)\s*(?:${NUMBER}|(?:\([^)\s]*\))+))*)`, "gi");
+var OF = /^\s+of\s+(this|these|that|those|the)\s+/i;
+var NAMED = /^(?:(?:English|French) version of (?:the )?)?((?:Act|Regulations)\b|[A-Z][\w’'-]*(?:\s+(?:[A-Z][\w’'-]*|of|and|the|for|to|in|on))*)/;
+function numbersIn(list, own) {
+  const lead = (s) => s?.match(/^\d+(?:\.\d+)*/)?.[0];
+  const parts2 = list.split(/\s*(,|\band\b|\bor\b|\bto\b)\s*/i);
+  const out = [];
+  for (let i = 0; i < parts2.length; i += 2) {
+    const a = lead(parts2[i]);
+    if (!a) continue;
+    const b = parts2[i + 1]?.toLowerCase() === "to" ? lead(parts2[i + 2]) : void 0;
+    if (b) {
+      out.push(a, ...own.filter((n) => compareNums(a, n) < 0 && compareNums(n, b) < 0), b);
+      i += 2;
+    } else out.push(a);
+  }
+  return out;
+}
 function notInForce(doc) {
   const root = doc.children.find(isEl);
   const nif = root?.children.find((c) => isEl(c) && c.name === "Schedule" && c.attrs.id === "NifProvs");
   if (!nif) return [];
+  const info = fedDocInfo(doc);
+  const own = bodySections(doc).map((s) => s.num).filter((n) => /^\d+(?:\.\d+)*$/.test(n));
+  const isThisLaw = (after) => {
+    const of = after.match(OF);
+    if (!of) return true;
+    const det = of[1].toLowerCase();
+    if (det === "this" || det === "these") return false;
+    if (det === "that" || det === "those") return true;
+    const named = after.slice(of[0].length).match(NAMED);
+    if (!named) return false;
+    const name = named[1].replace(/(?:\s+(?:of|and|the|for|to|in|on))+$/, "").toLowerCase();
+    if (name === "act") return info.kind === "act";
+    if (name === "regulations") return info.kind === "regulation";
+    return name === (info.title ?? "").toLowerCase();
+  };
+  const pendingAdded = allOf(nif, "AmendedText").flatMap((t) => allOf(t, "Section").map((s) => child(s, "Label") ? inlineText2(child(s, "Label")) : ""));
+  const known = /* @__PURE__ */ new Set([...own, ...pendingAdded]);
   const out = [];
   const collect = (n) => {
     for (const c of n.children) {
@@ -27076,8 +27123,13 @@ function notInForce(doc) {
         }
       };
       const said = tidy2(instruction(c));
-      for (const m of said.matchAll(CHANGED)) {
-        for (const d of m[1].split(/\sof\s/)[0].matchAll(/(?<![\w.(])(\d+(?:\.\d+)*)/g)) nums.add(d[1]);
+      for (const m of said.matchAll(REFERENCE)) {
+        const start = m.index ?? 0;
+        const before = said.slice(Math.max(0, start - 10), start);
+        if (/\b(?:after|before)\s+$/i.test(before)) continue;
+        if (/\b(?:that|those|this|these)\s+$/i.test(before)) continue;
+        if (!isThisLaw(said.slice(start + m[0].length))) continue;
+        for (const n2 of numbersIn(m[1], own)) if (known.has(n2)) nums.add(n2);
       }
       added(c, false);
       out.push({ citation, sections: [...nums] });
@@ -27090,8 +27142,8 @@ function fedToc(doc) {
   const lines = [];
   walkLaw(doc, {
     heading: (text2, depth) => lines.push(indent2(depth) + text2),
-    section: (node, location) => {
-      const s = toSection(node, location);
+    section: (node, location, schedule) => {
+      const s = toSection(node, location, schedule);
       if (s.num !== "") lines.push(`${indent2(location.length)}${s.num}  ${s.heading ?? (s.repealed ? "Repealed" : "")}`.trimEnd());
     }
   });
@@ -27101,14 +27153,16 @@ function allOf(n, name) {
   return n.children.flatMap((c) => !isEl(c) ? [] : c.name === name ? [c, ...allOf(c, name)] : allOf(c, name));
 }
 function sectionRecords(doc) {
-  return bodySections(doc).filter((s) => /^\d/.test(s.num) && !s.range && !s.repealed).map((s) => ({
+  return bodySections(doc).filter((s) => /^\d/.test(s.num) && !s.range && !s.repealed && !s.stub).map((s) => ({
     num: s.num,
     heading: s.heading,
     nearestHeading: s.nearestHeading,
     location: s.location,
     text: renderFedSection(s.node),
     notes: allOf(s.node, "MarginalNote").map((m) => inlineText2(m)).join(" | "),
-    definedTerms: allOf(s.node, "DefinedTermEn").map((d) => inlineText2(d))
+    definedTerms: allOf(s.node, "Definition").flatMap((d) => allOf(d, "DefinedTermEn").map((t) => inlineText2(t))),
+    schedule: s.schedule,
+    notInForce: s.node.attrs["in-force"] === "no" ? "whole" : hasNotInForcePart(s.node) ? "part" : null
   }));
 }
 
@@ -27141,7 +27195,14 @@ var FederalClient = class {
     };
     const found = (await this.legis()).map((e, order) => ({ e, r: rank(e), order })).filter((x) => x.r >= 0).sort((a, b) => a.r - b.r || (a.e.kind === b.e.kind ? 0 : a.e.kind === "act" ? -1 : 1) || a.e.title.length - b.e.title.length || a.order - b.order).slice(0, 10);
     const pages = await mapLimit(found, CONCURRENCY2, ({ e }) => this.pageMeta(e.kind, e.id));
-    return found.map(({ e }, i) => ({ act_id: e.id, title: e.title, citation: pages[i].citation ?? "", type: e.kind, source_url: fedPageUrl(e.kind, e.id) }));
+    return found.map(({ e }, i) => ({
+      act_id: e.id,
+      title: e.title,
+      citation: pages[i].citation ?? "",
+      type: e.kind,
+      source_url: fedPageUrl(e.kind, e.id),
+      ...pages[i].citation ? {} : { note: "citation not shown: the official page could not be read" }
+    }));
   }
   // ---------- get_toc ----------
   async getToc(actId) {
@@ -27166,7 +27227,8 @@ var FederalClient = class {
   }
   // ---------- get_section ----------
   async getSection(actId, section) {
-    const num = normalizeSection(section);
+    const range = section.trim().replace(/\s+/g, " ");
+    const num = /^\d+(?:\.\d+)* (?:to|and) \d+(?:\.\d+)*$/.test(range) ? range : normalizeSection(section);
     const { id, doc, info, fetchedAt } = await this.load(actId);
     const title = info.title ?? id;
     if (info.allRepealed) {
@@ -27188,9 +27250,19 @@ var FederalClient = class {
     const warnings = docWarnings(info, page);
     if (matches.length > 1) warnings.push(`${matches.length} provisions are numbered ${num} in this ${word(info.kind)} (for example one in a schedule). All are returned; check "location".`);
     for (const m of matches) {
-      if (m.range) warnings.push(`Sections ${m.num} were repealed together. The official website has no page for section ${num} on its own, so source_url is the table of contents.`);
-      else if (m.repealed) warnings.push(`Section ${m.num} is repealed.`);
-      if (hasNotInForcePart(m.node)) warnings.push(`Part of section ${m.num} is not in force yet: it is marked "[Not in force]" (shaded on the official page).`);
+      if (m.range) {
+        warnings.push(
+          `Sections ${m.num} ${m.repealed ? "were repealed together" : "are printed together"}. The official website has no page for section ${num} on its own, so source_url is the table of contents.`
+        );
+      } else if (m.repealed) warnings.push(`Section ${m.num} is repealed.`);
+      else if (m.stub) warnings.push(`Section ${m.num} holds only an editorial note, with no text of its own.`);
+      if (m.schedule) {
+        warnings.push(
+          `Section ${m.num} here is an item of ${m.schedule}, not a section of the ${word(info.kind)} itself. The official website has no page for it on its own, so source_url is the table of contents.`
+        );
+      }
+      if (m.node.attrs["in-force"] === "no") warnings.push(`Section ${m.num} is not in force yet (shaded on the official page).`);
+      else if (hasNotInForcePart(m.node)) warnings.push(`Part of section ${m.num} is not in force yet: it is marked "[Not in force]" (shaded on the official page).`);
       const changes = pendingFor(m.num);
       if (changes.length > 0) {
         warnings.push(
@@ -27206,15 +27278,19 @@ var FederalClient = class {
         act_id: id,
         section: m.num,
         heading: m.heading,
-        source_url: m.range ? fedPageUrl(info.kind, id) : sectionUrl(info.kind, id, m.num),
+        source_url: m.range || m.schedule ? fedPageUrl(info.kind, id) : sectionUrl(info.kind, id, m.num),
         current_to: page.currentTo,
         retrieved_at: fetchedAt
       },
       location: m.location,
       text: renderFedSection(m.node)
     }));
+    const unnamed = pending.filter((a) => a.sections.length === 0).length;
+    const notes = unnamed > 0 ? [
+      `${unnamed} amendment${unnamed === 1 ? "" : "s"} not in force yet ${unnamed === 1 ? "names" : "name"} no particular section (for example a new heading, a schedule or a transitional provision). The official page lists ${unnamed === 1 ? "it" : "them"} under "Amendments not in force".`
+    ] : null;
     const [first, ...others] = results;
-    return { ...first, ...others.length > 0 ? { other_matches: others } : {}, warnings, notice: FEDERAL_NOTICE };
+    return { ...first, ...others.length > 0 ? { other_matches: others } : {}, warnings, ...notes ? { notes } : {}, notice: FEDERAL_NOTICE };
   }
   // ---------- search_law ----------
   async search(query, limit = 10) {
@@ -27222,8 +27298,12 @@ var FederalClient = class {
   }
   /** search() plus each result's score, so that search_law "all" can rank BC and federal results together. */
   async searchScored(query, limit = 10) {
-    const phrases = parsePhrases(query);
+    const { phrases, and } = parsePhrases(query);
     if (phrases.length === 0) throw new ToolError("query is empty.");
+    const wordless = phrases.find((p) => !/[\p{L}\p{N}]/u.test(p));
+    if (wordless) {
+      throw new ToolError(`"${wordless}" is not a search phrase. Give words, e.g. "general holiday" OR "general holidays", or a word ending in * such as break*.`);
+    }
     const alternatives = phrases.map(phrasePattern).join("|");
     const hitsIn = (s) => (s.match(new RegExp(alternatives, "gi")) ?? []).length;
     const has = (s) => s !== null && new RegExp(alternatives, "i").test(s);
@@ -27238,8 +27318,13 @@ var FederalClient = class {
         warnings.push(`${entry.title} (${entry.id}) could not be read (HTTP ${res.status}), so it was not searched.`);
         return [];
       }
-      searched++;
       const { info, records } = this.toSearchable(res);
+      if (info.kind === "unknown") {
+        warnings.push(`${entry.title} (${entry.id}) did not come back as legislation XML, so it was not searched.`);
+        return [];
+      }
+      if (entry.id === SEARCHED_ACT && records.length === 0) warnings.push(`${entry.title} (${entry.id}) came back with no sections, so nothing in it could be searched.`);
+      searched++;
       return records.flatMap((r, secIndex) => {
         const hits = hitsIn(r.text) + hitsIn(r.notes);
         const above = has(r.nearestHeading);
@@ -27253,7 +27338,9 @@ var FederalClient = class {
           ...exact ? ["defines the term"] : partial2 ? ["inside a defined term"] : [],
           ...heading ? ["heading"] : [],
           ...above ? ["heading above the section"] : [],
-          `${hits} hit${hits === 1 ? "" : "s"}`
+          `${hits} hit${hits === 1 ? "" : "s"}`,
+          ...r.schedule ? ["in a schedule"] : [],
+          ...r.notInForce === "whole" ? ["not in force yet"] : r.notInForce === "part" ? ["partly not in force yet"] : []
         ];
         return [{ entry, r, info, fetchedAt: res.fetchedAt, score, match, order: docIndex * 1e5 + secIndex }];
       });
@@ -27280,23 +27367,39 @@ var FederalClient = class {
           act_id: entry.id,
           section: r.num,
           heading: r.heading,
-          source_url: sectionUrl(info.kind, entry.id, r.num),
+          // a schedule item has no page of its own: its number is not a section number of the act
+          source_url: r.schedule ? fedPageUrl(info.kind, entry.id) : sectionUrl(info.kind, entry.id, r.num),
           current_to: page.currentTo,
           retrieved_at: fetchedAt,
           snippet,
-          match
+          match,
+          ...r.schedule ? { schedule: r.schedule } : {}
         }
       };
     });
+    for (const { entry, r } of top) {
+      if (r.notInForce) {
+        warnings.push(
+          `${r.notInForce === "whole" ? `Section ${r.num}` : `Part of section ${r.num}`} of ${entry.title} (${entry.id}) is not in force yet (marked "[Not in force]"); read it with get_section before relying on it.`
+        );
+      }
+    }
     const regs = scope.length - 1;
+    const asked = phrases.map((p) => `"${p}"`).join(" OR ");
+    if (scored.length === 0) {
+      warnings.push(
+        `No section of the ${searched} document${searched === 1 ? "" : "s"} searched matched ${asked}. Matching is literal, so this does not show that the law has no such rule: try other wording, singular and plural, or map_term.`
+      );
+    }
     return {
       output: {
-        query: phrases.map((p) => `"${p}"`).join(" OR "),
+        query: asked,
         documents_searched: searched,
         results: scored.map((s) => s.result),
         warnings,
         notes: [
           `Federal search covers the Canada Labour Code and the ${regs} regulation${regs === 1 ? "" : "s"} made under it, from the official list of acts and regulations. Other federal acts and regulations, and amendments not in force yet, are not searched: find an act with find_act, then read it with get_toc and get_section.`,
+          ...and ? ["Federal search has no AND: the words joined by AND were searched as alternatives, as if joined by OR."] : [],
           LITERAL_NOTE,
           SNIPPET_NOTE
         ],
@@ -27313,29 +27416,37 @@ var FederalClient = class {
       list = await this.legis();
     } catch (e) {
       if (!(e instanceof ToolError)) throw e;
-      warnings.push(`The official list of acts and regulations could not be read (${e.message.match(/HTTP \d+/)?.[0] ?? "error"}), so only the Canada Labour Code itself was searched, not its regulations.`);
+      warnings.push(`The official list of acts and regulations could not be read, so only the Canada Labour Code itself was searched, not its regulations. (${e.message})`);
       return [code];
     }
     const act = list.find((e) => e.id === SEARCHED_ACT);
-    const regs = (act?.regRefs ?? []).flatMap((ref) => list.filter((e) => e.ref === ref));
-    return [{ ...code, title: act?.title ?? code.title }, ...regs.map((e) => ({ id: e.id, title: e.title, kind: e.kind }))];
-  }
-  toSearchable(res) {
-    const key = `${res.url}@${res.fetchedAt}`;
-    let s = this.searchable.get(key);
-    if (!s) {
-      const doc = parseXml2(res.body);
-      s = { info: fedDocInfo(doc), records: sectionRecords(doc) };
-      this.searchable.set(key, s);
-      if (this.searchable.size > 80) this.searchable.delete(this.searchable.keys().next().value);
+    if (act.regRefs.length === 0) warnings.push("The official list names no regulations under the Canada Labour Code, so only the Code itself was searched.");
+    const regs = act.regRefs.map((ref) => list.find((e) => e.ref === ref));
+    const missing = regs.filter((e) => !e).length;
+    if (missing > 0) {
+      warnings.push(
+        `${missing} regulation${missing === 1 ? "" : "s"} the official list puts under the Canada Labour Code ${missing === 1 ? "is" : "are"} not in the list itself, so ${missing === 1 ? "it was" : "they were"} not searched.`
+      );
     }
+    return [{ ...code, title: act.title }, ...regs.flatMap((e) => e ? [{ id: e.id, title: e.title, kind: e.kind }] : [])];
+  }
+  /** One entry per document: a newer copy (the cache refetches daily) replaces the old one instead of piling up. */
+  toSearchable(res) {
+    const held = this.searchable.get(res.url);
+    if (held?.fetchedAt === res.fetchedAt) return held;
+    const doc = parseXml2(res.body);
+    const s = { fetchedAt: res.fetchedAt, info: fedDocInfo(doc), records: sectionRecords(doc) };
+    this.searchable.set(res.url, s);
     return s;
   }
   // ---------- internals ----------
   async load(actId) {
     const id = normalizeFedId(actId);
     const res = await this.fetcher(xmlUrl(id));
-    if (res.status === 404) throw new ToolError(`No federal act or regulation with act_id "${id}". Look up the id with find_act (tool) or find (command).`);
+    if (res.status === 404) {
+      const hint = /^[A-Z]?\d+[A-Z]?_\w+$/.test(id) ? ' It looks like a BC act_id: use jurisdiction "bc".' : "";
+      throw new ToolError(`No federal act or regulation with act_id "${id}".${hint} Look up the id with find_act (tool) or find (command).`);
+    }
     if (res.status !== 200) throw new ToolError(`Justice Laws returned HTTP ${res.status} for ${id}.`);
     const doc = this.parse(res);
     const info = fedDocInfo(doc);
@@ -27363,7 +27474,15 @@ var FederalClient = class {
       throw new ToolError(`The official list of federal acts and regulations could not be read (HTTP ${res.status}). Try again later, or pass a known act_id (such as L-2) to get_toc.`);
     }
     const key = `${res.url}@${res.fetchedAt}`;
-    if (this.legisCache?.key !== key) this.legisCache = { key, entries: parseLegis(res.body) };
+    if (this.legisCache?.key !== key) {
+      const entries = parseLegis(res.body);
+      if (!entries.some((e) => e.id === SEARCHED_ACT)) {
+        throw new ToolError(
+          `The official list of federal acts and regulations could not be read: it came back without ${entries.length === 0 ? "any English entries" : "the Canada Labour Code (L-2)"}, so its format may have changed. Try again later, or pass a known act_id (such as L-2) to get_toc.`
+        );
+      }
+      this.legisCache = { key, entries };
+    }
     return this.legisCache.entries;
   }
 };
@@ -27379,7 +27498,10 @@ function docWarnings(info, page) {
   return w;
 }
 function parsePhrases(query) {
-  return query.split(/\s+OR\s+/).map((p) => p.trim().replace(/^[("\s]+|[)"\s]+$/g, "").trim()).filter(Boolean);
+  const quoted2 = [...query.matchAll(/"([^"]*)"/g)].map((m) => m[1].replace(/\s+/g, " ").trim()).filter(Boolean);
+  const rest = query.replace(/"[^"]*"/g, " ").replace(/["()]/g, " ");
+  const loose = rest.split(/\b(?:OR|AND)\b/i).map((p) => p.replace(/\s+/g, " ").trim()).filter(Boolean);
+  return { phrases: [...quoted2, ...loose], and: /\bAND\b/i.test(rest) };
 }
 function phrasePattern(phrase) {
   const words = phrase.split(/\s+/).map((w) => {
@@ -27514,14 +27636,13 @@ init_define_GLOSSARY();
 var EMPTY = { output: { query: "", documents_searched: 0, results: [], warnings: [], notes: [], notice: "" }, scored: [] };
 async function searchAll(sources, query, limit = 10) {
   const [bs, fs] = await Promise.allSettled([sources.bc.searchScored(query, limit), sources.federal.searchScored(query, limit)]);
-  const failed = [bs, fs].filter((s) => s.status === "rejected");
-  if (failed.length === 2) throw failed[0].reason;
-  for (const f2 of failed) if (!(f2.reason instanceof ToolError)) throw f2.reason;
+  const why = (s) => s.reason instanceof Error ? s.reason.message : String(s.reason);
+  if (bs.status === "rejected" && fs.status === "rejected") throw new ToolError(`BC search failed: ${why(bs)} Federal search failed: ${why(fs)}`);
   const b = bs.status === "fulfilled" ? bs.value : EMPTY;
   const f = fs.status === "fulfilled" ? fs.value : EMPTY;
   const lost = [
-    ...bs.status === "rejected" ? [`BC search failed, so only federal results are shown: ${bs.reason.message}`] : [],
-    ...fs.status === "rejected" ? [`Federal search failed, so only BC results are shown: ${fs.reason.message}`] : []
+    ...bs.status === "rejected" ? [`BC search failed, so only federal results are shown: ${why(bs)}`] : [],
+    ...fs.status === "rejected" ? [`Federal search failed, so only BC results are shown: ${why(fs)}`] : []
   ];
   const results = [...b.scored, ...f.scored].map((s, order) => ({ ...s, order })).sort((x, y) => y.score - x.score || x.order - y.order).slice(0, limit).map((s) => s.result);
   return {
@@ -27569,8 +27690,9 @@ Which law applies:
 
 Steps:
 1. Call map_term with the key legal concept in the user's own words (any language, e.g. Chinese or everyday English such as "stat holiday"). It returns the statutory terms of each jurisdiction: use exactly those of the jurisdiction you search. If it returns [], use your own English wording and say so in the answer.
-2. Call search_law with the jurisdiction and its statutory terms. Matching is literal, so give singular and plural, e.g. "meal break" OR "meal breaks".
-3. Call get_section for every section you will quote, explain or cite, including the sections map_term pointed to, and read the text. Search snippets are cut short, so never work from a snippet. If the answer needs a fact the text does not give (for example the date of a holiday, or who is excluded from a rule), look it up with search_law and get_section too. If you still cannot find it, you may mention it only in part 4 of the answer.
+2. Decide which law applies (see above).
+3. Call search_law with the jurisdiction and its statutory terms. Matching is literal, so give singular and plural, e.g. "meal break" OR "meal breaks". For "all", give the terms of both jurisdictions, e.g. "statutory holiday" OR "general holiday", or search "bc" and "federal" separately.
+4. Call get_section for every section you will quote, explain or cite, including the sections map_term pointed to, and read the text. Search snippets are cut short, so never work from a snippet. If the answer needs a fact the text does not give (for example the date of a holiday, or who is excluded from a rule), look it up with search_law and get_section too. If you still cannot find it, you may mention it only in part 4 of the answer.
 
 Answer in the user's language, in this order:
 1. What the law says - quote the relevant words of the statute in English (the official text).

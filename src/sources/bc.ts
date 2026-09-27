@@ -5,6 +5,7 @@ import { ToolError } from '../tool-error.js';
 import type { ActCandidate, Citation, SearchResult } from '../types.js';
 import { BC_LAWS_NOTICE } from '../notice.js';
 import { classifyDoc, parseFullSearch, parsePageMeta, type PageMeta } from './bc-meta.js';
+import { isFederalId } from './federal-meta.js';
 import {
   analyzeHitSections,
   buildToc,
@@ -261,7 +262,10 @@ export class BcClient {
 
   /** Loads an act/regulation XML. A multi-document act's table-of-contents id is followed to its "_multi" document. */
   private async loadDoc(actId: string): Promise<{ id: string; doc: XNode; fetchedAt: string }> {
-    if (!/^[A-Za-z0-9_]+$/.test(actId)) throw new ToolError(`act_id "${actId}" is not a BC Laws document id. Look it up with find_act (tool) or find (command).`);
+    if (!/^[A-Za-z0-9_]+$/.test(actId)) {
+      const hint = isFederalId(actId) ? ' It looks like a federal act_id: use jurisdiction "federal".' : '';
+      throw new ToolError(`act_id "${actId}" is not a BC Laws document id.${hint} Look it up with find_act (tool) or find (command).`);
+    }
     let id = actId;
     let res = await this.fetchDoc(id);
     if (/<html[^>]*data-ismulti="true"/.test(res.body.slice(0, 3000)) && !id.endsWith('_multi')) {

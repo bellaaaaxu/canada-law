@@ -117,6 +117,28 @@ describe('MCP server', () => {
     expect(body.warnings.join(' ')).toMatch(/BC search failed, so only federal results are shown/);
   });
 
+  it('search_law "all" still returns BC results when Justice Laws cannot be reached at all', async () => {
+    const offline: Fetcher = async (url) => {
+      if (url.startsWith(FED)) throw new TypeError('fetch failed');
+      return fetcher(url);
+    };
+    const client = await connect(offline);
+    const r = await client.callTool({ name: 'search_law', arguments: { query: 'overtime', jurisdiction: 'all' } });
+    expect(r.isError).toBeFalsy();
+    const body = JSON.parse(textOf(r));
+    expect(body.results.some((x: { jurisdiction: string; section: string }) => x.jurisdiction === 'bc' && x.section === '40')).toBe(true);
+    expect(body.warnings.join(' ')).toMatch(/Federal search failed, so only BC results are shown: .*fetch failed/);
+  });
+
+  it('search_law "all" says what went wrong on both sides when both fail', async () => {
+    const client = await connect(async () => {
+      throw new TypeError('fetch failed');
+    });
+    const r = await client.callTool({ name: 'search_law', arguments: { query: 'overtime', jurisdiction: 'all' } });
+    expect(r.isError).toBe(true);
+    expect(textOf(r)).toMatch(/BC search failed: .*fetch failed.*Federal search failed: .*fetch failed/);
+  });
+
   it('search_law "federal" searches federal law only', async () => {
     const client = await connect();
     const body = JSON.parse(textOf(await client.callTool({ name: 'search_law', arguments: { query: '"general holiday" OR "general holidays"', jurisdiction: 'federal' } })));

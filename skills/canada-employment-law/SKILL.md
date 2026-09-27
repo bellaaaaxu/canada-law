@@ -32,7 +32,7 @@ Run it with Node.js 20+ from this skill's folder. It prints JSON; non-ASCII char
 
 1. Take the key legal concept from the question and run `term` with it, in the user's own words. It gives the statutory terms of each jurisdiction: use exactly those of the jurisdiction you search. If it returns `[]`, use your own English wording and say so in the answer.
 2. Decide which law applies (see above).
-3. Run `search` with the jurisdiction and its statutory terms. Matching is literal, so pass singular and plural as separate phrases, e.g. `search bc "statutory holiday" "statutory holidays"` or `search federal "general holiday" "general holidays"`.
+3. Run `search` with the jurisdiction and its statutory terms. Matching is literal, so pass singular and plural as separate phrases, e.g. `search bc "statutory holiday" "statutory holidays"` or `search federal "general holiday" "general holidays"`. For `all`, give the terms of both jurisdictions, e.g. `search all "statutory holiday" "general holiday"`, or search `bc` and `federal` separately.
 4. Run `section` for every section you will quote, explain or cite, including the sections `term` pointed to. Search snippets are cut short, so never work from a snippet. Read the text. If the answer needs a fact the text does not give (for example the date of a holiday, or who is excluded from a rule), look it up with `search` and `section` too. If you still cannot find it, you may mention it only in part 4 of the answer.
 5. Answer in the format below.
 

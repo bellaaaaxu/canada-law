@@ -62,6 +62,9 @@ describe('normalizeFedId / isFederalId', () => {
     expect(normalizeFedId('C.R.C., c. 986')).toBe('C.R.C.,_c._986');
     expect(normalizeFedId('C.R.C.,_c._986')).toBe('C.R.C.,_c._986');
     expect(normalizeFedId('SOR/86-304')).toBe('SOR-86-304');
+    expect(normalizeFedId('sor/86-304')).toBe('SOR-86-304');
+    expect(normalizeFedId('l-2')).toBe('L-2');
+    expect(normalizeFedId('c.r.c., c. 986')).toBe('C.R.C.,_c._986');
   });
 
   it('rejects anything that could leave the Justice Laws XML folder', () => {
