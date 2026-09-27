@@ -1,0 +1,53 @@
+name: Install problem / 安装问题
+description: The installer, the skill or the Claude Desktop extension did not work.
+title: "[Install] "
+labels: ["install"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Paths often contain your user name: please replace it with `<user>` before pasting. 路径里常带有你的用户名，贴之前请换成 `<user>`。中文填写也可以。
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system / 操作系统
+      options:
+        - Windows
+        - macOS
+        - Linux
+    validations:
+      required: true
+  - type: dropdown
+    id: tool
+    attributes:
+      label: AI tool / 用的 AI 工具
+      options:
+        - Claude Desktop (.mcpb extension)
+        - Claude Code
+        - OpenAI Codex / ChatGPT desktop
+        - VS Code / GitHub Copilot
+        - Cursor
+        - Gemini CLI / Google Antigravity
+        - Other (say which below) / 其他（请在下面写明）
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node.js version / Node.js 版本
+      description: Output of `node --version` (not needed for the .mcpb extension). 运行 `node --version` 的结果（装 .mcpb 扩展不需要）。
+  - type: textarea
+    id: command
+    attributes:
+      label: What you did / 你做了什么
+      description: The command you ran, or the steps you took. 运行的命令，或操作步骤。
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: What happened / 结果
+      description: The output or error message, word for word. 输出或报错的原文。
+      render: text
+    validations:
+      required: true

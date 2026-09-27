@@ -1,5 +1,7 @@
 # Canada Law — 让你的 AI 助手查 BC 劳动法
 
+[![CI](https://github.com/bellaaaaxu/canada-law/actions/workflows/ci.yml/badge.svg)](https://github.com/bellaaaaxu/canada-law/actions/workflows/ci.yml) [![Release](https://img.shields.io/github/v/release/bellaaaaxu/canada-law)](https://github.com/bellaaaaxu/canada-law/releases) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 [English](README.md)
 
 用中文或英文问你的 AI 助手 BC（不列颠哥伦比亚省）的劳动法问题：加班、餐休、法定假日、工资、各种假期、解雇等等。回答依据的是 BC Laws 上**现行的官方原文**，会写出法律名称、条号、原文链接和官方「现行至」日期。
@@ -11,6 +13,38 @@
 > - **目前只有 BC 省的法律。** 联邦监管的行业（银行、航空、电信、跨省运输等）适用联邦法律，暂时还没有收录。
 > - 法规原文**不是官方版本**（见[许可](#许可)）。
 > - AI 可能补充官方原文里没有的内容（比如各个假日的具体日期）。规则要求它把这些单独放在一段、标明「没有核对原文」，但它不一定每次都做到。**请以回答里引用的条文和链接为准。**
+
+## 回答长什么样
+
+下面是测试里的一份真实回答（Claude Code 加上这个 skill，2026 年 9 月 26 日），一字未改，只把小标题换成了加粗。更多回答见 [docs/acceptance](docs/acceptance)。
+
+> **问：BC 员工连续工作多久必须给餐休？**
+>
+> **法律原文**
+>
+> > **32 (1)** An employer must ensure
+> > (a) that no employee works more than **5 consecutive hours** without a meal break, and
+> > (b) that each meal break lasts at least a **1/2 hour**.
+> >
+> > **(2)** An employer who requires an employee to work or be available for work during a meal break must count the meal break as time worked by the employee.
+>
+> **含义**
+>
+> BC 的《就业标准法》规定，雇主必须确保员工**连续工作不超过 5 小时**就要给一次餐休，且每次餐休**至少 30 分钟**。如果雇主要求员工在餐休期间工作或待命，则该餐休时间必须算作工作时间并支付工资。
+>
+> **决定适用情况的因素**
+>
+> - 员工是否连续工作了超过 5 小时而未获得餐休。
+> - 餐休期间员工是否被要求工作或待命（如果是，则餐休算作带薪工作时间）。
+> - 该工作场所是否属于 BC 省管辖（联邦监管行业如银行、航空、电信、跨省运输等适用联邦法律，本技能暂不涵盖）。
+>
+> **来源**
+>
+> - **Employment Standards Act**, RSBC 1996, c. 113, s. 32
+>   - 链接：https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96113_01#section32
+>   - 更新至：2026-09-22
+>
+> Text from BC Laws (www.bclaws.gov.bc.ca) under the King's Printer Licence; not an official version. This is general legal information, not legal advice.
 
 ## 安装
 
@@ -84,6 +118,10 @@ Claude 桌面版扩展（`.mcpb`）也在真实安装上测过（Windows 微软�
 ## 工作上真遇到问题？
 
 **BC 省劳工标准处（Employment Standards Branch）** 可以用你选择的语言提供帮助：<https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us>
+
+## 反馈
+
+发现回答有错或不完整？请[提交 issue](https://github.com/bellaaaaxu/canada-law/issues/new/choose)，写上你问的问题、用的 AI 工具和回答原文（先删掉个人信息）。本项目按现状提供：欢迎提 issue 和 PR，但不保证回复。
 
 ## 许可
 

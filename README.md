@@ -1,5 +1,7 @@
 # Canada Law — BC employment law for your AI assistant
 
+[![CI](https://github.com/bellaaaaxu/canada-law/actions/workflows/ci.yml/badge.svg)](https://github.com/bellaaaaxu/canada-law/actions/workflows/ci.yml) [![Release](https://img.shields.io/github/v/release/bellaaaaxu/canada-law)](https://github.com/bellaaaaxu/canada-law/releases) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 [中文说明](README.zh.md)
 
 Ask your AI assistant about employment law in British Columbia — overtime, breaks, statutory holidays, pay, leaves, termination — in English or Chinese. Answers come from the **current official text** on BC Laws, with the act, section number, a link to the section, and the official "current to" date.
@@ -11,6 +13,36 @@ It plugs into most AI coding assistants through two open standards, [Agent Skill
 > - **BC law only for now.** Federally regulated workplaces (banks, airlines, telecommunications, interprovincial transport and similar) are covered by federal law, which is not included yet.
 > - The statute text is **not an official version** (see [Licence](#licence)).
 > - The AI may add things that are not in the official text (such as the dates of holidays). It is told to put them in a separate part marked as not checked, but it does not always manage. **Rely on the quoted sections and their links.**
+
+## What an answer looks like
+
+A real answer from our tests (Claude Code with this skill, 26 September 2026), word for word; only the headings are shown in bold here. More answers are in [docs/acceptance](docs/acceptance).
+
+> **Q: How long can I work in BC before my employer has to give me a lunch break?**
+>
+> **What the law says**
+>
+> > **32 (1)** An employer must ensure
+> > (a) that no employee works more than **5 consecutive hours** without a meal break, and
+> > (b) that each meal break lasts at least a **1/2 hour**.
+> >
+> > **(2)** An employer who requires an employee to work or be available for work during a meal break must count the meal break as time worked by the employee.
+>
+> **What it means**
+>
+> Your employer must give you a meal break of at least 30 minutes before you've worked 5 consecutive hours. If your employer makes you work or stay available during that break, they have to pay you for it — it counts as time worked.
+>
+> **What decides the outcome**
+>
+> - Whether you have worked **5 consecutive hours** without a break.
+> - Whether your employer requires you to **work or be available** during the meal break (which determines whether it's paid time).
+> - Whether your workplace is **provincially regulated**. Federally regulated industries (banks, airlines, telecommunications, interprovincial transport, etc.) fall under federal law, not the BC *Employment Standards Act*.
+>
+> **Sources**
+>
+> - *Employment Standards Act*, RSBC 1996, c. 113, **s. 32** — [source](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96113_01#section32) (current to 2026-09-22)
+>
+> Text from BC Laws (www.bclaws.gov.bc.ca) under the King's Printer Licence; not an official version. This is general legal information, not legal advice.
 
 ## Install
 
@@ -84,6 +116,10 @@ The Claude Desktop extension (`.mcpb`) was also checked on a real installation (
 ## A real problem at work?
 
 The **Employment Standards Branch** can help, in the language of your choice: <https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us>
+
+## Feedback
+
+Found a wrong or incomplete answer? Please [open an issue](https://github.com/bellaaaaxu/canada-law/issues/new/choose) with your question, the AI tool and the answer (remove personal details first). The project is provided as is: issues and pull requests are welcome, but replies are not guaranteed.
 
 ## Licence
 

@@ -1,0 +1,58 @@
+name: Wrong or incomplete answer / 回答有错或不完整
+description: The AI quoted the wrong section, left out a condition, or said something the law does not say.
+title: "[Answer] "
+labels: ["wrong answer"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for checking an answer against the law. Please **remove names and other personal details** before you paste anything. 中文填写也可以。
+
+        This project cannot advise on your own case. For that, the [Employment Standards Branch](https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us) can help, in the language of your choice.
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question / 你问的问题
+    validations:
+      required: true
+  - type: dropdown
+    id: tool
+    attributes:
+      label: AI tool / 用的 AI 工具
+      options:
+        - Claude Desktop (.mcpb extension)
+        - Claude Code
+        - OpenAI Codex / ChatGPT desktop
+        - VS Code / GitHub Copilot
+        - Cursor
+        - Gemini CLI / Google Antigravity
+        - Other (say which below) / 其他（请在下面写明）
+    validations:
+      required: true
+  - type: textarea
+    id: answer
+    attributes:
+      label: The answer / AI 的回答
+      description: Paste the whole answer, including its Sources part. 请贴完整回答，包括「来源」部分。
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong / 哪里不对
+      description: Which sentence is wrong, and which section of which act says otherwise (a link helps). 哪一句不对，应该是哪部法律的第几条（附原文链接更好）。
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version / 版本
+      placeholder: "0.1.0"
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy / 隐私
+      options:
+        - label: I removed names and other personal details from what I pasted. 我已删掉姓名等个人信息。
+          required: true

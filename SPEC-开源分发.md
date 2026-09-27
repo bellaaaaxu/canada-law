@@ -245,6 +245,7 @@ node scripts/bclaw.mjs find "Employment Standards Act"
 - [x] GitHub：账号 bellaaaaxu（已登录）。仓库级 git 身份 `bellaaaaxu` + GitHub 隐私邮箱（全局的工作邮箱没动）。你确认后推送：公开仓库 https://github.com/bellaaaaxu/canada-law ，发布页 v0.1.0（`canada-law-0.1.0.tgz` 254 KB、`canada-law-0.1.0.mcpb` 193 KB）
 - [x] **用发布页的真实地址跑安装器端到端 15/15**：`npm run smoke:install -- --from <地址>`（新加的选项：同一套四路径隔离和真实配置指纹核对，npm 缓存也在假目录里，所以是真的从网上下载）
 - [x] GitHub Actions（你定：加）：每次推送在 Windows / macOS / Linux 跑单元测试、类型检查、打包，三个系统都通过；每周一 15:00 UTC 联网检查（golden、术语表对原文、smoke），手动触发过一次，通过。BC Laws 接口变了，你的 GitHub 邮箱会收到失败通知
+- 发布后（2026-09-26，你定）：仓库加 12 个主题标签；README 两份加「回答长什么样」（一份真实测试回答，脚本逐行比对过和原文一致）、自动测试 / 版本 / 许可证徽章、「反馈」一节（按现状提供、不保证回复，第「需要你定的事」5）；报错模板两个（回答有错、安装问题）加一个「自己的劳动纠纷」入口，指向 Employment Standards Branch；社交预览图 `docs/assets/social-preview.png`（你在仓库设置里上传）；置顶由你在 GitHub 主页上点
 - 发布前补上的：测试样本文件夹另放一份许可声明（`tests/fixtures/NOTICE`，第 3 节要求）；User-Agent 写上仓库地址；`package.json` 和 `.mcpb` 清单加仓库地址；`.gitattributes` 统一用 LF 换行（`#!/usr/bin/env node` 遇到 CRLF 在 macOS / Linux 上会失败），测试样本保持下载时的原样
 
 之后：M2（联邦）→ 发布 v0.2。
