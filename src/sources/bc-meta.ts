@@ -1,6 +1,7 @@
 // Facts that are not in the legislative XML: the official page's current-to line and citation,
 // and what kind of document each full-site search result is.
 import { inlineText, parseXml, type XNode } from './bc-xml.js';
+import { decodeEntities } from './xml.js';
 
 // ---------- official HTML page ----------
 
@@ -15,17 +16,6 @@ export function isoDate(text: string): string | null {
   const month = MONTHS.indexOf(m[1]) + 1;
   if (month === 0) return null;
   return `${m[3]}-${String(month).padStart(2, '0')}-${m[2].padStart(2, '0')}`;
-}
-
-function decodeEntities(s: string): string {
-  return s
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&apos;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&');
 }
 
 const plain = (html: string) => decodeEntities(html.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();

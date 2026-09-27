@@ -51,6 +51,19 @@ export function findElement(n: XNode, name: string): XNode | null {
   return null;
 }
 
+/** HTML character references and the five XML entities → characters (official pages are HTML). */
+export function decodeEntities(s: string): string {
+  return s
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
+}
+
 // ---------- search snippets ----------
 
 // A short section comes whole; a long one is cut to the whole clause around the first hit, never mid-sentence.
