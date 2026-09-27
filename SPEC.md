@@ -181,6 +181,7 @@ type Citation = {
 - 回答时引用法名、条号、`source_url` 和 `current_to`
 - 提醒用户确认适用哪一级法规：大多数企业受 BC 法规管辖，联邦监管行业适用联邦法规（M2 起的具体做法见「联邦部分怎么做」第 9 项）
 - 注明回答内容不构成法律意见
+- ⚠️ 2026-09-27 实测：**Claude 桌面版和 claude.ai 不把 initialize instructions 交给模型**（anthropics/claude-ai-mcp#93，2026-03 报告，9 月仍未修；Claude Code 会交）。所以回答格式和规则（`src/answer-rules.ts`，instructions 的后半段）也附在 `get_section`、`search_law`、`get_toc` 的返回内容里：`answer_rules` 字段，一行一项，和 instructions 逐字相同（测试管着）。`map_term`、`find_act` 返回的是列表、不带原文，不加；skill 小程序的输出也不加，SKILL.md 本身就是规则
 
 ## 项目结构
 
@@ -188,6 +189,7 @@ type Citation = {
 canada-law/
 ├─ src/
 │  ├─ index.ts / server.ts      # MCP 入口，注册工具和 instructions
+│  ├─ answer-rules.ts           # 回答格式和规则：instructions 的后半段，也附在带原文的工具结果里
 │  ├─ tools/                    # 每个工具一个文件
 │  ├─ sources/xml.ts            # 两边共用：XML 解析、摘要截取
 │  ├─ sources/bc*.ts            # CiviX 客户端、BC XML、BC 网页

@@ -4379,7 +4379,7 @@ import { mkdirSync, readFileSync as readFileSync2, writeFileSync } from "node:fs
 import { join } from "node:path";
 
 // src/version.ts
-var VERSION = "0.2.1";
+var VERSION = "0.2.2";
 
 // src/http.ts
 var USER_AGENT = `canada-law-mcp/${VERSION} (+https://github.com/bellaaaaxu/canada-law)`;

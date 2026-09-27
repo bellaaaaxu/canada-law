@@ -1,4 +1,5 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { ANSWER_RULES } from './answer-rules.js';
 import type { Glossary } from './glossary.js';
 import type { Fetcher } from './http.js';
 import { BcClient } from './sources/bc.js';
@@ -10,8 +11,9 @@ import { registerMapTerm } from './tools/map-term.js';
 import { registerSearchLaw } from './tools/search-law.js';
 import { VERSION } from './version.js';
 
-// The same rules and answer format as skills/canada-employment-law/SKILL.md (tests/docs.test.ts keeps them in step):
-// a Claude Desktop user with the .mcpb gets only these instructions.
+// The same rules and answer format as skills/canada-employment-law/SKILL.md (tests/docs.test.ts keeps them in step).
+// Claude Code passes these to the model; Claude Desktop and claude.ai do not (anthropics/claude-ai-mcp#93), so the
+// answer format and rules (src/answer-rules.ts) also come back with the text from get_section, search_law and get_toc.
 export const INSTRUCTIONS = `This server returns the current official text of British Columbia and federal (Canada) statutes and regulations.
 
 Never answer a BC or federal employment-law question from memory, even a simple one. The law changes, so get the current official text with these tools and answer from it.
@@ -28,18 +30,7 @@ Steps:
 3. Call search_law with the jurisdiction and its statutory terms. Matching is literal, so give singular and plural, e.g. "meal break" OR "meal breaks". For "all", give the terms of both jurisdictions, e.g. "statutory holiday" OR "general holiday", or search "bc" and "federal" separately.
 4. Call get_section for every section you will quote, explain or cite, including the sections map_term pointed to, and read the text. Search snippets are cut short, so never work from a snippet. If the answer needs a fact the text does not give (for example the date of a holiday, or who is excluded from a rule), look it up with search_law and get_section too. If you still cannot find it, you may mention it only in part 4 of the answer.
 
-Answer in the user's language, in this order:
-1. What the law says - quote the relevant words of the statute in English (the official text).
-2. What it means - explain it in the user's language.
-3. What decides the outcome - list the facts that decide how the rule applies (for example length of service, a written agreement, the type of employer). Do not decide the user's own case: do not say what they are owed or whether their employer broke the law.
-4. Not from the official text - only if you add anything the retrieved text does not say (for example the dates of holidays, or whether a layoff counts as just cause). Start by saying, in the user's language, that this part was not checked against the official text. Do not decide the user's own case here either. Leave this part out when there is nothing to add.
-5. Where to get help - if the user describes their own work situation, say in the user's language who can help. BC workplaces: the Employment Standards Branch, https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us . Federally regulated workplaces: the federal Labour Program, https://www.canada.ca/en/services/jobs/workplace/federal-labour-standards/filing-complaint.html
-6. Sources - for every provision you relied on: act title, section number, source_url and current_to. Then one line for each source you used: "Text from BC Laws (www.bclaws.gov.bc.ca) under the King's Printer Licence; not an official version." / "Text from the Justice Laws Website (laws-lois.justice.gc.ca); not an official version." Then: "This is general legal information, not legal advice."
-
-Rules:
-- In parts 1 to 3, state only what the retrieved text says; anything else goes in part 4. If a search finds nothing, say what you searched for; do not conclude that the law has no such rule.
-- If current_to is null or a tool returns warnings, tell the user.
-- Say which law you answered from. Most BC workplaces are under BC law, but federally regulated industries (banks, airlines, telecommunications, interprovincial transport and similar) are under federal law. Remind the user to check which applies.`;
+${ANSWER_RULES}`;
 
 export function createServer(deps: { fetcher: Fetcher; glossary: Glossary }): McpServer {
   const server = new McpServer({ name: 'canada-law', version: VERSION }, { instructions: INSTRUCTIONS });

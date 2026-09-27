@@ -13675,7 +13675,7 @@ import { join } from "node:path";
 
 // src/version.ts
 init_define_GLOSSARY();
-var VERSION = "0.2.1";
+var VERSION = "0.2.2";
 
 // src/http.ts
 var USER_AGENT = `canada-law-mcp/${VERSION} (+https://github.com/bellaaaaxu/canada-law)`;
@@ -21922,6 +21922,22 @@ var EMPTY_COMPLETION_RESULT = {
   }
 };
 
+// src/answer-rules.ts
+init_define_GLOSSARY();
+var ANSWER_RULES = `Answer in the user's language, in this order:
+1. What the law says - quote the relevant words of the statute in English (the official text).
+2. What it means - explain it in the user's language.
+3. What decides the outcome - list the facts that decide how the rule applies (for example length of service, a written agreement, the type of employer). Do not decide the user's own case: do not say what they are owed or whether their employer broke the law.
+4. Not from the official text - only if you add anything the retrieved text does not say (for example the dates of holidays, or whether a layoff counts as just cause). Start by saying, in the user's language, that this part was not checked against the official text. Do not decide the user's own case here either. Leave this part out when there is nothing to add.
+5. Where to get help - if the user describes their own work situation, say in the user's language who can help. BC workplaces: the Employment Standards Branch, https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us . Federally regulated workplaces: the federal Labour Program, https://www.canada.ca/en/services/jobs/workplace/federal-labour-standards/filing-complaint.html
+6. Sources - for every provision you relied on: act title, section number, source_url and current_to. Then one line for each source you used: "Text from BC Laws (www.bclaws.gov.bc.ca) under the King's Printer Licence; not an official version." / "Text from the Justice Laws Website (laws-lois.justice.gc.ca); not an official version." Then: "This is general legal information, not legal advice."
+
+Rules:
+- In parts 1 to 3, state only what the retrieved text says; anything else goes in part 4. If a search finds nothing, say what you searched for; do not conclude that the law has no such rule.
+- If current_to is null or a tool returns warnings, tell the user.
+- Say which law you answered from. Most BC workplaces are under BC law, but federally regulated industries (banks, airlines, telecommunications, interprovincial transport and similar) are under federal law. Remind the user to check which applies.`;
+var ANSWER_RULES_LINES = ANSWER_RULES.split("\n").filter((line) => line.trim() !== "");
+
 // src/sources/bc.ts
 init_define_GLOSSARY();
 
@@ -27547,6 +27563,7 @@ var jurisdiction = external_exports.enum(["bc", "federal"]).describe('"bc" for B
 var READ_ONLY = { readOnlyHint: true, openWorldHint: true };
 var ok = (value) => ({ content: [{ type: "text", text: JSON.stringify(value, null, 2) }] });
 var fail = (message) => ({ isError: true, content: [{ type: "text", text: message }] });
+var withAnswerRules = (value) => ({ ...value, answer_rules: ANSWER_RULES_LINES });
 async function run(body) {
   try {
     return ok(await body());
@@ -27588,7 +27605,7 @@ function registerGetSection(server2, { bc, federal }) {
       },
       annotations: READ_ONLY
     },
-    async ({ jurisdiction: j, act_id, section }) => run(() => j === "federal" ? federal.getSection(act_id, section) : bc.getSection(act_id, section))
+    async ({ jurisdiction: j, act_id, section }) => run(async () => withAnswerRules(await (j === "federal" ? federal.getSection(act_id, section) : bc.getSection(act_id, section))))
   );
 }
 
@@ -27606,7 +27623,7 @@ function registerGetToc(server2, { bc, federal }) {
       },
       annotations: READ_ONLY
     },
-    async ({ jurisdiction: j, act_id }) => run(() => j === "federal" ? federal.getToc(act_id) : bc.getToc(act_id))
+    async ({ jurisdiction: j, act_id }) => run(async () => withAnswerRules(await (j === "federal" ? federal.getToc(act_id) : bc.getToc(act_id))))
   );
 }
 
@@ -27698,7 +27715,9 @@ function registerSearchLaw(server2, sources) {
       annotations: READ_ONLY
     },
     async ({ query, jurisdiction: jurisdiction2, limit }) => run(
-      async () => jurisdiction2 === "bc" ? sources.bc.search(query, limit) : jurisdiction2 === "federal" ? sources.federal.search(query, limit) : searchAll(sources, query, limit)
+      async () => withAnswerRules(
+        await (jurisdiction2 === "bc" ? sources.bc.search(query, limit) : jurisdiction2 === "federal" ? sources.federal.search(query, limit) : searchAll(sources, query, limit))
+      )
     )
   );
 }
@@ -27720,18 +27739,7 @@ Steps:
 3. Call search_law with the jurisdiction and its statutory terms. Matching is literal, so give singular and plural, e.g. "meal break" OR "meal breaks". For "all", give the terms of both jurisdictions, e.g. "statutory holiday" OR "general holiday", or search "bc" and "federal" separately.
 4. Call get_section for every section you will quote, explain or cite, including the sections map_term pointed to, and read the text. Search snippets are cut short, so never work from a snippet. If the answer needs a fact the text does not give (for example the date of a holiday, or who is excluded from a rule), look it up with search_law and get_section too. If you still cannot find it, you may mention it only in part 4 of the answer.
 
-Answer in the user's language, in this order:
-1. What the law says - quote the relevant words of the statute in English (the official text).
-2. What it means - explain it in the user's language.
-3. What decides the outcome - list the facts that decide how the rule applies (for example length of service, a written agreement, the type of employer). Do not decide the user's own case: do not say what they are owed or whether their employer broke the law.
-4. Not from the official text - only if you add anything the retrieved text does not say (for example the dates of holidays, or whether a layoff counts as just cause). Start by saying, in the user's language, that this part was not checked against the official text. Do not decide the user's own case here either. Leave this part out when there is nothing to add.
-5. Where to get help - if the user describes their own work situation, say in the user's language who can help. BC workplaces: the Employment Standards Branch, https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us . Federally regulated workplaces: the federal Labour Program, https://www.canada.ca/en/services/jobs/workplace/federal-labour-standards/filing-complaint.html
-6. Sources - for every provision you relied on: act title, section number, source_url and current_to. Then one line for each source you used: "Text from BC Laws (www.bclaws.gov.bc.ca) under the King's Printer Licence; not an official version." / "Text from the Justice Laws Website (laws-lois.justice.gc.ca); not an official version." Then: "This is general legal information, not legal advice."
-
-Rules:
-- In parts 1 to 3, state only what the retrieved text says; anything else goes in part 4. If a search finds nothing, say what you searched for; do not conclude that the law has no such rule.
-- If current_to is null or a tool returns warnings, tell the user.
-- Say which law you answered from. Most BC workplaces are under BC law, but federally regulated industries (banks, airlines, telecommunications, interprovincial transport and similar) are under federal law. Remind the user to check which applies.`;
+${ANSWER_RULES}`;
 function createServer(deps) {
   const server2 = new McpServer({ name: "canada-law", version: VERSION }, { instructions: INSTRUCTIONS });
   const sources = { bc: new BcClient({ fetcher: deps.fetcher }), federal: new FederalClient({ fetcher: deps.fetcher }) };

@@ -1,6 +1,6 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import { READ_ONLY, jurisdiction, run, type Sources } from './shared.js';
+import { READ_ONLY, jurisdiction, run, withAnswerRules, type Sources } from './shared.js';
 
 export function registerGetToc(server: McpServer, { bc, federal }: Sources) {
   server.registerTool(
@@ -15,6 +15,6 @@ export function registerGetToc(server: McpServer, { bc, federal }: Sources) {
       },
       annotations: READ_ONLY,
     },
-    async ({ jurisdiction: j, act_id }) => run(() => (j === 'federal' ? federal.getToc(act_id) : bc.getToc(act_id))),
+    async ({ jurisdiction: j, act_id }) => run(async () => withAnswerRules(await (j === 'federal' ? federal.getToc(act_id) : bc.getToc(act_id)))),
   );
 }

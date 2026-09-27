@@ -1,7 +1,7 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import { searchAll } from '../sources/search-all.js';
-import { READ_ONLY, run, type Sources } from './shared.js';
+import { READ_ONLY, run, withAnswerRules, type Sources } from './shared.js';
 
 export function registerSearchLaw(server: McpServer, sources: Sources) {
   server.registerTool(
@@ -24,7 +24,13 @@ export function registerSearchLaw(server: McpServer, sources: Sources) {
     },
     async ({ query, jurisdiction, limit }) =>
       run(async () =>
-        jurisdiction === 'bc' ? sources.bc.search(query, limit) : jurisdiction === 'federal' ? sources.federal.search(query, limit) : searchAll(sources, query, limit),
+        withAnswerRules(
+          await (jurisdiction === 'bc'
+            ? sources.bc.search(query, limit)
+            : jurisdiction === 'federal'
+              ? sources.federal.search(query, limit)
+              : searchAll(sources, query, limit)),
+        ),
       ),
   );
 }

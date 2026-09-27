@@ -45,8 +45,9 @@ describe('published documents', () => {
     for (const t of TOOLS) expect(doc('README.zh.md'), t.name).toContain(ZH_NAMES[t.name] ?? t.name);
   });
 
-  // SPEC-开源分发.md: the rules for the AI are written into SKILL.md and are the same in the MCP instructions
-  // (a Claude Desktop user with the .mcpb only gets the instructions).
+  // SPEC-开源分发.md: the rules for the AI are written into SKILL.md and are the same in the MCP instructions.
+  // Claude Desktop does not pass the instructions to the model, so their answer part also comes back with the text
+  // (src/answer-rules.ts; tests/server.test.ts checks it is word for word the same).
   it.each([
     'Never answer a BC or federal employment-law question from memory',
     // M2 (2026-09-26): which law applies, decided from the official text, and what federal search does not cover

@@ -54,7 +54,7 @@
 需要 [Node.js](https://nodejs.org) 20 或更新版本。然后运行：
 
 ```bash
-npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.1/canada-law-0.2.1.tgz install
+npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.2/canada-law-0.2.2.tgz install
 ```
 
 安装器会找出你电脑上装了哪些 AI 工具，**先列出要改哪些地方，问过你才动手**。它改任何配置文件之前都会先备份，也不会覆盖你自己原有的设置。
@@ -69,11 +69,11 @@ npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.1/canada-law
 | `… list` | 列出支持的工具 |
 | `… uninstall` | 删掉安装器装的所有东西 |
 
-（`…` 代表 `npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.1/canada-law-0.2.1.tgz`。）
+（`…` 代表 `npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.2/canada-law-0.2.2.tgz`。）
 
 ### Claude 桌面版：不用装 Node.js
 
-在[发布页](https://github.com/bellaaaaxu/canada-law/releases)下载 `canada-law-0.2.1.mcpb`，双击就能安装。也可以把它拖进 Claude 桌面版的窗口，或者在「设置 → Extensions → Advanced settings → Install Extension…」里选这个文件。Claude 桌面版自带 Node.js。
+在[发布页](https://github.com/bellaaaaxu/canada-law/releases)下载 `canada-law-0.2.2.mcpb`，双击就能安装。也可以把它拖进 Claude 桌面版的窗口，或者在「设置 → Extensions → Advanced settings → Install Extension…」里选这个文件。Claude 桌面版自带 Node.js。
 
 ## 支持的 AI 工具
 

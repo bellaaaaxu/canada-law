@@ -60,6 +60,27 @@ describe('MCP server', () => {
     expect(instructions).toMatch(/not legal advice/);
   });
 
+  // Claude Desktop and claude.ai do not pass the initialize instructions to the model (anthropics/claude-ai-mcp#93),
+  // so the answer format and rules also come back with the text.
+  it.each([
+    ['get_section', { jurisdiction: 'bc', act_id: '96113_01', section: '40' }],
+    ['get_section', { jurisdiction: 'federal', act_id: 'L-2', section: '169.1' }],
+    ['search_law', { query: 'overtime', jurisdiction: 'bc' }],
+    ['search_law', { query: '"general holiday" OR "general holidays"', jurisdiction: 'federal' }],
+    ['search_law', { query: 'overtime', jurisdiction: 'all' }],
+    ['get_toc', { jurisdiction: 'federal', act_id: 'L-2' }],
+  ])('%s %j returns the answer format and rules, word for word as in the instructions', async (name, args) => {
+    const client = await connect();
+    const rules: unknown = JSON.parse(textOf(await client.callTool({ name, arguments: args }))).answer_rules;
+    expect(Array.isArray(rules)).toBe(true);
+    const lines = rules as string[];
+    expect(lines[0]).toBe("Answer in the user's language, in this order:");
+    expect((client.getInstructions() ?? '').replace(/\n{2,}/g, '\n')).toContain(lines.join('\n'));
+    for (const part of ['What the law says', 'Not from the official text', 'Where to get help', 'not legal advice', 'Say which law you answered from']) {
+      expect(lines.join('\n')).toContain(part);
+    }
+  });
+
   it('get_section returns the citation contract and the text as JSON', async () => {
     const client = await connect();
     const r = await client.callTool({ name: 'get_section', arguments: { jurisdiction: 'bc', act_id: '96113_01', section: '40' } });

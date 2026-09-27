@@ -234,7 +234,7 @@ node scripts/bclaw.mjs find bc "Employment Standards Act"
 - [x] 验收标准逐条过（2026-09-26，用最终代码重跑）：1 ✅ 空目录只放 skill，term / search / section 都返回完整出处和许可声明 ｜ 2 ✅ golden 12/12 ｜ 3 ✅ 五轮自动启用测试，回答原文都在 `docs/acceptance/` ｜ 4 ✅ `skills-ref validate` 通过（改名反向对照被拒）｜ 5 ⏳ 隐私扫描按计划在 D4 搬家后做 ｜ 6 ✅ README 两份：许可声明原文、免责、求助链接、14 个工具都标了实测与否。另：单元测试 174、smoke 6/6、smoke:install 15/15
 
 **D3 中发现并修好的（要让你知道的）**
-1. **D2 漏了一条 spec：MCP 的 instructions 没有和 SKILL.md 同步**，还是 M1 时的 4 条，没有五段式、不下结论、求助链接。用 `.mcpb` 的桌面版用户只拿得到 instructions → 已补成和 SKILL.md 相同的步骤、回答格式和规则；`docs.test.ts` 加了 13 条「两边必须一致」的检查
+1. **D2 漏了一条 spec：MCP 的 instructions 没有和 SKILL.md 同步**，还是 M1 时的 4 条，没有五段式、不下结论、求助链接。用 `.mcpb` 的桌面版用户只拿得到 instructions → 已补成和 SKILL.md 相同的步骤、回答格式和规则；`docs.test.ts` 加了 13 条「两边必须一致」的检查（2026-09-27 更正：桌面版其实连 instructions 也不交给模型，回答格式和规则现在随工具结果返回，见 SPEC.md「给 Claude 的使用规则」）
 2. **安装器装 Claude 桌面版会静默失败（Windows 微软商店版，即 MSIX）**：这种版本读的是 `%LOCALAPPDATA%\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\claude_desktop_config.json`，不读文档写的 `%APPDATA%\Claude\` 那份（anthropics/claude-code#26073、#25579）。安装器原来写文档位置 → 桌面版读不到，安装器却显示成功。→ 发现这个文件夹就写这里；单元测试加 3 条，`smoke:install` 加商店版场景（临时换回旧逻辑时这两条确实失败），真实商店版配置也加进前后指纹核对；README 手动安装一节注明
    - 顺带弄清：从桌面版 Code 标签里启动的命令，看到的 `%APPDATA%` 已经被转到这个文件夹（#93152）。所以 D2 那次事故写到的正是你在用的那份配置
    - `.mcpb` 走桌面版自己的扩展管理，不经过这个配置文件。但有第三方扩展报告过：在商店版上 `.mcpb` 到「Cowork / Code 会话」里启动不了（dreamrec/LivePilot#83）→ 装完看日志确认
