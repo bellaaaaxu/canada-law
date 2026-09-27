@@ -15,7 +15,7 @@ function inlineRaw(nodes: XChild[]): string {
       continue;
     }
     if (c.name === 'HistoricalNote' || c.name === 'MarginalNote' || c.name === 'Footnote' || c.name === 'FootnoteRef' || c.name === 'PageBreak') continue;
-    if (c.name === 'DefinedTermEn') s += `"${inlineRaw(c.children)}"`;
+    if (c.name === 'DefinedTermEn') s += `"${inlineRaw(c.children).trim()}"`;
     else if (c.name === 'Repealed') s += (s !== '' && !/\s$/.test(s) ? ' ' : '') + inlineRaw(c.children);
     else if (c.name === 'LineBreak') s += BR;
     else if (c.name === 'Leader' || c.name === 'LeaderRightJustified') s += ' ';

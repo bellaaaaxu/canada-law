@@ -62,14 +62,14 @@ describe('termsInText', () => {
 });
 
 describe('data/glossary.json', () => {
-  it('loads, and every entry names a section or Part that verify-glossary can check', () => {
+  it('loads, and every entry names a section, Part or Division that verify-glossary can check', () => {
     const real = loadGlossary();
     const entries = Object.values(real).flat();
     expect(entries.length).toBeGreaterThanOrEqual(30);
     for (const e of entries) {
       for (const a of e.acts) {
         const w = parseWhere(a.where);
-        expect(w.sections.length + w.parts.length, `${a.act_id} "${a.where}"`).toBeGreaterThan(0);
+        expect(w.sections.length + w.parts.length + w.divisions.length, `${a.act_id} "${a.where}"`).toBeGreaterThan(0);
       }
     }
   });
@@ -84,6 +84,31 @@ describe('data/glossary.json', () => {
     expect(termsInText(real, 'What are the stat holidays in BC?')).toEqual(['stat holiday']);
   });
 
+  it('holds the federal golden-test terms, each with a federal entry', () => {
+    const real = loadGlossary();
+    const cases: [string, string[]][] = [
+      ['在联邦监管行业工作，超过多少小时要付加班费？', ['联邦监管行业', '加班费']],
+      ['在联邦监管行业（比如银行）上班，连续工作多久必须给餐休？', ['联邦监管行业', '餐休']],
+      ['联邦监管行业的法定假日有哪些？', ['联邦监管行业', '法定假日']],
+      ['I work for a bank in BC. After how many hours of work does overtime pay start?', ['overtime pay']],
+      ['I work for an airline in BC. How long can I work before my employer has to give me a lunch break?', ['lunch break']],
+      ['What are the stat holidays for federally regulated employees?', ['stat holiday', 'federally regulated']],
+    ];
+    for (const [q, words] of cases) {
+      expect(termsInText(real, q), q).toEqual(words);
+      for (const w of words) expect(real[w].some((e) => e.jurisdiction === 'federal'), w).toBe(true);
+    }
+  });
+
+  it('maps a concept to the statutory words of each jurisdiction, which differ', () => {
+    const real = loadGlossary();
+    const terms = (word: string, j: string) => lookupTerm(real, word).filter((m) => m.jurisdiction === j).flatMap((m) => m.en_terms);
+    expect(terms('法定假日', 'bc')).toContain('statutory holiday');
+    expect(terms('法定假日', 'federal')).toContain('general holiday');
+    expect(terms('病假', 'federal')).toContain('medical leave');
+    expect(terms('遣散费', 'federal')).toContain('severance pay');
+  });
+
   it('maps the everyday English words that D1 showed to find nothing or the wrong law', () => {
     const real = loadGlossary();
     const enTerms = (word: string) => lookupTerm(real, word).flatMap((m) => m.en_terms);
@@ -96,10 +121,15 @@ describe('data/glossary.json', () => {
 
 describe('parseWhere', () => {
   it('pulls section numbers and Part numbers out of a "where" note', () => {
-    expect(parseWhere('s.1 definition; s.16.1; s.40; Part 4')).toEqual({ sections: ['1', '16.1', '40'], parts: ['4'] });
+    expect(parseWhere('s.1 definition; s.16.1; s.40; Part 4')).toEqual({ sections: ['1', '16.1', '40'], parts: ['4'], divisions: [] });
   });
 
-  it('returns empty lists when the note names no section or Part', () => {
-    expect(parseWhere('Division V')).toEqual({ sections: [], parts: [] });
+  it('reads the Roman numerals of federal Parts and Divisions', () => {
+    expect(parseWhere('s.166 definition; s.192; Part III; Division XI')).toEqual({ sections: ['166', '192'], parts: ['III'], divisions: ['XI'] });
+    expect(parseWhere('Division XIII.1')).toEqual({ sections: [], parts: [], divisions: ['XIII.1'] });
+  });
+
+  it('returns empty lists when the note names no section, Part or Division', () => {
+    expect(parseWhere('see the regulations')).toEqual({ sections: [], parts: [], divisions: [] });
   });
 });

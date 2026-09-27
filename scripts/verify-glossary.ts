@@ -1,65 +1,87 @@
-// Live check of data/glossary.json against the official BC text (npm run verify-glossary).
-// An entry passes only if every cited section / Part exists, every cited section contains one of its
-// English terms, and every English term occurs in a cited section or Part title (so each term is real statutory wording).
+// Live check of data/glossary.json against the official text (npm run verify-glossary): BC Laws and Justice Laws.
+// An entry passes only if every cited section / Part / Division exists, every cited section contains one of its
+// English terms, and every English term occurs in a cited section or Part / Division title (so each term is real
+// statutory wording). A federal section is read together with the headings above it: federal law often names a thing
+// only there (s.206 is under "Maternity Leave", s.235 under "DIVISION XI — Severance Pay").
 import { fileURLToPath } from 'node:url';
-import { loadGlossary, parseWhere } from '../src/glossary.js';
+import { loadGlossary, parseWhere, type GlossaryEntry } from '../src/glossary.js';
 import { createCachedFetcher } from '../src/http.js';
 import { BcClient } from '../src/sources/bc.js';
+import { FederalClient } from '../src/sources/federal.js';
 
 const cacheDir = fileURLToPath(new URL('../cache/', import.meta.url));
-const bc = new BcClient({ fetcher: createCachedFetcher({ cacheDir }) });
+const fetcher = createCachedFetcher({ cacheDir });
+const bc = new BcClient({ fetcher });
+const federal = new FederalClient({ fetcher });
 const glossary = loadGlossary();
 
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const has = (text: string, term: string) => new RegExp(`\\b${escape(term)}\\b`, 'i').test(text);
 
+async function sectionText(e: GlossaryEntry, actId: string, s: string) {
+  if (e.jurisdiction === 'federal') {
+    const r = await federal.getSection(actId, s);
+    return { label: `s.${s} ${r.citation.heading ?? ''}`.trim(), text: `${r.citation.heading ?? ''}\n${r.location.join('\n')}\n${r.text}` };
+  }
+  const r = await bc.getSection(actId, s);
+  return { label: `s.${s} ${r.citation.heading}`, text: `${r.citation.heading ?? ''}\n${r.text}` };
+}
+
+/** The outline line of a Part or Division: "Part 4 — …" (BC), "PART III — …" / "DIVISION XI — …" (federal). */
+function titleLine(outline: string, kind: 'Part' | 'Division', num: string): string | null {
+  const re = new RegExp(`^${kind} ${escape(num)} — `, 'i');
+  return outline
+    .split('\n')
+    .map((l) => l.trim())
+    .find((l) => re.test(l)) ?? null;
+}
+
 let failures = 0;
 let checked = 0;
-for (const [zh, entries] of Object.entries(glossary)) {
+const byJurisdiction = { bc: 0, federal: 0 };
+for (const [key, entries] of Object.entries(glossary)) {
   for (const e of entries) {
-    if (e.jurisdiction !== 'bc') {
-      console.log(`SKIP ${zh} (${e.jurisdiction}: not checkable until M2)`);
-      continue;
-    }
     checked++;
+    byJurisdiction[e.jurisdiction]++;
     const problems: string[] = [];
     const evidence: string[] = [];
     const termSeen = new Set<string>();
     for (const ref of e.acts) {
-      const { sections, parts } = parseWhere(ref.where);
-      if (sections.length === 0 && parts.length === 0) problems.push(`"${ref.where}" names no section or Part`);
+      const { sections, parts, divisions } = parseWhere(ref.where);
+      if (sections.length + parts.length + divisions.length === 0) problems.push(`"${ref.where}" names no section, Part or Division`);
       for (const s of sections) {
         try {
-          const r = await bc.getSection(ref.act_id, s);
-          const text = `${r.citation.heading ?? ''}\n${r.text}`;
+          const { label, text } = await sectionText(e, ref.act_id, s);
           const found = e.en_terms.filter((t) => has(text, t));
           found.forEach((t) => termSeen.add(t));
-          if (found.length === 0) problems.push(`s.${s} (${r.citation.heading}) contains none of the English terms`);
-          else evidence.push(`s.${s} ${r.citation.heading}`);
+          if (found.length === 0) problems.push(`${ref.act_id} ${label} contains none of the English terms`);
+          else evidence.push(`${ref.act_id} ${label}`);
         } catch (err) {
-          problems.push(`s.${s}: ${(err as Error).message}`);
+          problems.push(`${ref.act_id} s.${s}: ${(err as Error).message}`);
         }
       }
-      if (parts.length > 0) {
-        const toc = await bc.getToc(ref.act_id);
-        for (const p of parts) {
-          const line = toc.outline.split('\n').find((l) => l.startsWith(`Part ${p} — `));
-          if (!line) {
-            problems.push(`Part ${p} not found in ${ref.act_id}`);
-            continue;
+      if (parts.length + divisions.length > 0) {
+        const toc = e.jurisdiction === 'federal' ? await federal.getToc(ref.act_id) : await bc.getToc(ref.act_id);
+        for (const [kind, nums] of [['Part', parts], ['Division', divisions]] as const) {
+          for (const n of nums) {
+            const line = titleLine(toc.outline, kind, n);
+            if (!line) {
+              problems.push(`${kind} ${n} not found in ${ref.act_id}`);
+              continue;
+            }
+            evidence.push(`${ref.act_id} ${line}`);
+            e.en_terms.filter((t) => has(line, t)).forEach((t) => termSeen.add(t)); // a Part or Division title is statutory text too
           }
-          evidence.push(line);
-          e.en_terms.filter((t) => has(line, t)).forEach((t) => termSeen.add(t)); // a Part title is statutory text too
         }
       }
     }
     for (const t of e.en_terms) if (!termSeen.has(t)) problems.push(`"${t}" does not occur in any cited section`);
 
     if (problems.length > 0) failures++;
-    console.log(`${problems.length ? 'FAIL' : 'PASS'} ${zh} → ${e.en_terms.join(' | ')}`);
+    console.log(`${problems.length ? 'FAIL' : 'PASS'} [${e.jurisdiction}] ${key} → ${e.en_terms.join(' | ')}`);
     for (const line of evidence) console.log(`       ✓ ${line}`);
     for (const p of problems) console.log(`       ✗ ${p}`);
   }
 }
-console.log(`\n${checked - failures}/${checked} BC entries verified against the official text.`);
+console.log(`\n${checked - failures}/${checked} entries verified against the official text (BC ${byJurisdiction.bc}, federal ${byJurisdiction.federal}).`);
 process.exit(failures > 0 ? 1 : 0);

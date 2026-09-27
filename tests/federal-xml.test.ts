@@ -94,6 +94,11 @@ describe('renderFedSection', () => {
     expect(t).toContain('\n  "inspector" [Repealed, 2018, c. 27, s. 569]');
   });
 
+  it('trims a defined term (s.206.7 has <DefinedTermEn>child </DefinedTermEn>)', () => {
+    const s = parseXml('<Section><Label>206.7</Label><Text>In this section,</Text><Definition><Text><DefinedTermEn>child </DefinedTermEn> means a person who is under 18 years of age.</Text></Definition></Section>');
+    expect(renderFedSection(s.children[0] as never)).toContain('\n  "child" means a person');
+  });
+
   it('shows a repealed section as the official page does', () => {
     expect(render('247.1')).toBe('247.1 [Repealed, 2018, c. 22, s. 16]');
   });

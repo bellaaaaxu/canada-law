@@ -28,11 +28,15 @@ export function loadGlossary(file: URL | string = GLOSSARY_FILE): Glossary {
   return g;
 }
 
-/** "s.1 definition; s.16.1; Part 4" → sections ["1", "16.1"], parts ["4"] (used to check entries against the source text). */
-export function parseWhere(where: string): { sections: string[]; parts: string[] } {
+/**
+ * "s.1 definition; s.16.1; Part 4" → sections ["1", "16.1"], parts ["4"]; federal law numbers Parts and Divisions in Roman
+ * numerals: "Part III; Division XI" → parts ["III"], divisions ["XI"] (used to check entries against the source text).
+ */
+export function parseWhere(where: string): { sections: string[]; parts: string[]; divisions: string[] } {
   return {
     sections: [...where.matchAll(/\bs\.\s*(\d+(?:\.\d+)*)/g)].map((m) => m[1]),
-    parts: [...where.matchAll(/\bPart\s+(\d+(?:\.\d+)*)/g)].map((m) => m[1]),
+    parts: [...where.matchAll(/\bPart\s+(\d+(?:\.\d+)*|[IVXLC]+(?:\.\d+)*)\b/g)].map((m) => m[1]),
+    divisions: [...where.matchAll(/\bDivision\s+([IVXLC]+(?:\.\d+)*|\d+(?:\.\d+)*)\b/g)].map((m) => m[1]),
   };
 }
 
