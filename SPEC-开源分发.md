@@ -238,10 +238,14 @@ node scripts/bclaw.mjs find "Employment Standards Act"
    - `.mcpb` 走桌面版自己的扩展管理，不经过这个配置文件。但有第三方扩展报告过：在商店版上 `.mcpb` 到「Cowork / Code 会话」里启动不了（dreamrec/LivePilot#83）→ 装完看日志确认
 3. 检查器（`scripts/activation.ts`）：认得中文小标题「意味」「影响」；「去哪求助」只要求本人情况题出现
 
-### D4：搬家 + 发布 v0.1.0
-- [ ] 搬到新位置，重新注册 MCP，全部测试重跑
-- [ ] 隐私扫描 → 你抽查术语表的 40 个中文词 → 你登录 GitHub → 我再问一次 → 推送、发 Release
-- [ ] （可选）GitHub Actions：每次改动在 Windows / macOS / Linux 自动跑测试；每周跑一次线上 golden，BC Laws 接口变了你会收到邮件。对公开仓库免费
+### D4：搬家 + 发布 v0.1.0 ✅ 2026-09-26
+- [x] 搬到桌面上单独的 `canada-law` 文件夹。本机旧的 MCP 注册（跑的是 D2 旧版）按你的决定删掉，改用已装的 `.mcpb` 扩展（所有会话里都有同样的 5 个工具）。新位置全部测试重跑通过：单元 175、golden 12/12、术语表 52/52、smoke、smoke:install 15/15、`skills-ref validate`
+- [x] **隐私扫描（验收标准 5 ✅）**。搜索词：维护者的中英文姓名、邮箱、雇主相关字样、本机路径（`C:\Users` 等）、工作目录名、会话编号。发布前清理了 4 处：两份 SPEC 和一份计划里的私人字样改成通用写法；8 份回答原文开头的临时文件夹路径换成 `%TEMP%`（`activation.ts` 以后也自动这样写）。54 份原始对话记录按你的决定不公开，放在本机 `.local/`（不上传）。对最终要公开的 99 个文件再扫一遍：15 处命中全是仓库地址 `github.com/bellaaaaxu/canada-law`
+- [x] 你抽查术语表的 40 个中文词：没问题
+- [x] GitHub：账号 bellaaaaxu（已登录）。仓库级 git 身份 `bellaaaaxu` + GitHub 隐私邮箱（全局的工作邮箱没动）。你确认后推送：公开仓库 https://github.com/bellaaaaxu/canada-law ，发布页 v0.1.0（`canada-law-0.1.0.tgz` 254 KB、`canada-law-0.1.0.mcpb` 193 KB）
+- [x] **用发布页的真实地址跑安装器端到端 15/15**：`npm run smoke:install -- --from <地址>`（新加的选项：同一套四路径隔离和真实配置指纹核对，npm 缓存也在假目录里，所以是真的从网上下载）
+- [x] GitHub Actions（你定：加）：每次推送在 Windows / macOS / Linux 跑单元测试、类型检查、打包，三个系统都通过；每周一 15:00 UTC 联网检查（golden、术语表对原文、smoke），手动触发过一次，通过。BC Laws 接口变了，你的 GitHub 邮箱会收到失败通知
+- 发布前补上的：测试样本文件夹另放一份许可声明（`tests/fixtures/NOTICE`，第 3 节要求）；User-Agent 写上仓库地址；`package.json` 和 `.mcpb` 清单加仓库地址；`.gitattributes` 统一用 LF 换行（`#!/usr/bin/env node` 遇到 CRLF 在 macOS / Linux 上会失败），测试样本保持下载时的原样
 
 之后：M2（联邦）→ 发布 v0.2。
 
