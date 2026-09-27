@@ -2,7 +2,8 @@
 // Same results as the MCP tools, printed as ASCII-only JSON.
 import { asciiJson } from './ascii-json.js';
 import { lookupTerm, type Glossary } from './glossary.js';
-import { ToolError, type BcClient } from './sources/bc.js';
+import type { BcClient } from './sources/bc.js';
+import { ToolError } from './tool-error.js';
 
 export const USAGE = `Usage: node bclaw.mjs <command> [arguments]
 

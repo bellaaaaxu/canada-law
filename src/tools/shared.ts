@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ToolError } from '../sources/bc.js';
+import { ToolError } from '../tool-error.js';
 
 export const FEDERAL_NOT_YET =
   'Federal legislation is not available yet (planned for milestone M2). Only jurisdiction "bc" works for now.';

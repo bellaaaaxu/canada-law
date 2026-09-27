@@ -12,3 +12,17 @@ export type Citation = {
   current_to: string | null; // official "current to" date (ISO); null + warning when unavailable
   retrieved_at: string; // ISO time the text was retrieved from the official source
 };
+
+/** One find_act candidate. */
+export type ActCandidate = {
+  act_id: string;
+  title: string;
+  citation: string;
+  type: 'act' | 'regulation';
+  source_url: string;
+  status?: 'current' | 'repealed or replaced' | 'unknown';
+  note?: string;
+};
+
+/** One search_law result: the citation fields, a snippet and why it matched. */
+export type SearchResult = Citation & { snippet: string; match: string[] };

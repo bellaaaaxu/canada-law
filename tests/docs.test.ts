@@ -1,14 +1,21 @@
 // The published documents must not drift from the code.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { USER_AGENT } from '../src/http.js';
 import { TOOLS } from '../src/install/tools.js';
 import { BC_LAWS_NOTICE } from '../src/notice.js';
 import { INSTRUCTIONS } from '../src/server.js';
+import { VERSION } from '../src/version.js';
 
 const doc = (name: string) => readFileSync(new URL(`../${name}`, import.meta.url), 'utf8');
 const ZH_NAMES: Record<string, string> = { 'Claude Desktop': 'Claude 桌面版', 'Google Antigravity': '谷歌 Antigravity', 'Qwen Code': '通义 Qwen Code' };
 
 describe('published documents', () => {
+  it('uses one version number: package.json, the MCP server and the User-Agent', () => {
+    expect(VERSION).toBe(JSON.parse(doc('package.json')).version);
+    expect(USER_AGENT).toContain(`/${VERSION} `);
+  });
+
   it.each(['README.md', 'README.zh.md', 'NOTICE', 'tests/fixtures/NOTICE'])('%s carries the licence statement word for word', (name) => {
     expect(doc(name)).toContain(BC_LAWS_NOTICE);
   });

@@ -7,6 +7,7 @@ import { registerGetSection } from './tools/get-section.js';
 import { registerGetToc } from './tools/get-toc.js';
 import { registerMapTerm } from './tools/map-term.js';
 import { registerSearchLaw } from './tools/search-law.js';
+import { VERSION } from './version.js';
 
 // The same rules and answer format as skills/canada-employment-law/SKILL.md (tests/docs.test.ts keeps them in step):
 // a Claude Desktop user with the .mcpb gets only these instructions.
@@ -33,7 +34,7 @@ Rules:
 - Most BC workplaces are under BC law, but federally regulated industries (banks, airlines, telecommunications, interprovincial transport and similar) are under federal law such as the Canada Labour Code, which this server does not cover yet. Remind the user to check which applies.`;
 
 export function createServer(deps: { fetcher: Fetcher; glossary: Glossary }): McpServer {
-  const server = new McpServer({ name: 'canada-law', version: '0.1.0' }, { instructions: INSTRUCTIONS });
+  const server = new McpServer({ name: 'canada-law', version: VERSION }, { instructions: INSTRUCTIONS });
   const bc = new BcClient({ fetcher: deps.fetcher });
   registerFindAct(server, bc);
   registerGetToc(server, bc);

@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 import type { Glossary } from '../src/glossary.js';
 import type { FetchResult, Fetcher } from '../src/http.js';
 import { createServer } from '../src/server.js';
+import { VERSION } from '../src/version.js';
 
 const fx = (name: string) => readFileSync(new URL(`./fixtures/${name}`, import.meta.url), 'utf8');
 const DOC = 'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/';
@@ -42,6 +43,11 @@ describe('MCP server', () => {
     for (const t of tools) expect(t.description, t.name).toMatch(/^[A-Z][a-z]/);
     const search = tools.find((t) => t.name === 'search_law')!;
     expect(search.description).toMatch(/map_term/);
+  });
+
+  it('reports the package version', async () => {
+    const client = await connect();
+    expect(client.getServerVersion()).toMatchObject({ name: 'canada-law', version: VERSION });
   });
 
   it('sends the usage rules as initialize instructions', async () => {

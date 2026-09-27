@@ -1,8 +1,9 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { VERSION } from './version.js';
 
-export const USER_AGENT = 'canada-law-mcp/0.1 (+https://github.com/bellaaaaxu/canada-law)';
+export const USER_AGENT = `canada-law-mcp/${VERSION} (+https://github.com/bellaaaaxu/canada-law)`;
 const DAY_MS = 24 * 3600_000;
 
 export type FetchResult = {

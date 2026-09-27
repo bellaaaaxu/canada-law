@@ -1,7 +1,8 @@
 // BC Laws CiviX client: find acts, read tables of contents and sections, and search down to sections.
 // Behaviour of the API that the official docs get wrong or leave out is recorded in SPEC.md ("BC Laws").
 import type { FetchResult, Fetcher } from '../http.js';
-import type { Citation } from '../types.js';
+import { ToolError } from '../tool-error.js';
+import type { ActCandidate, Citation, SearchResult } from '../types.js';
 import { BC_LAWS_NOTICE } from '../notice.js';
 import { classifyDoc, parseFullSearch, parsePageMeta, type PageMeta } from './bc-meta.js';
 import {
@@ -18,8 +19,7 @@ import {
   type XNode,
 } from './bc-xml.js';
 
-/** An error whose message is meant for the caller (shown as the tool result). */
-export class ToolError extends Error {}
+export { ToolError };
 
 const BASE = 'https://www.bclaws.gov.bc.ca/civix';
 const DOC = `${BASE}/document/id/complete/statreg/`;
@@ -32,22 +32,6 @@ const CURRENT_TO_WARNING =
   'current_to is null: the official page did not show a "current to" date, so currency could not be confirmed. Check source_url before relying on this text.';
 
 export const pageUrl = (id: string) => DOC + id.replace(/_multi$/, '');
-
-export type ActCandidate = {
-  act_id: string;
-  title: string;
-  citation: string;
-  type: 'act' | 'regulation';
-  source_url: string;
-  status?: 'current' | 'repealed or replaced' | 'unknown';
-  note?: string;
-};
-
-export type SearchResult = Omit<Citation, 'jurisdiction'> & {
-  jurisdiction: 'bc';
-  snippet: string;
-  match: string[];
-};
 
 export class BcClient {
   private fetcher: Fetcher;
