@@ -248,7 +248,7 @@ function toSection(node: XNode, location: string[], schedule: string | null): Fe
     location,
     nearestHeading: location.at(-1) ?? null,
     repealed,
-    stub: !repealed && NOTE_ONLY.test(rest),
+    stub: !repealed && NOTE_ONLY.test(rest) && !/^\[(?:image|graphic) omitted/i.test(rest), // an image is content
     range: /\s(?:to|and)\s/.test(num),
     schedule,
   };
@@ -338,16 +338,12 @@ function instruction(n: XNode): string {
 // Every provision an amending instruction names: "section 1.4", "subsection 206.1(3)", "Sections 209 to 209.4",
 // "paragraphs 206.6(1)(a) and (b)". Missing one means no warning at all, so this favours recall (code review 2026-09-26).
 const NUMBER = String.raw`\d+(?:\.\d+)*(?:\s?\([^)\s]*\))*`; // "43 (2)" is written with a space too
-const REFERENCE = new RegExp(String.raw`\b(?:sub)?(?:section|paragraph|subparagraph|clause)s?\s+(${NUMBER}(?:\s*(?:,|and|or|to)\s*(?:${NUMBER}|(?:\([^)\s]*\))+))*)`, 'gi');
-// "… of the Canada Labour Code", "… of this Act", "… of the English version of the Act": the law a reference belongs to.
-// A name is "Act" / "Regulations", or a title in capitals ("Helping Families in Need Act"); "the other Act" is neither.
-const OF = /^\s+of\s+(this|these|that|those|the)\s+/i;
-const NAMED = /^(?:(?:English|French) version of (?:the )?)?((?:Act|Regulations)\b|[A-Z][\w’'-]*(?:\s+(?:[A-Z][\w’'-]*|of|and|the|for|to|in|on))*)/;
+const REFERENCE = new RegExp(String.raw`\b(?:sub)?(?:section|paragraph|subparagraph|clause)s?\s+(${NUMBER}(?:\s*(?:,\s*(?:and|or)\b|,|and|or|to)\s*(?:${NUMBER}|(?:\([^)\s]*\))+))*)`, 'gi');
 
-/** The section numbers in "209 to 209.4", "181.1 and 181.2", "206.6(1)(a) and (b)"; a range is filled in from the act's own numbers. */
+/** The section numbers in "209 to 209.4", "12, 13, and 14", "206.6(1)(a) and (b)"; a range is filled in from the act's own numbers. */
 function numbersIn(list: string, own: string[]): string[] {
   const lead = (s: string | undefined) => s?.match(/^\d+(?:\.\d+)*/)?.[0];
-  const parts = list.split(/\s*(,|\band\b|\bor\b|\bto\b)\s*/i); // item, separator, item, …
+  const parts = list.replace(/,\s*(and|or)\s+/gi, ' $1 ').split(/\s*(,|\band\b|\bor\b|\bto\b)\s*/i); // item, separator, item, …
   const out: string[] = [];
   for (let i = 0; i < parts.length; i += 2) {
     const a = lead(parts[i]);
@@ -374,18 +370,27 @@ export function notInForce(doc: XNode): NotInForce[] {
   const own = bodySections(doc)
     .map((s) => s.num)
     .filter((n) => /^\d+(?:\.\d+)*$/.test(n));
+  // Titles are compared as the start of what follows "of the": a full title can hold commas, a year, parentheses and
+  // small words ("Canada Industrial Relations Board Regulations, 2012"; re-review 2026-09-26).
+  const norm = (s: string) => s.toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
+  const title = norm(info.title ?? '');
+  /** after: the words that follow a reference. */
   const isThisLaw = (after: string) => {
-    const of = after.match(OF);
+    // "on the day on which section 3 comes into force": a provision of the amending act itself
+    if (/^\s+(?:comes?|came) into force\b|^\s+(?:is|are) in force\b|^\s+has produced its effects\b/i.test(after)) return false;
+    const of = after.match(/^\s+of\s+/i);
     if (!of) return true; // "(a) section 1.4;" in a list of this law's provisions
-    const det = of[1].toLowerCase();
-    if (det === 'this' || det === 'these') return false; // the amending act or regulations themselves
-    if (det === 'that' || det === 'those') return true; // named earlier: cannot tell, so counted
-    const named = after.slice(of[0].length).match(NAMED);
-    if (!named) return false; // "the other Act"
-    const name = named[1].replace(/(?:\s+(?:of|and|the|for|to|in|on))+$/, '').toLowerCase();
-    if (name === 'act') return info.kind === 'act'; // in a regulation, "the Act" is the act it is made under
-    if (name === 'regulations') return info.kind === 'regulation';
-    return name === (info.title ?? '').toLowerCase();
+    const det = after.slice(of[0].length).match(/^(this|these|that|those|the)\s+/i);
+    if (!det) return false; // "section 12 of chapter 27 of the Statutes of Canada, 2018": another text
+    const d = det[1].toLowerCase();
+    if (d === 'this' || d === 'these') return false; // the amending act or regulations themselves
+    if (d === 'that' || d === 'those') return true; // named earlier: cannot tell, so counted
+    const rest = norm(after.slice(of[0].length + det[0].length)).replace(/^(?:english|french) version of (?:the )?/, '');
+    if (title && rest.startsWith(title)) return true;
+    if (/^act\b/.test(rest)) return info.kind === 'act'; // in a regulation, "the Act" is the act it is made under
+    if (/^regulations\b/.test(rest)) return info.kind === 'regulation';
+    if (/^code\b/.test(rest)) return info.kind === 'act' && /\bcode$/.test(title);
+    return false; // another named law: "the Helping Families in Need Act", "the other Act"
   };
   // A number is this law's only if it is one of its sections, or one a pending amendment would add: transitional
   // provisions also name the amending act's own sections ("on the day on which section 357 comes into force").

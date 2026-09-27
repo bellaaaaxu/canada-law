@@ -65,6 +65,8 @@ describe('normalizeFedId / isFederalId', () => {
     expect(normalizeFedId('sor/86-304')).toBe('SOR-86-304');
     expect(normalizeFedId('l-2')).toBe('L-2');
     expect(normalizeFedId('c.r.c., c. 986')).toBe('C.R.C.,_c._986');
+    // 20 official ids end in a lower-case letter (the website does not mind the case, but act_id should match the list)
+    expect(normalizeFedId('SOR-89-30a')).toBe('SOR-89-30a');
   });
 
   it('rejects anything that could leave the Justice Laws XML folder', () => {

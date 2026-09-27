@@ -134,6 +134,11 @@ describe('stubs, schedule items, quoted text, and what is not in force (code rev
     ]);
   });
 
+  it('does not take a section that is only an image for a placeholder', () => {
+    const d = doc('<Section><Label>5</Label><Text><ImageGroup><Image source="x.gif"/></ImageGroup></Text></Section>');
+    expect(bodySections(d).map((x) => [x.num, x.stub])).toEqual([['5', false]]);
+  });
+
   it('marks a section that is only an editorial placeholder ("[Amendments]", "[Repeal]") and leaves it out of search', () => {
     const d = doc(
       '<Section target="C.R.C., c. 986" type="amending"><Label>38</Label><Text>[Amendments]</Text></Section><Section><Label>6</Label><Text>[Repeal]</Text></Section><Section><Label>7</Label><Text>These Regulations come into force on January 1, 2021.</Text></Section>',
@@ -282,6 +287,23 @@ describe('notInForce', () => {
       '<Section><Label>364</Label><Subsection><Label>(2)</Label><Text>An employee who, on the day on which section 357 comes into force, is on parental leave under section 206.1 of the Act may interrupt their parental leave.</Text></Subsection></Section>',
     );
     expect(sectionsOf(s364)).toEqual(['206.1']);
+  });
+
+  // Re-review, 2026-09-26: amending regulations name a regulation by its full title, which can hold commas, a year,
+  // parentheses and small words ("Canada Industrial Relations Board Regulations, 2012", as SOR/2026-10 s.43 does).
+  it('recognises this regulation named by a full title with punctuation', () => {
+    const doc = withNif('Regulation', 'Canada Industrial Relations Board Regulations, 2012', ['3'], 'SOR/2026-10, s. 43', '<Section type="amending"><Label>43</Label><Text>Subsection 3(2) of the Canada Industrial Relations Board Regulations, 2012 is repealed.</Text></Section>');
+    expect(sectionsOf(doc)).toEqual(['3']);
+    const amp = withNif('Regulation', 'Administrative Monetary Penalties (Canada Labour Code) Regulations', ['2'], 'SOR/2026-10, s. 57', '<Section type="amending"><Label>57</Label><Text>Section 2 of the Administrative Monetary Penalties (Canada Labour Code) Regulations is replaced by the following:</Text></Section>');
+    expect(sectionsOf(amp)).toEqual(['2']);
+  });
+
+  it('reads "the Code" as the Code, a serial comma, and not "section 12 of chapter 27" or "section 3 comes into force"', () => {
+    const code = (text: string, nums: string[]) => sectionsOf(withNif('Statute', 'Canada Labour Code', nums, '2024, c. 15, s. 9', `<Section type="amending"><Label>9</Label><Text>${text}</Text></Section>`));
+    expect(code('Subsection 7(1) of the Code is replaced by the following:', ['7'])).toEqual(['7']);
+    expect(code('Sections 12, 13, and 14 of the Act are repealed.', ['12', '13', '14'])).toEqual(['12', '13', '14']);
+    expect(code('Section 212.1 of the Act, as enacted by section 12 of chapter 27 of the Statutes of Canada, 2018, is replaced by the following:', ['12', '212.1'])).toEqual(['212.1']);
+    expect(code('On the day on which section 3 comes into force, section 239 of the Act is amended by adding the following after subsection (1):', ['3', '239'])).toEqual(['239']);
   });
 
   it('keeps an amendment that names no section (a heading, a transitional provision), with no sections', () => {

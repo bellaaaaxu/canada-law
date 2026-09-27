@@ -183,6 +183,16 @@ describe('parsePhrases (reading a query the way people and AI models write it)',
     expect(parsePhrases('overtime AND bank')).toEqual({ phrases: ['overtime', 'bank'], and: true });
     expect(parsePhrases('overtime').and).toBe(false);
   });
+
+  it('leaves "and" / "or" inside unquoted wording alone, as statutes use them ("health and safety committee")', () => {
+    expect(parsePhrases('health and safety committee')).toEqual({ phrases: ['health and safety committee'], and: false });
+    expect(parsePhrases('wages and/or benefits').phrases).toEqual(['wages and/or benefits']);
+  });
+
+  it('takes curly and single quotes as quotes', () => {
+    expect(parsePhrases('“general holiday” OR “general holidays”').phrases).toEqual(['general holiday', 'general holidays']);
+    expect(parsePhrases("'general holiday'").phrases).toEqual(['general holiday']);
+  });
 });
 
 describe('FederalClient.search (the Canada Labour Code and its regulations, in memory)', () => {
@@ -295,10 +305,19 @@ describe('FederalClient.search (the Canada Labour Code and its regulations, in m
     expect(r.documents_searched).toBe(2);
   });
 
-  it('says so when the Code comes back with no sections', async () => {
+  it('says so when the Code comes back with no sections, and does not count it', async () => {
     const empty = '<?xml version="1.0"?><Statute><Identification><ShortTitle>Canada Labour Code</ShortTitle></Identification><Body></Body></Statute>';
     const r = await client([xmlRoute('L-2', empty)]).fed.search('overtime');
     expect(r.warnings.join(' ')).toMatch(/Canada Labour Code \(L-2\) came back with no sections/);
+    expect(r.documents_searched).toBe(2);
+  });
+
+  it('keeps searching the others when one document cannot even be parsed (a download cut short)', async () => {
+    const cut = fx('fed-CRC-986-trimmed.xml').slice(0, fx('fed-CRC-986-trimmed.xml').indexOf('<Body') + 1); // ends with "<"
+    const r = await client([xmlRoute('C.R.C.,_c._986', cut)]).fed.search('overtime');
+    expect(r.warnings.join(' ')).toMatch(/Canada Labour Standards Regulations \(C\.R\.C\.,_c\._986\) did not come back as legislation XML/);
+    expect(r.results.some((x) => x.section === '174')).toBe(true);
+    await expect(client([xmlRoute('C.R.C.,_c._986', cut)]).fed.getSection('C.R.C.,_c._986', '2')).rejects.toThrow(/did not come back as legislation XML/);
   });
 
   it('flags a result that is not in force yet', async () => {

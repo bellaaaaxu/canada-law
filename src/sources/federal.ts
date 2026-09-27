@@ -89,7 +89,7 @@ export class FederalClient {
         retrieved_at: fetchedAt,
       },
       outline: fedToc(doc),
-      warnings: [...docWarnings(info, page), ...(info.allRepealed ? [`Every section of this ${word(info.kind)} reads "[Repealed…]": it is repealed.`] : [])],
+      warnings: [...docWarnings(info, page), ...(info.allRepealed ? [`Every section of this ${word(info.kind)} reads "[Repealed…]" or "[Revoked…]": it is repealed.`] : [])],
       notes:
         pending.length > 0
           ? [`This ${word(info.kind)} lists ${pending.length} amendment${pending.length === 1 ? '' : 's'} not in force yet. They are not in this outline; the official page lists them under "Amendments not in force".`]
@@ -107,7 +107,7 @@ export class FederalClient {
     const { id, doc, info, fetchedAt } = await this.load(actId);
     const title = info.title ?? id;
     if (info.allRepealed) {
-      throw new ToolError(`${title} (${id}) is repealed: every section of it reads "[Repealed…]". Find the current act with find_act (tool) or find (command).`);
+      throw new ToolError(`${title} (${id}) is repealed: every section of it reads "[Repealed…]" or "[Revoked…]". Find the current act with find_act (tool) or find (command).`);
     }
     const matches = findFedSections(bodySections(doc), num);
     const pending = notInForce(doc);
@@ -202,12 +202,21 @@ export class FederalClient {
         warnings.push(`${entry.title} (${entry.id}) could not be read (HTTP ${res.status}), so it was not searched.`);
         return [];
       }
-      const { info, records } = this.toSearchable(res);
-      if (info.kind === 'unknown') {
+      let doc: Searchable | null = null;
+      try {
+        doc = this.toSearchable(res);
+      } catch {
+        // a body the parser cannot read (a download cut short) must not take down the other documents
+      }
+      if (!doc || doc.info.kind === 'unknown') {
         warnings.push(`${entry.title} (${entry.id}) did not come back as legislation XML, so it was not searched.`);
         return [];
       }
-      if (entry.id === SEARCHED_ACT && records.length === 0) warnings.push(`${entry.title} (${entry.id}) came back with no sections, so nothing in it could be searched.`);
+      const { info, records } = doc;
+      if (entry.id === SEARCHED_ACT && records.length === 0) {
+        warnings.push(`${entry.title} (${entry.id}) came back with no sections, so nothing in it could be searched.`);
+        return [];
+      }
       searched++;
       return records.flatMap((r, secIndex) => {
         const hits = hitsIn(r.text) + hitsIn(r.notes);
@@ -343,9 +352,16 @@ export class FederalClient {
       throw new ToolError(`No federal act or regulation with act_id "${id}".${hint} Look up the id with find_act (tool) or find (command).`);
     }
     if (res.status !== 200) throw new ToolError(`Justice Laws returned HTTP ${res.status} for ${id}.`);
-    const doc = this.parse(res);
+    let doc: XNode;
+    try {
+      doc = this.parse(res);
+    } catch {
+      throw new ToolError(`${id} did not come back as legislation XML (the website may be down, or the download cut short). Check the official page before relying on anything.`);
+    }
     const info = fedDocInfo(doc);
-    if (info.kind === 'unknown') throw new ToolError(`${id} is not an act or regulation in XML form. Look up the act id with find_act (tool) or find (command).`);
+    if (info.kind === 'unknown') {
+      throw new ToolError(`${id} did not come back as legislation XML: it is not an act or regulation in XML form. Look up the act id with find_act (tool) or find (command).`);
+    }
     return { id, doc, info, fetchedAt: res.fetchedAt };
   }
 
@@ -405,13 +421,16 @@ function docWarnings(info: FedDocInfo, page: FedPageMeta): string[] {
  * Federal search has no AND, so AND is searched as OR, and `and` says so.
  */
 export function parsePhrases(query: string): { phrases: string[]; and: boolean } {
-  const quoted = [...query.matchAll(/"([^"]*)"/g)].map((m) => m[1].replace(/\s+/g, ' ').trim()).filter(Boolean);
-  const rest = query.replace(/"[^"]*"/g, ' ').replace(/["()]/g, ' ');
+  const q = query.replace(/[“”]/g, '"');
+  const quoted = [...q.matchAll(/"([^"]*)"/g)].map((m) => m[1].replace(/\s+/g, ' ').trim()).filter(Boolean);
+  const rest = q.replace(/"[^"]*"/g, ' ').replace(/["()]/g, ' ');
+  // Operators are OR / AND in capitals: statutes say "health and safety committee" (re-review 2026-09-26). A lone
+  // "or" / "and" left between quoted phrases is dropped; quotes at the ends of a phrase are dropped too.
   const loose = rest
-    .split(/\b(?:OR|AND)\b/i)
-    .map((p) => p.replace(/\s+/g, ' ').trim())
-    .filter(Boolean);
-  return { phrases: [...quoted, ...loose], and: /\bAND\b/i.test(rest) };
+    .split(/\b(?:OR|AND)\b/)
+    .map((p) => p.replace(/\s+/g, ' ').trim().replace(/^['‘’]+|['‘’]+$/g, '').trim())
+    .filter((p) => p && !/^(?:or|and)$/i.test(p));
+  return { phrases: [...quoted, ...loose], and: /\bAND\b/.test(rest) };
 }
 
 /** A phrase as a regex source: whole words, any spacing between them, ' and ’ alike, and a trailing * for any ending. */

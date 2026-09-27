@@ -4285,7 +4285,7 @@ function parseLegis(xml) {
 function normalizeFedId(input) {
   const t = input.trim();
   const crc = t.match(/^C\.R\.C\.,?[\s_]*c\.[\s_]*(\d+)$/i);
-  const id = crc ? `C.R.C.,_c._${crc[1]}` : t.replace(/^(SOR|SI)\/(\d+-\d+)$/i, "$1-$2").toUpperCase();
+  const id = crc ? `C.R.C.,_c._${crc[1]}` : t.replace(/^(SOR|SI)\/(\d+-\d+)$/i, "$1-$2").replace(/^[a-z]+(?=-)/i, (p) => p.toUpperCase());
   if (!/^[A-Za-z0-9][A-Za-z0-9.,_-]*$/.test(id) || id.includes("..")) {
     throw new ToolError(`act_id "${input}" is not a Justice Laws id (such as L-2 or C.R.C.,_c._986). Look it up with find_act (tool) or find (command).`);
   }
@@ -5181,7 +5181,8 @@ function toSection(node, location, schedule) {
     location,
     nearestHeading: location.at(-1) ?? null,
     repealed,
-    stub: !repealed && NOTE_ONLY.test(rest),
+    stub: !repealed && NOTE_ONLY.test(rest) && !/^\[(?:image|graphic) omitted/i.test(rest),
+    // an image is content
     range: /\s(?:to|and)\s/.test(num),
     schedule
   };
@@ -5235,12 +5236,10 @@ function instruction(n) {
   return n.children.map((c) => !isEl(c) ? c : c.name === "AmendedText" || c.name === "HistoricalNote" || c.name === "Footnote" ? " " : ` ${instruction(c)} `).join("");
 }
 var NUMBER = String.raw`\d+(?:\.\d+)*(?:\s?\([^)\s]*\))*`;
-var REFERENCE = new RegExp(String.raw`\b(?:sub)?(?:section|paragraph|subparagraph|clause)s?\s+(${NUMBER}(?:\s*(?:,|and|or|to)\s*(?:${NUMBER}|(?:\([^)\s]*\))+))*)`, "gi");
-var OF = /^\s+of\s+(this|these|that|those|the)\s+/i;
-var NAMED = /^(?:(?:English|French) version of (?:the )?)?((?:Act|Regulations)\b|[A-Z][\w’'-]*(?:\s+(?:[A-Z][\w’'-]*|of|and|the|for|to|in|on))*)/;
+var REFERENCE = new RegExp(String.raw`\b(?:sub)?(?:section|paragraph|subparagraph|clause)s?\s+(${NUMBER}(?:\s*(?:,\s*(?:and|or)\b|,|and|or|to)\s*(?:${NUMBER}|(?:\([^)\s]*\))+))*)`, "gi");
 function numbersIn(list, own) {
   const lead = (s) => s?.match(/^\d+(?:\.\d+)*/)?.[0];
-  const parts2 = list.split(/\s*(,|\band\b|\bor\b|\bto\b)\s*/i);
+  const parts2 = list.replace(/,\s*(and|or)\s+/gi, " $1 ").split(/\s*(,|\band\b|\bor\b|\bto\b)\s*/i);
   const out = [];
   for (let i = 0; i < parts2.length; i += 2) {
     const a = lead(parts2[i]);
@@ -5259,18 +5258,23 @@ function notInForce(doc) {
   if (!nif) return [];
   const info = fedDocInfo(doc);
   const own = bodySections(doc).map((s) => s.num).filter((n) => /^\d+(?:\.\d+)*$/.test(n));
+  const norm = (s) => s.toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ").trim();
+  const title = norm(info.title ?? "");
   const isThisLaw = (after) => {
-    const of = after.match(OF);
+    if (/^\s+(?:comes?|came) into force\b|^\s+(?:is|are) in force\b|^\s+has produced its effects\b/i.test(after)) return false;
+    const of = after.match(/^\s+of\s+/i);
     if (!of) return true;
-    const det = of[1].toLowerCase();
-    if (det === "this" || det === "these") return false;
-    if (det === "that" || det === "those") return true;
-    const named = after.slice(of[0].length).match(NAMED);
-    if (!named) return false;
-    const name = named[1].replace(/(?:\s+(?:of|and|the|for|to|in|on))+$/, "").toLowerCase();
-    if (name === "act") return info.kind === "act";
-    if (name === "regulations") return info.kind === "regulation";
-    return name === (info.title ?? "").toLowerCase();
+    const det = after.slice(of[0].length).match(/^(this|these|that|those|the)\s+/i);
+    if (!det) return false;
+    const d = det[1].toLowerCase();
+    if (d === "this" || d === "these") return false;
+    if (d === "that" || d === "those") return true;
+    const rest = norm(after.slice(of[0].length + det[0].length)).replace(/^(?:english|french) version of (?:the )?/, "");
+    if (title && rest.startsWith(title)) return true;
+    if (/^act\b/.test(rest)) return info.kind === "act";
+    if (/^regulations\b/.test(rest)) return info.kind === "regulation";
+    if (/^code\b/.test(rest)) return info.kind === "act" && /\bcode$/.test(title);
+    return false;
   };
   const pendingAdded = allOf(nif, "AmendedText").flatMap((t) => allOf(t, "Section").map((s) => child(s, "Label") ? inlineText2(child(s, "Label")) : ""));
   const known = /* @__PURE__ */ new Set([...own, ...pendingAdded]);
@@ -5393,7 +5397,7 @@ var FederalClient = class {
         retrieved_at: fetchedAt
       },
       outline: fedToc(doc),
-      warnings: [...docWarnings(info, page), ...info.allRepealed ? [`Every section of this ${word(info.kind)} reads "[Repealed\u2026]": it is repealed.`] : []],
+      warnings: [...docWarnings(info, page), ...info.allRepealed ? [`Every section of this ${word(info.kind)} reads "[Repealed\u2026]" or "[Revoked\u2026]": it is repealed.`] : []],
       notes: pending.length > 0 ? [`This ${word(info.kind)} lists ${pending.length} amendment${pending.length === 1 ? "" : "s"} not in force yet. They are not in this outline; the official page lists them under "Amendments not in force".`] : [],
       notice: FEDERAL_NOTICE
     };
@@ -5405,7 +5409,7 @@ var FederalClient = class {
     const { id, doc, info, fetchedAt } = await this.load(actId);
     const title = info.title ?? id;
     if (info.allRepealed) {
-      throw new ToolError(`${title} (${id}) is repealed: every section of it reads "[Repealed\u2026]". Find the current act with find_act (tool) or find (command).`);
+      throw new ToolError(`${title} (${id}) is repealed: every section of it reads "[Repealed\u2026]" or "[Revoked\u2026]". Find the current act with find_act (tool) or find (command).`);
     }
     const matches = findFedSections(bodySections(doc), num);
     const pending = notInForce(doc);
@@ -5491,12 +5495,20 @@ var FederalClient = class {
         warnings.push(`${entry.title} (${entry.id}) could not be read (HTTP ${res.status}), so it was not searched.`);
         return [];
       }
-      const { info, records } = this.toSearchable(res);
-      if (info.kind === "unknown") {
+      let doc = null;
+      try {
+        doc = this.toSearchable(res);
+      } catch {
+      }
+      if (!doc || doc.info.kind === "unknown") {
         warnings.push(`${entry.title} (${entry.id}) did not come back as legislation XML, so it was not searched.`);
         return [];
       }
-      if (entry.id === SEARCHED_ACT && records.length === 0) warnings.push(`${entry.title} (${entry.id}) came back with no sections, so nothing in it could be searched.`);
+      const { info, records } = doc;
+      if (entry.id === SEARCHED_ACT && records.length === 0) {
+        warnings.push(`${entry.title} (${entry.id}) came back with no sections, so nothing in it could be searched.`);
+        return [];
+      }
       searched++;
       return records.flatMap((r2, secIndex) => {
         const hits = hitsIn(r2.text) + hitsIn(r2.notes);
@@ -5621,9 +5633,16 @@ var FederalClient = class {
       throw new ToolError(`No federal act or regulation with act_id "${id}".${hint} Look up the id with find_act (tool) or find (command).`);
     }
     if (res.status !== 200) throw new ToolError(`Justice Laws returned HTTP ${res.status} for ${id}.`);
-    const doc = this.parse(res);
+    let doc;
+    try {
+      doc = this.parse(res);
+    } catch {
+      throw new ToolError(`${id} did not come back as legislation XML (the website may be down, or the download cut short). Check the official page before relying on anything.`);
+    }
     const info = fedDocInfo(doc);
-    if (info.kind === "unknown") throw new ToolError(`${id} is not an act or regulation in XML form. Look up the act id with find_act (tool) or find (command).`);
+    if (info.kind === "unknown") {
+      throw new ToolError(`${id} did not come back as legislation XML: it is not an act or regulation in XML form. Look up the act id with find_act (tool) or find (command).`);
+    }
     return { id, doc, info, fetchedAt: res.fetchedAt };
   }
   parse(res) {
@@ -5671,10 +5690,11 @@ function docWarnings(info, page) {
   return w;
 }
 function parsePhrases(query) {
-  const quoted3 = [...query.matchAll(/"([^"]*)"/g)].map((m) => m[1].replace(/\s+/g, " ").trim()).filter(Boolean);
-  const rest = query.replace(/"[^"]*"/g, " ").replace(/["()]/g, " ");
-  const loose = rest.split(/\b(?:OR|AND)\b/i).map((p) => p.replace(/\s+/g, " ").trim()).filter(Boolean);
-  return { phrases: [...quoted3, ...loose], and: /\bAND\b/i.test(rest) };
+  const q = query.replace(/[“”]/g, '"');
+  const quoted3 = [...q.matchAll(/"([^"]*)"/g)].map((m) => m[1].replace(/\s+/g, " ").trim()).filter(Boolean);
+  const rest = q.replace(/"[^"]*"/g, " ").replace(/["()]/g, " ");
+  const loose = rest.split(/\b(?:OR|AND)\b/).map((p) => p.replace(/\s+/g, " ").trim().replace(/^['‘’]+|['‘’]+$/g, "").trim()).filter((p) => p && !/^(?:or|and)$/i.test(p));
+  return { phrases: [...quoted3, ...loose], and: /\bAND\b/.test(rest) };
 }
 function phrasePattern(phrase) {
   const words = phrase.split(/\s+/).map((w) => {
