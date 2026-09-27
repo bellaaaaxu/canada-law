@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { FEDERAL_NOTICE } from '../src/notice.js';
-import { FederalClient } from '../src/sources/federal.js';
+import { FederalClient, parsePhrases } from '../src/sources/federal.js';
 import { ToolError } from '../src/tool-error.js';
 import { FED, FETCHED_AT, fakeFetcher, fedRoutes, fx, type Route } from './helpers.js';
 
@@ -67,6 +67,15 @@ describe('FederalClient.getSection', () => {
     expect(r.warnings.join(' ')).toMatch(/not in force yet.*2018, c\. 27, s\. 312/);
   });
 
+  it('notes amendments not in force that name no section, since one of them could still touch this section', async () => {
+    const heading =
+      '<RelatedOrNotInForce><Heading level="5" style="nifrp"><TitleText> — 2018, c. 27, s. 451</TitleText></Heading><Section type="amending"><Label>451</Label><Text>The heading of Division III of Part III of the Act is replaced by the following:</Text></Section></RelatedOrNotInForce>';
+    const xml = fx('fed-L-2-trimmed.xml').replace(/<\/BillPiece><\/Schedule>(?![\s\S]*<\/BillPiece><\/Schedule>)/, `${heading}</BillPiece></Schedule>`);
+    const r = await client([xmlRoute('L-2', xml)]).fed.getSection('L-2', '169.1');
+    expect(r.notes?.join(' ')).toMatch(/1 amendment not in force .*names no particular section/);
+    expect((await client().fed.getSection('L-2', '169.1')).notes).toBeUndefined();
+  });
+
   it('finds a number inside a range of repealed sections, and links to the table of contents', async () => {
     const r = await client().fed.getSection('L-2', '164');
     expect(r.citation.source_url).toBe(`${FED}/eng/acts/L-2/index.html`);
@@ -128,7 +137,48 @@ describe('FederalClient.getToc', () => {
   });
 });
 
+describe('parsePhrases (reading a query the way people and AI models write it)', () => {
+  it('takes quoted phrases with or without OR, in any case, and drops parentheses', () => {
+    expect(parsePhrases('"general holiday" OR "general holidays"').phrases).toEqual(['general holiday', 'general holidays']);
+    expect(parsePhrases('"general holiday" "general holidays"').phrases).toEqual(['general holiday', 'general holidays']);
+    expect(parsePhrases('"general holiday" or "general holidays"').phrases).toEqual(['general holiday', 'general holidays']);
+    expect(parsePhrases('("meal break" OR "meal breaks")').phrases).toEqual(['meal break', 'meal breaks']);
+  });
+
+  it('keeps unquoted words together as one phrase, and a quoted phrase whole even when it holds OR', () => {
+    expect(parsePhrases('overtime pay').phrases).toEqual(['overtime pay']);
+    expect(parsePhrases('overtime OR "time off"').phrases).toEqual(['time off', 'overtime']);
+    expect(parsePhrases('"leave OR absence"').phrases).toEqual(['leave OR absence']);
+  });
+
+  it('treats AND as OR, and says so', () => {
+    expect(parsePhrases('overtime AND bank')).toEqual({ phrases: ['overtime', 'bank'], and: true });
+    expect(parsePhrases('overtime').and).toBe(false);
+  });
+});
+
 describe('FederalClient.search (the Canada Labour Code and its regulations, in memory)', () => {
+  it('finds phrases written without OR (as some models write them)', async () => {
+    const r = await client().fed.search('"general holiday" "general holidays"');
+    expect(r.results[0]).toMatchObject({ act_id: 'L-2', section: '166' });
+  });
+
+  it('says that finding nothing does not show the law has no such rule', async () => {
+    const r = await client().fed.search('"zebra crossing guard"');
+    expect(r.results).toEqual([]);
+    expect(r.warnings.join(' ')).toMatch(/No section .* matched .*does not show that the law has no such rule/);
+  });
+
+  it('says when AND was searched as OR', async () => {
+    const r = await client().fed.search('overtime AND holiday');
+    expect(r.notes.join(' ')).toMatch(/AND .*OR/);
+  });
+
+  it('rejects a phrase with no letters or digits, such as a lone *', async () => {
+    await expect(client().fed.search('*')).rejects.toBeInstanceOf(ToolError);
+    await expect(client().fed.search('"general holiday" OR *')).rejects.toBeInstanceOf(ToolError);
+  });
+
   const at = (results: { act_id: string; section: string }[], id: string, num: string) => results.findIndex((x) => x.act_id === id && x.section === num) + 1;
 
   it('ranks the section that defines "general holiday" first, with citation fields and a marked snippet', async () => {
@@ -187,6 +237,40 @@ describe('FederalClient.search (the Canada Labour Code and its regulations, in m
     expect(fetcher.calls).not.toContain(`${FED}/eng/XML/C.R.C.,_c._986.xml`);
     expect(r.documents_searched).toBe(1);
     expect(r.warnings.join(' ')).toMatch(/official list .*could not be read.*only the Canada Labour Code/);
+  });
+
+  it('does not trust an official list that came back as something else (a web page, a new format)', async () => {
+    const page: Route = [(u) => u === `${FED}/eng/XML/Legis.xml`, '<html><body>Service temporarily unavailable</body></html>'];
+    const r = await client([page]).fed.search('overtime');
+    expect(r.documents_searched).toBe(1);
+    expect(r.warnings.join(' ')).toMatch(/official list .*could not be read.*only the Canada Labour Code/);
+    await expect(client([page]).fed.findAct('Canada Labour Code')).rejects.toThrow(/official list/);
+  });
+
+  it('says when a regulation the list puts under the Code is missing from the list', async () => {
+    const legis = fx('fed-legis-trimmed.xml').replace('<Reg idRef="1315618e" />', '<Reg idRef="1315618e" /><Reg idRef="999999e" />');
+    const r = await client([[(u) => u === `${FED}/eng/XML/Legis.xml`, legis]]).fed.search('overtime');
+    expect(r.warnings.join(' ')).toMatch(/1 regulation the official list puts under the Canada Labour Code is not in the list itself/);
+    expect(r.documents_searched).toBe(3);
+  });
+
+  it('says when the list names no regulations under the Code', async () => {
+    const legis = fx('fed-legis-trimmed.xml').replace(/<RegsMadeUnderAct><Reg idRef="602863e" \/><Reg idRef="1315618e" \/><\/RegsMadeUnderAct>/, '');
+    const r = await client([[(u) => u === `${FED}/eng/XML/Legis.xml`, legis]]).fed.search('overtime');
+    expect(r.warnings.join(' ')).toMatch(/names no regulations under the Canada Labour Code/);
+    expect(r.documents_searched).toBe(1);
+  });
+
+  it('does not count a document that came back as something other than legislation XML', async () => {
+    const r = await client([xmlRoute('C.R.C.,_c._986', '<html><body>Maintenance</body></html>')]).fed.search('overtime');
+    expect(r.warnings.join(' ')).toMatch(/Canada Labour Standards Regulations \(C\.R\.C\.,_c\._986\) did not come back as legislation XML/);
+    expect(r.documents_searched).toBe(2);
+  });
+
+  it('says so when the Code comes back with no sections', async () => {
+    const empty = '<?xml version="1.0"?><Statute><Identification><ShortTitle>Canada Labour Code</ShortTitle></Identification><Body></Body></Statute>';
+    const r = await client([xmlRoute('L-2', empty)]).fed.search('overtime');
+    expect(r.warnings.join(' ')).toMatch(/Canada Labour Code \(L-2\) came back with no sections/);
   });
 
   it('reports a regulation it could not read, and still searches the rest', async () => {

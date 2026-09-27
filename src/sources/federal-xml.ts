@@ -317,20 +317,62 @@ function instruction(n: XNode): string {
     .join('');
 }
 
-// "subsection 206.1(3) of the Canada Labour Code is replaced": the provision named right before "is replaced / amended /
-// repealed". The words in between may not name another provision, or "section 35 of the Helping Families in Need Act has
-// produced its effects and … subsection 206.1(3) … is replaced" would be read as section 35.
-const PROVISION = String.raw`\b(?:sub)?(?:section|paragraph|subparagraph|clause)s?\b`;
-const CHANGED = new RegExp(String.raw`(${PROVISION}\s(?:(?!${PROVISION})[^:;])*?)\s(?:is|are)\s(?:replaced|amended|repealed)\b`, 'gi');
+// Every provision an amending instruction names: "section 1.4", "subsection 206.1(3)", "Sections 209 to 209.4",
+// "paragraphs 206.6(1)(a) and (b)". Missing one means no warning at all, so this favours recall (code review 2026-09-26).
+const NUMBER = String.raw`\d+(?:\.\d+)*(?:\s?\([^)\s]*\))*`; // "43 (2)" is written with a space too
+const REFERENCE = new RegExp(String.raw`\b(?:sub)?(?:section|paragraph|subparagraph|clause)s?\s+(${NUMBER}(?:\s*(?:,|and|or|to)\s*(?:${NUMBER}|(?:\([^)\s]*\))+))*)`, 'gi');
+// "… of the Canada Labour Code", "… of this Act", "… of the English version of the Act": the law a reference belongs to.
+// A name is "Act" / "Regulations", or a title in capitals ("Helping Families in Need Act"); "the other Act" is neither.
+const OF = /^\s+of\s+(this|these|that|those|the)\s+/i;
+const NAMED = /^(?:(?:English|French) version of (?:the )?)?((?:Act|Regulations)\b|[A-Z][\w’'-]*(?:\s+(?:[A-Z][\w’'-]*|of|and|the|for|to|in|on))*)/;
+
+/** The section numbers in "209 to 209.4", "181.1 and 181.2", "206.6(1)(a) and (b)"; a range is filled in from the act's own numbers. */
+function numbersIn(list: string, own: string[]): string[] {
+  const lead = (s: string | undefined) => s?.match(/^\d+(?:\.\d+)*/)?.[0];
+  const parts = list.split(/\s*(,|\band\b|\bor\b|\bto\b)\s*/i); // item, separator, item, …
+  const out: string[] = [];
+  for (let i = 0; i < parts.length; i += 2) {
+    const a = lead(parts[i]);
+    if (!a) continue;
+    const b = parts[i + 1]?.toLowerCase() === 'to' ? lead(parts[i + 2]) : undefined;
+    if (b) {
+      out.push(a, ...own.filter((n) => compareNums(a, n) < 0 && compareNums(n, b) < 0), b);
+      i += 2;
+    } else out.push(a);
+  }
+  return out;
+}
 
 /**
- * AMENDMENTS NOT IN FORCE: for each amending provision, the sections it would add and the sections it says it replaces,
- * amends or repeals ("adding the following after section 154" does not count 154).
+ * AMENDMENTS NOT IN FORCE: for each amending provision, the sections it would add, and the provisions of this act it names
+ * ("section 35 of the Helping Families in Need Act", "section 310 of this Act" and "after section 154" are not counted).
+ * An amendment that names none (a heading, a transitional provision) is kept, with no sections.
  */
 export function notInForce(doc: XNode): NotInForce[] {
   const root = doc.children.find(isEl);
   const nif = root?.children.find((c): c is XNode => isEl(c) && c.name === 'Schedule' && c.attrs.id === 'NifProvs');
   if (!nif) return [];
+  const info = fedDocInfo(doc);
+  const own = bodySections(doc)
+    .map((s) => s.num)
+    .filter((n) => /^\d+(?:\.\d+)*$/.test(n));
+  const isThisLaw = (after: string) => {
+    const of = after.match(OF);
+    if (!of) return true; // "(a) section 1.4;" in a list of this law's provisions
+    const det = of[1].toLowerCase();
+    if (det === 'this' || det === 'these') return false; // the amending act or regulations themselves
+    if (det === 'that' || det === 'those') return true; // named earlier: cannot tell, so counted
+    const named = after.slice(of[0].length).match(NAMED);
+    if (!named) return false; // "the other Act"
+    const name = named[1].replace(/(?:\s+(?:of|and|the|for|to|in|on))+$/, '').toLowerCase();
+    if (name === 'act') return info.kind === 'act'; // in a regulation, "the Act" is the act it is made under
+    if (name === 'regulations') return info.kind === 'regulation';
+    return name === (info.title ?? '').toLowerCase();
+  };
+  // A number is this law's only if it is one of its sections, or one a pending amendment would add: transitional
+  // provisions also name the amending act's own sections ("on the day on which section 357 comes into force").
+  const pendingAdded = allOf(nif, 'AmendedText').flatMap((t) => allOf(t, 'Section').map((s) => (child(s, 'Label') ? inlineText(child(s, 'Label')!) : '')));
+  const known = new Set([...own, ...pendingAdded]);
   const out: NotInForce[] = [];
   const collect = (n: XNode) => {
     for (const c of n.children) {
@@ -353,8 +395,13 @@ export function notInForce(doc: XNode): NotInForce[] {
         }
       };
       const said = tidy(instruction(c));
-      for (const m of said.matchAll(CHANGED)) {
-        for (const d of m[1].split(/\sof\s/)[0].matchAll(/(?<![\w.(])(\d+(?:\.\d+)*)/g)) nums.add(d[1]);
+      for (const m of said.matchAll(REFERENCE)) {
+        const start = m.index ?? 0;
+        const before = said.slice(Math.max(0, start - 10), start);
+        if (/\b(?:after|before)\s+$/i.test(before)) continue; // "adding the following after section 154"
+        if (/\b(?:that|those|this|these)\s+$/i.test(before)) continue; // "as enacted by that section 452": named before
+        if (!isThisLaw(said.slice(start + m[0].length))) continue;
+        for (const n of numbersIn(m[1], own)) if (known.has(n)) nums.add(n);
       }
       added(c, false);
       out.push({ citation, sections: [...nums] });

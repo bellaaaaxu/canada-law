@@ -136,11 +136,88 @@ describe('notInForce', () => {
 
   it('reads "Section 228 of the Act is repealed." right after the amending section’s own number', () => {
     // As in the full Code (2018, c. 27, s. 482): <Label>482</Label><Text>Section 228 …</Text>, no space in between.
-    const xml = fx('fed-L-2-trimmed.xml').replace(
-      /<\/BillPiece><\/Schedule>(?![\s\S]*<\/BillPiece><\/Schedule>)/,
-      '<RelatedOrNotInForce><Heading level="5" style="nifrp"><TitleText> — 2018, c. 27, s. 482</TitleText></Heading><Section type="amending"><Label>482</Label><Text>Section 228 of the Act is repealed.</Text></Section></RelatedOrNotInForce></BillPiece></Schedule>',
-    );
+    // (The trimmed Code has no s.228, which the full Code has; it is put back so that the section exists.)
+    const xml = fx('fed-L-2-trimmed.xml')
+      .replace('</Body>', '<Section><Label>228</Label><Text>The Governor in Council may make regulations.</Text></Section></Body>')
+      .replace(
+        /<\/BillPiece><\/Schedule>(?![\s\S]*<\/BillPiece><\/Schedule>)/,
+        '<RelatedOrNotInForce><Heading level="5" style="nifrp"><TitleText> — 2018, c. 27, s. 482</TitleText></Heading><Section type="amending"><Label>482</Label><Text>Section 228 of the Act is repealed.</Text></Section></RelatedOrNotInForce></BillPiece></Schedule>',
+      );
     expect(notInForce(parseXml(xml)).find((a) => a.citation === '2018, c. 27, s. 482')?.sections).toEqual(['228']);
+  });
+
+  // Real drafting forms the first parser missed (code review, 2026-09-26), each read as the sections it would change.
+  const withNif = (root: 'Statute' | 'Regulation', title: string, nums: string[], cite: string, amending: string) =>
+    parseXml(
+      `<?xml version="1.0"?><${root}><Identification>${root === 'Statute' ? `<ShortTitle>${title}</ShortTitle>` : `<LongTitle>${title}</LongTitle>`}</Identification><Body>` +
+        nums.map((n) => `<Section><Label>${n}</Label><Text>text</Text></Section>`).join('') +
+        `</Body><Schedule id="NifProvs"><ScheduleFormHeading type="amending"><TitleText>AMENDMENTS NOT IN FORCE</TitleText></ScheduleFormHeading><BillPiece><RelatedOrNotInForce><Heading level="5" style="nifrp"><TitleText> — ${cite}</TitleText></Heading>${amending}</RelatedOrNotInForce></BillPiece></Schedule></${root}>`,
+    );
+  const sectionsOf = (doc: ReturnType<typeof parseXml>) => notInForce(doc)[0].sections;
+
+  it('reads a list of provisions an amendment would change (SOR/2026-10, s. 41, word for word)', () => {
+    const s41 =
+      '<Section type="amending"><Label>41</Label><Text>The Regulations are amended by replacing “safety and health committee” with “work place committee” in the following provisions:</Text><Paragraph type="amending"><Label>(a)</Label><Text>section 1.4;</Text></Paragraph><Paragraph type="amending"><Label>(b)</Label><Text>the portion of section 11.4 before paragraph (a);</Text></Paragraph><Paragraph type="amending"><Label>(c)</Label><Text>subsection 11.15(2);</Text></Paragraph><Paragraph type="amending"><Label>(d)</Label><Text>subsection 11.19(1) and the portion of subsection 11.19(3) before paragraph (a);</Text></Paragraph><Paragraph type="amending"><Label>(e)</Label><Text>the portion of section 11.20 before paragraph (a);</Text></Paragraph><Paragraph type="amending"><Label>(f)</Label><Text>the portion of subsection 11.27(3) before paragraph (a);</Text></Paragraph><Paragraph type="amending"><Label>(g)</Label><Text>paragraph 11.28.8(3)(b);</Text></Paragraph><Paragraph type="amending"><Label>(h)</Label><Text>paragraph 11.30(b);</Text></Paragraph><Paragraph type="amending"><Label>(i)</Label><Text>paragraph 11.35(2)(c);</Text></Paragraph><Paragraph type="amending"><Label>(j)</Label><Text>the portion of subsection 11.36(1) before paragraph (a) and subsection 11.36(2);</Text></Paragraph><Paragraph type="amending"><Label>(k)</Label><Text>paragraph 16.3(1)(c) and subsection 16.3(3); and</Text></Paragraph><Paragraph type="amending"><Label>(l)</Label><Text>the portion of subsection 16.4(1) before paragraph (a) and paragraph 16.4(2)(b).</Text></Paragraph></Section>';
+    const named = ['1.4', '11.4', '11.15', '11.19', '11.20', '11.27', '11.28.8', '11.30', '11.35', '11.36', '16.3', '16.4'];
+    const doc = withNif('Regulation', 'Oil and Gas Occupational Safety and Health Regulations', [...named, '11.5'], 'SOR/2026-10, s. 41', s41);
+    expect(sectionsOf(doc)).toEqual(named);
+  });
+
+  it('reads "the portion of subsection 167(1) … before paragraph (a) is replaced"', () => {
+    const doc = withNif('Statute', 'Canada Labour Code', ['167'], '2018, c. 27, s. 440', '<Section type="amending"><Label>440</Label><Text>The portion of subsection 167(1) of the Act before paragraph (a) is replaced by the following:</Text></Section>');
+    expect(sectionsOf(doc)).toEqual(['167']);
+  });
+
+  it('reads a range of sections, as the act numbers them', () => {
+    const doc = withNif('Statute', 'Canada Labour Code', ['209', '209.1', '209.2', '209.3', '209.4', '209.5'], '2024, c. 15, s. 1', '<Section type="amending"><Label>1</Label><Text>Sections 209 to 209.4 of the Act are replaced by the following:</Text></Section>');
+    expect(sectionsOf(doc)).toEqual(['209', '209.1', '209.2', '209.3', '209.4']);
+  });
+
+  it('reads "is renumbered"', () => {
+    const doc = withNif('Statute', 'Canada Labour Code', ['229.1'], '2024, c. 15, s. 2', '<Section type="amending"><Label>2</Label><Text>Section 229.1 of the Act is renumbered as subsection 229.1(1).</Text></Section>');
+    expect(sectionsOf(doc)).toEqual(['229.1']);
+  });
+
+  it('does not count a provision of another act or regulation', () => {
+    const other = withNif('Statute', 'Canada Labour Code', ['7'], '2024, c. 15, s. 3', '<Section type="amending"><Label>3</Label><Text>Subsection 7(1) of the Canada Labour Standards Regulations is replaced by the following:</Text></Section>');
+    expect(sectionsOf(other)).toEqual([]);
+    // in a regulation, "the Act" is the act it is made under
+    const act = withNif('Regulation', 'Canada Labour Standards Regulations', ['11.1'], 'SOR/2026-75, s. 2', '<Section type="amending"><Label>2</Label><Text>Subsection 169.1(1) of the Act is modified as follows:</Text></Section>');
+    expect(sectionsOf(act)).toEqual([]);
+    expect(nif.find((a) => a.citation === '2018, c. 27, s. 312')?.sections).not.toEqual(expect.arrayContaining(['35']));
+    expect(nif.find((a) => a.citation === '2018, c. 27, s. 312')?.sections).not.toEqual(expect.arrayContaining(['310']));
+  });
+
+  it('does not count the amending act’s own sections, however they are named (2018, c. 27, s. 518; 2020, c. 5, s. 45; 2024, c. 15, s. 364)', () => {
+    const s518 = withNif(
+      'Statute',
+      'Canada Labour Code',
+      ['182.1', '452'],
+      '2018, c. 27, s. 518',
+      '<Section><Label>518</Label><Text>If a collective agreement that is in effect on the day on which section 452 of this Act comes into force contains a provision that permits differences in rates of wages based on employment status and there is a conflict between that provision and section 182.1 of the <XRefExternal>Canada Labour Code</XRefExternal>, as enacted by that section 452, the provision of the collective agreement prevails to the extent of the conflict.</Text></Section>',
+    );
+    expect(sectionsOf(s518)).toEqual(['182.1']);
+    const s45 = withNif(
+      'Statute',
+      'Canada Labour Code',
+      ['43', '246.1'],
+      '2020, c. 5, ss. 45(1), (3)',
+      '<Section type="amending"><Label>45</Label><Subsection><Label>(3)</Label><Text>If subsection 43 (2) of this Act comes into force before section 493 of the other Act, then, on the day on which that section 493 comes into force, paragraph 246.1(1)(a) of the Canada Labour Code is replaced by the following:</Text></Subsection></Section>',
+    );
+    expect(sectionsOf(s45)).toEqual(['246.1']);
+    const s364 = withNif(
+      'Statute',
+      'Canada Labour Code',
+      ['206.1'],
+      '2024, c. 15, s. 364',
+      '<Section><Label>364</Label><Subsection><Label>(2)</Label><Text>An employee who, on the day on which section 357 comes into force, is on parental leave under section 206.1 of the Act may interrupt their parental leave.</Text></Subsection></Section>',
+    );
+    expect(sectionsOf(s364)).toEqual(['206.1']);
+  });
+
+  it('keeps an amendment that names no section (a heading, a transitional provision), with no sections', () => {
+    const doc = withNif('Statute', 'Canada Labour Code', ['182'], '2018, c. 27, s. 451', '<Section type="amending"><Label>451</Label><Text>The heading of Division III of Part III of the Act is replaced by the following:</Text></Section>');
+    expect(notInForce(doc)).toEqual([{ citation: '2018, c. 27, s. 451', sections: [] }]);
   });
 
   it('reads the amendments not in force of a regulation too', () => {

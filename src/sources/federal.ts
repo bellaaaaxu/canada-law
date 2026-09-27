@@ -141,8 +141,16 @@ export class FederalClient {
       location: m.location,
       text: renderFedSection(m.node),
     }));
+    // Amendments that name no section (new headings, schedules, transitional provisions) can still bear on this one.
+    const unnamed = pending.filter((a) => a.sections.length === 0).length;
+    const notes =
+      unnamed > 0
+        ? [
+            `${unnamed} amendment${unnamed === 1 ? '' : 's'} not in force yet ${unnamed === 1 ? 'names' : 'name'} no particular section (for example a new heading, a schedule or a transitional provision). The official page lists ${unnamed === 1 ? 'it' : 'them'} under "Amendments not in force".`,
+          ]
+        : null;
     const [first, ...others] = results;
-    return { ...first, ...(others.length > 0 ? { other_matches: others } : {}), warnings, notice: FEDERAL_NOTICE };
+    return { ...first, ...(others.length > 0 ? { other_matches: others } : {}), warnings, ...(notes ? { notes } : {}), notice: FEDERAL_NOTICE };
   }
 
   // ---------- search_law ----------
@@ -153,8 +161,12 @@ export class FederalClient {
 
   /** search() plus each result's score, so that search_law "all" can rank BC and federal results together. */
   async searchScored(query: string, limit = 10) {
-    const phrases = parsePhrases(query);
+    const { phrases, and } = parsePhrases(query);
     if (phrases.length === 0) throw new ToolError('query is empty.');
+    const wordless = phrases.find((p) => !/[\p{L}\p{N}]/u.test(p));
+    if (wordless) {
+      throw new ToolError(`"${wordless}" is not a search phrase. Give words, e.g. "general holiday" OR "general holidays", or a word ending in * such as break*.`);
+    }
     const alternatives = phrases.map(phrasePattern).join('|');
     const hitsIn = (s: string) => (s.match(new RegExp(alternatives, 'gi')) ?? []).length;
     const has = (s: string | null) => s !== null && new RegExp(alternatives, 'i').test(s);
@@ -171,8 +183,13 @@ export class FederalClient {
         warnings.push(`${entry.title} (${entry.id}) could not be read (HTTP ${res.status}), so it was not searched.`);
         return [];
       }
-      searched++;
       const { info, records } = this.toSearchable(res);
+      if (info.kind === 'unknown') {
+        warnings.push(`${entry.title} (${entry.id}) did not come back as legislation XML, so it was not searched.`);
+        return [];
+      }
+      if (entry.id === SEARCHED_ACT && records.length === 0) warnings.push(`${entry.title} (${entry.id}) came back with no sections, so nothing in it could be searched.`);
+      searched++;
       return records.flatMap((r, secIndex) => {
         const hits = hitsIn(r.text) + hitsIn(r.notes);
         const above = has(r.nearestHeading);
@@ -229,14 +246,21 @@ export class FederalClient {
     });
 
     const regs = scope.length - 1;
+    const asked = phrases.map((p) => `"${p}"`).join(' OR ');
+    if (scored.length === 0) {
+      warnings.push(
+        `No section of the ${searched} document${searched === 1 ? '' : 's'} searched matched ${asked}. Matching is literal, so this does not show that the law has no such rule: try other wording, singular and plural, or map_term.`,
+      );
+    }
     return {
       output: {
-        query: phrases.map((p) => `"${p}"`).join(' OR '),
+        query: asked,
         documents_searched: searched,
         results: scored.map((s) => s.result),
         warnings,
         notes: [
           `Federal search covers the Canada Labour Code and the ${regs} regulation${regs === 1 ? '' : 's'} made under it, from the official list of acts and regulations. Other federal acts and regulations, and amendments not in force yet, are not searched: find an act with find_act, then read it with get_toc and get_section.`,
+          ...(and ? ['Federal search has no AND: the words joined by AND were searched as alternatives, as if joined by OR.'] : []),
           LITERAL_NOTE,
           SNIPPET_NOTE,
         ],
@@ -254,12 +278,19 @@ export class FederalClient {
       list = await this.legis();
     } catch (e) {
       if (!(e instanceof ToolError)) throw e;
-      warnings.push(`The official list of acts and regulations could not be read (${e.message.match(/HTTP \d+/)?.[0] ?? 'error'}), so only the Canada Labour Code itself was searched, not its regulations.`);
+      warnings.push(`The official list of acts and regulations could not be read, so only the Canada Labour Code itself was searched, not its regulations. (${e.message})`);
       return [code];
     }
-    const act = list.find((e) => e.id === SEARCHED_ACT);
-    const regs = (act?.regRefs ?? []).flatMap((ref) => list.filter((e) => e.ref === ref));
-    return [{ ...code, title: act?.title ?? code.title }, ...regs.map((e) => ({ id: e.id, title: e.title, kind: e.kind }))];
+    const act = list.find((e) => e.id === SEARCHED_ACT)!; // legis() makes sure it is there
+    if (act.regRefs.length === 0) warnings.push('The official list names no regulations under the Canada Labour Code, so only the Code itself was searched.');
+    const regs = act.regRefs.map((ref) => list.find((e) => e.ref === ref));
+    const missing = regs.filter((e) => !e).length;
+    if (missing > 0) {
+      warnings.push(
+        `${missing} regulation${missing === 1 ? '' : 's'} the official list puts under the Canada Labour Code ${missing === 1 ? 'is' : 'are'} not in the list itself, so ${missing === 1 ? 'it was' : 'they were'} not searched.`,
+      );
+    }
+    return [{ ...code, title: act.title }, ...regs.flatMap((e) => (e ? [{ id: e.id, title: e.title, kind: e.kind }] : []))];
   }
 
   private toSearchable(res: FetchResult): Searchable {
@@ -310,7 +341,16 @@ export class FederalClient {
       throw new ToolError(`The official list of federal acts and regulations could not be read (HTTP ${res.status}). Try again later, or pass a known act_id (such as L-2) to get_toc.`);
     }
     const key = `${res.url}@${res.fetchedAt}`;
-    if (this.legisCache?.key !== key) this.legisCache = { key, entries: parseLegis(res.body) };
+    if (this.legisCache?.key !== key) {
+      // A 200 that is not the list (an error page, a new format) must not pass for an empty list.
+      const entries = parseLegis(res.body);
+      if (!entries.some((e) => e.id === SEARCHED_ACT)) {
+        throw new ToolError(
+          `The official list of federal acts and regulations could not be read: it came back without ${entries.length === 0 ? 'any English entries' : 'the Canada Labour Code (L-2)'}, so its format may have changed. Try again later, or pass a known act_id (such as L-2) to get_toc.`,
+        );
+      }
+      this.legisCache = { key, entries };
+    }
     return this.legisCache.entries;
   }
 }
@@ -328,12 +368,19 @@ function docWarnings(info: FedDocInfo, page: FedPageMeta): string[] {
   return w;
 }
 
-/** '"general holiday" OR "general holidays"' → ['general holiday', 'general holidays']; quotes and parentheses dropped. */
-export function parsePhrases(query: string): string[] {
-  return query
-    .split(/\s+OR\s+/)
-    .map((p) => p.trim().replace(/^[("\s]+|[)"\s]+$/g, '').trim())
+/**
+ * '"general holiday" OR "general holidays"' → ['general holiday', 'general holidays']. Quoted phrases are taken whole,
+ * with or without OR between them (models write both); the words outside quotes are split at OR / AND in any case.
+ * Federal search has no AND, so AND is searched as OR, and `and` says so.
+ */
+export function parsePhrases(query: string): { phrases: string[]; and: boolean } {
+  const quoted = [...query.matchAll(/"([^"]*)"/g)].map((m) => m[1].replace(/\s+/g, ' ').trim()).filter(Boolean);
+  const rest = query.replace(/"[^"]*"/g, ' ').replace(/["()]/g, ' ');
+  const loose = rest
+    .split(/\b(?:OR|AND)\b/i)
+    .map((p) => p.replace(/\s+/g, ' ').trim())
     .filter(Boolean);
+  return { phrases: [...quoted, ...loose], and: /\bAND\b/i.test(rest) };
 }
 
 /** A phrase as a regex source: whole words, any spacing between them, ' and ’ alike, and a trailing * for any ending. */
