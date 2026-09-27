@@ -24,5 +24,5 @@ export type ActCandidate = {
   note?: string;
 };
 
-/** One search_law result: the citation fields, a snippet and why it matched. */
-export type SearchResult = Citation & { snippet: string; match: string[] };
+/** One search_law result: the citation fields, a snippet and why it matched; schedule when it is an item of a schedule. */
+export type SearchResult = Citation & { snippet: string; match: string[]; schedule?: string };

@@ -121,6 +121,75 @@ describe('renderFedSection', () => {
   });
 });
 
+describe('stubs, schedule items, quoted text, and what is not in force (code review, 2026-09-26)', () => {
+  const doc = (body: string) => parseXml(`<?xml version="1.0"?><Regulation><Identification><LongTitle>Test Regulations</LongTitle></Identification><Body>${body}</Body></Regulation>`);
+
+  it('treats "[Revoked …]" like "[Repealed …]", also for a range (C.R.C., c. 1013 s.4; SOR/87-182 ss.5.10 and 5.11)', () => {
+    const s = bodySections(
+      doc('<Section><Label>4</Label><Text><Repealed>[Revoked, SOR/90-701, s. 1]</Repealed></Text></Section><Section><Label>5.10 and 5.11</Label><Text><Repealed>[Revoked, SOR/88-201, s. 6]</Repealed></Text></Section>'),
+    );
+    expect(s.map((x) => [x.num, x.repealed, x.range])).toEqual([
+      ['4', true, false],
+      ['5.10 and 5.11', true, true],
+    ]);
+  });
+
+  it('marks a section that is only an editorial placeholder ("[Amendments]", "[Repeal]") and leaves it out of search', () => {
+    const d = doc(
+      '<Section target="C.R.C., c. 986" type="amending"><Label>38</Label><Text>[Amendments]</Text></Section><Section><Label>6</Label><Text>[Repeal]</Text></Section><Section><Label>7</Label><Text>These Regulations come into force on January 1, 2021.</Text></Section>',
+    );
+    expect(bodySections(d).map((x) => [x.num, x.stub, x.repealed])).toEqual([
+      ['38', true, false],
+      ['6', true, false],
+      ['7', false, false],
+    ]);
+    expect(sectionRecords(d).map((r) => r.num)).toEqual(['7']);
+  });
+
+  it('knows which sections are items of a schedule (SOR/86-304, Schedule V)', () => {
+    const d = doc(
+      '<Section><Label>16.12</Label><Text>The course shall include the subjects set out in Schedule V.</Text></Section><Schedule><ScheduleFormHeading><Label>SCHEDULE V</Label><OriginatingRef>(Subsection 16.12(1))</OriginatingRef><TitleText>Subjects to Be Included in the Courses</TitleText></ScheduleFormHeading><RegulationPiece><Section><Label>1</Label><Text>Basic first aid:</Text></Section></RegulationPiece></Schedule>',
+    );
+    const title = 'SCHEDULE V (Subsection 16.12(1)) Subjects to Be Included in the Courses';
+    expect(bodySections(d).map((x) => [x.num, x.schedule])).toEqual([
+      ['16.12', null],
+      ['1', title],
+    ]);
+    expect(sectionRecords(d).find((r) => r.num === '1')?.schedule).toBe(title);
+  });
+
+  it('does not take a section quoted outside any section for one of the law’s own', () => {
+    const d = doc('<Section><Label>1</Label><Text>text</Text></Section><ReadAsText><Section><Label>99</Label><Text>quoted</Text></Section></ReadAsText>');
+    expect(bodySections(d).map((x) => x.num)).toEqual(['1']);
+  });
+
+  it('counts only the terms a section defines, not a reference to a definition elsewhere (s.87.7)', () => {
+    const d = doc(
+      '<Section><Label>87.7</Label><Text>an industry included in paragraph (a) of the definition <DefinedTermEn>federal work, undertaking or business</DefinedTermEn> in section 2</Text></Section><Section><Label>2</Label><Text>In this Act,</Text><Definition><Text><DefinedTermEn>federal work, undertaking or business</DefinedTermEn> means any work</Text></Definition></Section>',
+    );
+    expect(sectionRecords(d).map((r) => [r.num, r.definedTerms])).toEqual([
+      ['87.7', []],
+      ['2', ['federal work, undertaking or business']],
+    ]);
+  });
+
+  it('knows whether a whole section, or only part of it, is not in force', () => {
+    const d = doc(
+      '<Section in-force="no"><Label>1</Label><Text>a</Text></Section><Section><Label>2</Label><Text>b</Text><Subsection in-force="no"><Label>(2)</Label><Text>c</Text></Subsection></Section><Section><Label>3</Label><Text>d</Text></Section>',
+    );
+    expect(sectionRecords(d).map((r) => [r.num, r.notInForce])).toEqual([
+      ['1', 'whole'],
+      ['2', 'part'],
+      ['3', null],
+    ]);
+  });
+
+  it('keeps superscripts and subscripts apart from the text (m², Lex,8 in SOR/86-304)', () => {
+    const s = parseXml('<Section><Label>1</Label><Text>a surface of 3 m<Sup>2</Sup> or less; the noise exposure level (L<Sub>ex,8</Sub>)</Text></Section>');
+    expect(renderFedSection(s.children[0] as never)).toBe('1 a surface of 3 m^2 or less; the noise exposure level (L_(ex,8))');
+  });
+});
+
 describe('notInForce', () => {
   const nif = notInForce(clc);
 

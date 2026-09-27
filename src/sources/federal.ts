@@ -116,9 +116,19 @@ export class FederalClient {
     const warnings = docWarnings(info, page);
     if (matches.length > 1) warnings.push(`${matches.length} provisions are numbered ${num} in this ${word(info.kind)} (for example one in a schedule). All are returned; check "location".`);
     for (const m of matches) {
-      if (m.range) warnings.push(`Sections ${m.num} were repealed together. The official website has no page for section ${num} on its own, so source_url is the table of contents.`);
-      else if (m.repealed) warnings.push(`Section ${m.num} is repealed.`);
-      if (hasNotInForcePart(m.node)) warnings.push(`Part of section ${m.num} is not in force yet: it is marked "[Not in force]" (shaded on the official page).`);
+      if (m.range) {
+        warnings.push(
+          `Sections ${m.num} ${m.repealed ? 'were repealed together' : 'are printed together'}. The official website has no page for section ${num} on its own, so source_url is the table of contents.`,
+        );
+      } else if (m.repealed) warnings.push(`Section ${m.num} is repealed.`);
+      else if (m.stub) warnings.push(`Section ${m.num} holds only an editorial note, with no text of its own.`);
+      if (m.schedule) {
+        warnings.push(
+          `Section ${m.num} here is an item of ${m.schedule}, not a section of the ${word(info.kind)} itself. The official website has no page for it on its own, so source_url is the table of contents.`,
+        );
+      }
+      if (m.node.attrs['in-force'] === 'no') warnings.push(`Section ${m.num} is not in force yet (shaded on the official page).`);
+      else if (hasNotInForcePart(m.node)) warnings.push(`Part of section ${m.num} is not in force yet: it is marked "[Not in force]" (shaded on the official page).`);
       const changes = pendingFor(m.num);
       if (changes.length > 0) {
         warnings.push(
@@ -134,7 +144,7 @@ export class FederalClient {
         act_id: id,
         section: m.num,
         heading: m.heading,
-        source_url: m.range ? fedPageUrl(info.kind, id) : sectionUrl(info.kind, id, m.num),
+        source_url: m.range || m.schedule ? fedPageUrl(info.kind, id) : sectionUrl(info.kind, id, m.num),
         current_to: page.currentTo,
         retrieved_at: fetchedAt,
       } satisfies Citation,
@@ -205,6 +215,8 @@ export class FederalClient {
           ...(heading ? ['heading'] : []),
           ...(above ? ['heading above the section'] : []),
           `${hits} hit${hits === 1 ? '' : 's'}`,
+          ...(r.schedule ? ['in a schedule'] : []),
+          ...(r.notInForce === 'whole' ? ['not in force yet'] : r.notInForce === 'part' ? ['partly not in force yet'] : []),
         ];
         return [{ entry, r, info, fetchedAt: res.fetchedAt, score, match, order: docIndex * 100_000 + secIndex }];
       });
@@ -236,14 +248,23 @@ export class FederalClient {
           act_id: entry.id,
           section: r.num,
           heading: r.heading,
-          source_url: sectionUrl(info.kind, entry.id, r.num),
+          // a schedule item has no page of its own: its number is not a section number of the act
+          source_url: r.schedule ? fedPageUrl(info.kind, entry.id) : sectionUrl(info.kind, entry.id, r.num),
           current_to: page.currentTo,
           retrieved_at: fetchedAt,
           snippet,
           match,
+          ...(r.schedule ? { schedule: r.schedule } : {}),
         },
       };
     });
+    for (const { entry, r } of top) {
+      if (r.notInForce) {
+        warnings.push(
+          `${r.notInForce === 'whole' ? `Section ${r.num}` : `Part of section ${r.num}`} of ${entry.title} (${entry.id}) is not in force yet (marked "[Not in force]"); read it with get_section before relying on it.`,
+        );
+      }
+    }
 
     const regs = scope.length - 1;
     const asked = phrases.map((p) => `"${p}"`).join(' OR ');

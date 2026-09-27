@@ -17,7 +17,11 @@ function inlineRaw(nodes: XChild[]): string {
     if (c.name === 'HistoricalNote' || c.name === 'MarginalNote' || c.name === 'Footnote' || c.name === 'FootnoteRef' || c.name === 'PageBreak') continue;
     if (c.name === 'DefinedTermEn') s += `"${inlineRaw(c.children).trim()}"`;
     else if (c.name === 'Repealed') s += (s !== '' && !/\s$/.test(s) ? ' ' : '') + inlineRaw(c.children);
-    else if (c.name === 'LineBreak') s += BR;
+    else if (c.name === 'Sup' || c.name === 'Sub') {
+      // "3 m^2", "L_(ex,8)": plain text has no raised or lowered letters, and running them in ("m2") changes the text
+      const t = inlineRaw(c.children).trim();
+      s += (c.name === 'Sup' ? '^' : '_') + (/^[A-Za-z0-9]{1,3}$/.test(t) ? t : `(${t})`);
+    } else if (c.name === 'LineBreak') s += BR;
     else if (c.name === 'Leader' || c.name === 'LeaderRightJustified') s += ' ';
     else if (c.name === 'ImageGroup' || c.name === 'Image') s += '[image omitted: see source_url]';
     else s += inlineRaw(c.children);
@@ -164,12 +168,16 @@ function scheduleTitle(s: XNode): string {
 const notTheLaw = (s: XNode) => s.attrs.id === 'RelatedProvs' || s.attrs.id === 'NifProvs';
 
 type Visit = {
-  section: (node: XNode, location: string[]) => void;
+  /** schedule: the schedule the section is an item of, if any */
+  section: (node: XNode, location: string[], schedule: string | null) => void;
   heading?: (text: string, depth: number) => void;
 };
 
+// Provisions quoted by the law or by an amendment are not the law's own sections, wherever they appear.
+const QUOTED = new Set(['ReadAsText', 'AmendedText', 'HistoricalNote', 'Identification']);
+
 /** Headings are siblings of the sections they head (not containers), so the path is tracked by heading level. */
-function walk(container: XNode, base: string[], v: Visit) {
+function walk(container: XNode, base: string[], v: Visit, schedule: string | null) {
   let stack: { level: number; text: string }[] = [];
   const location = () => [...base, ...stack.map((s) => s.text)];
   for (const c of container.children) {
@@ -182,13 +190,13 @@ function walk(container: XNode, base: string[], v: Visit) {
         stack.push({ level, text });
         v.heading?.(text, location().length - 1);
       }
-    } else if (c.name === 'Section') v.section(c, location());
+    } else if (c.name === 'Section') v.section(c, location(), schedule);
     else if (c.name === 'Schedule') {
       if (notTheLaw(c)) continue;
       const title = scheduleTitle(c);
       v.heading?.(title, location().length);
-      walk(c, [...location(), title], v);
-    } else if (c.name !== 'HistoricalNote' && c.name !== 'Identification') walk(c, location(), v);
+      walk(c, [...location(), title], v, title);
+    } else if (!QUOTED.has(c.name)) walk(c, location(), v, schedule);
   }
 }
 
@@ -197,11 +205,11 @@ function walkLaw(doc: XNode, v: Visit) {
   if (!root) return;
   for (const c of root.children) {
     if (!isEl(c)) continue;
-    if (c.name === 'Body') walk(c, [], v);
+    if (c.name === 'Body') walk(c, [], v, null);
     else if (c.name === 'Schedule' && !notTheLaw(c)) {
       const title = scheduleTitle(c);
       v.heading?.(title, 0);
-      walk(c, [title], v);
+      walk(c, [title], v, title);
     }
   }
 }
@@ -215,31 +223,41 @@ export type FedSection = {
   /** Enclosing Part / Division / headings / schedule, outermost first. */
   location: string[];
   nearestHeading: string | null;
+  /** "[Repealed …]" or "[Revoked …]" and nothing else. */
   repealed: boolean;
+  /** Some other editorial placeholder and nothing else: "[Amendments]", "[Repeal]". */
+  stub: boolean;
   range: boolean;
+  /** The schedule this is an item of (SOR/86-304 Schedule V numbers its items 1, 2), or null for the body. */
+  schedule: string | null;
 };
 
-const REPEALED_ONLY = /^\[Repealed\b[^\]]*\]$/;
+const REPEALED_ONLY = /^\[(?:Repealed|Revoked)\b[^\]]*\]$/;
+const NOTE_ONLY = /^\[[^\]]*\]$/;
 
-function toSection(node: XNode, location: string[]): FedSection {
+function toSection(node: XNode, location: string[], schedule: string | null): FedSection {
   const labelNode = child(node, 'Label');
   const num = labelNode ? inlineText(labelNode) : '';
   const note = child(node, 'MarginalNote');
+  const rest = renderFedSection(node).slice(num.length).trim();
+  const repealed = REPEALED_ONLY.test(rest);
   return {
     node,
     num,
     heading: note ? inlineText(note) : null,
     location,
     nearestHeading: location.at(-1) ?? null,
-    repealed: REPEALED_ONLY.test(renderFedSection(node).slice(num.length).trim()),
+    repealed,
+    stub: !repealed && NOTE_ONLY.test(rest),
     range: /\s(?:to|and)\s/.test(num),
+    schedule,
   };
 }
 
 /** The act's own sections, in order: the body and its schedules, not the related provisions or amendments not in force. */
 export function bodySections(doc: XNode): FedSection[] {
   const out: FedSection[] = [];
-  walkLaw(doc, { section: (node, location) => out.push(toSection(node, location)) });
+  walkLaw(doc, { section: (node, location, schedule) => out.push(toSection(node, location, schedule)) });
   return out;
 }
 
@@ -417,8 +435,8 @@ export function fedToc(doc: XNode): string {
   const lines: string[] = [];
   walkLaw(doc, {
     heading: (text, depth) => lines.push(indent(depth) + text),
-    section: (node, location) => {
-      const s = toSection(node, location);
+    section: (node, location, schedule) => {
+      const s = toSection(node, location, schedule);
       if (s.num !== '') lines.push(`${indent(location.length)}${s.num}  ${s.heading ?? (s.repealed ? 'Repealed' : '')}`.trimEnd());
     },
   });
@@ -436,17 +454,21 @@ export type SectionRecord = {
   text: string;
   /** Every marginal note in the section, the subsections' included (" | " between them). */
   notes: string;
+  /** Terms the section defines (inside <Definition>, not a reference such as "the definition … in section 2"). */
   definedTerms: string[];
+  schedule: string | null;
+  /** in-force="no" on the whole section, or on a part of it (shaded on the official page). */
+  notInForce: 'whole' | 'part' | null;
 };
 
 function allOf(n: XNode, name: string): XNode[] {
   return n.children.flatMap((c) => (!isEl(c) ? [] : c.name === name ? [c, ...allOf(c, name)] : allOf(c, name)));
 }
 
-/** Numbered sections in force, for search: no ranges, no "[Repealed…]" stubs. */
+/** Numbered sections, for search: no ranges, and nothing that only holds an editorial note ("[Repealed…]", "[Amendments]"). */
 export function sectionRecords(doc: XNode): SectionRecord[] {
   return bodySections(doc)
-    .filter((s) => /^\d/.test(s.num) && !s.range && !s.repealed)
+    .filter((s) => /^\d/.test(s.num) && !s.range && !s.repealed && !s.stub)
     .map((s) => ({
       num: s.num,
       heading: s.heading,
@@ -456,6 +478,8 @@ export function sectionRecords(doc: XNode): SectionRecord[] {
       notes: allOf(s.node, 'MarginalNote')
         .map((m) => inlineText(m))
         .join(' | '),
-      definedTerms: allOf(s.node, 'DefinedTermEn').map((d) => inlineText(d)),
+      definedTerms: allOf(s.node, 'Definition').flatMap((d) => allOf(d, 'DefinedTermEn').map((t) => inlineText(t))),
+      schedule: s.schedule,
+      notInForce: s.node.attrs['in-force'] === 'no' ? 'whole' : hasNotInForcePart(s.node) ? 'part' : null,
     }));
 }

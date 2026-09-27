@@ -9,6 +9,11 @@ const client = (extra: Route[] = []) => {
   return { fetcher, fed: new FederalClient({ fetcher }) };
 };
 const xmlRoute = (id: string, body: string): Route => [(u) => u === `${FED}/eng/XML/${id}.xml`, body];
+// The Canada Labour Standards Regulations with a schedule inside the body whose item is numbered 1, as SOR/86-304 has.
+const CLSR_WITH_SCHEDULE_ITEM = fx('fed-CRC-986-trimmed.xml').replace(
+  '</Body>',
+  '<Schedule><ScheduleFormHeading><Label>SCHEDULE V</Label><OriginatingRef>(Subsection 16.12(1))</OriginatingRef><TitleText>Subjects to Be Included in the Courses</TitleText></ScheduleFormHeading><RegulationPiece><Section><Label>1</Label><Text>Basic first aid:</Text></Section></RegulationPiece></Schedule></Body>',
+);
 const pageRoute = (id: string, body: string): Route => [(u) => u === `${FED}/eng/acts/${id}/index.html`, body];
 
 describe('Justice Laws licence notice', () => {
@@ -93,6 +98,19 @@ describe('FederalClient.getSection', () => {
     const xml = fx('fed-L-2-trimmed.xml').replace(/(<Label>169\.1<\/Label>[\s\S]*?)<Subsection([^>]*)>(<MarginalNote[^>]*>Exception)/, '$1<Subsection$2 in-force="no">$3');
     const r = await client([xmlRoute('L-2', xml)]).fed.getSection('L-2', '169.1');
     expect(r.warnings.join(' ')).toMatch(/not in force/i);
+  });
+
+  it('says so when a whole section is not in force (in-force="no" on the section)', async () => {
+    const xml = fx('fed-L-2-trimmed.xml').replace(/<Section([^>]*)>(<MarginalNote[^>]*>Break<\/MarginalNote>)/, '<Section$1 in-force="no">$2');
+    const r = await client([xmlRoute('L-2', xml)]).fed.getSection('L-2', '169.1');
+    expect(r.warnings.join(' ')).toMatch(/Section 169\.1 is not in force yet/);
+  });
+
+  it('says when a number is an item of a schedule, and links to the table of contents', async () => {
+    const r = await client([xmlRoute('C.R.C.,_c._986', CLSR_WITH_SCHEDULE_ITEM)]).fed.getSection('C.R.C.,_c._986', '1');
+    const item = [r, ...(r.other_matches ?? [])].find((m) => m.location.some((l) => l.startsWith('SCHEDULE V')))!;
+    expect(item.citation.source_url).toBe(`${FED}/eng/regulations/C.R.C.,_c._986/index.html`);
+    expect(r.warnings.join(' ')).toMatch(/item of SCHEDULE V/);
   });
 
   it('says clearly when a section does not exist, and points to get_toc', async () => {
@@ -271,6 +289,20 @@ describe('FederalClient.search (the Canada Labour Code and its regulations, in m
     const empty = '<?xml version="1.0"?><Statute><Identification><ShortTitle>Canada Labour Code</ShortTitle></Identification><Body></Body></Statute>';
     const r = await client([xmlRoute('L-2', empty)]).fed.search('overtime');
     expect(r.warnings.join(' ')).toMatch(/Canada Labour Code \(L-2\) came back with no sections/);
+  });
+
+  it('flags a result that is not in force yet', async () => {
+    const xml = fx('fed-L-2-trimmed.xml').replace(/<Section([^>]*)>(<MarginalNote[^>]*>Break<\/MarginalNote>)/, '<Section$1 in-force="no">$2');
+    const r = await client([xmlRoute('L-2', xml)]).fed.search('break');
+    expect(r.results.find((x) => x.section === '169.1')?.match).toContain('not in force yet');
+    expect(r.warnings.join(' ')).toMatch(/169\.1 .*not in force yet/);
+  });
+
+  it('marks a schedule item in the results, with the table of contents as its link', async () => {
+    const r = await client([xmlRoute('C.R.C.,_c._986', CLSR_WITH_SCHEDULE_ITEM)]).fed.search('"basic first aid"');
+    const item = r.results.find((x) => x.act_id === 'C.R.C.,_c._986' && x.section === '1')!;
+    expect(item).toMatchObject({ source_url: `${FED}/eng/regulations/C.R.C.,_c._986/index.html`, schedule: 'SCHEDULE V (Subsection 16.12(1)) Subjects to Be Included in the Courses' });
+    expect(item.match).toContain('in a schedule');
   });
 
   it('reports a regulation it could not read, and still searches the rest', async () => {
