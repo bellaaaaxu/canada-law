@@ -13675,7 +13675,7 @@ import { join } from "node:path";
 
 // src/version.ts
 init_define_GLOSSARY();
-var VERSION = "0.2.0";
+var VERSION = "0.2.1";
 
 // src/http.ts
 var USER_AGENT = `canada-law-mcp/${VERSION} (+https://github.com/bellaaaaxu/canada-law)`;
@@ -13684,7 +13684,6 @@ function createCachedFetcher(opts) {
   const ttl = opts.ttlMs ?? DAY_MS;
   const doFetch = opts.fetchImpl ?? fetch;
   const now = opts.now ?? (() => /* @__PURE__ */ new Date());
-  mkdirSync(opts.cacheDir, { recursive: true });
   return async (url) => {
     const file = join(opts.cacheDir, createHash("sha256").update(url).digest("hex") + ".json");
     const cached2 = readCache(file);
@@ -13699,9 +13698,16 @@ function createCachedFetcher(opts) {
       body: await res.text(),
       fetchedAt: now().toISOString()
     };
-    if (result.status === 200) writeFileSync(file, JSON.stringify(result));
+    if (result.status === 200) saveCache(opts.cacheDir, file, result);
     return result;
   };
+}
+function saveCache(dir, file, result) {
+  try {
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(file, JSON.stringify(result));
+  } catch {
+  }
 }
 function readCache(file) {
   try {

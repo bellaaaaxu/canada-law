@@ -29,7 +29,6 @@ export function createCachedFetcher(opts: CachedFetcherOptions): Fetcher {
   const ttl = opts.ttlMs ?? DAY_MS;
   const doFetch = opts.fetchImpl ?? fetch;
   const now = opts.now ?? (() => new Date());
-  mkdirSync(opts.cacheDir, { recursive: true });
 
   return async (url) => {
     const file = join(opts.cacheDir, createHash('sha256').update(url).digest('hex') + '.json');
@@ -46,9 +45,19 @@ export function createCachedFetcher(opts: CachedFetcherOptions): Fetcher {
       body: await res.text(),
       fetchedAt: now().toISOString(),
     };
-    if (result.status === 200) writeFileSync(file, JSON.stringify(result));
+    if (result.status === 200) saveCache(opts.cacheDir, file, result);
     return result;
   };
+}
+
+/** Best effort: remakes the folder if something deleted it (an OS temp cleanup); a failed write only costs the cache. */
+function saveCache(dir: string, file: string, result: FetchResult) {
+  try {
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(file, JSON.stringify(result));
+  } catch {
+    // Not cached this time; the response itself is fine.
+  }
 }
 
 function readCache(file: string): FetchResult | null {

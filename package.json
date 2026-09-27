@@ -1,6 +1,6 @@
 {
   "name": "canada-law",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Current official BC and federal employment law for any AI assistant: an Agent Skill and an MCP server, with a Chinese and everyday-English glossary.",
   "license": "MIT",
