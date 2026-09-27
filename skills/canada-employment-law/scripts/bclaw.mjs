@@ -27,13 +27,13 @@ function loadGlossary(file = GLOSSARY_FILE) {
 }
 var isAscii = (s) => /^[\x00-\x7f]*$/.test(s);
 var escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function position(text, term) {
-  if (!isAscii(term)) return text.indexOf(term);
-  const m = new RegExp(`(^|[^A-Za-z0-9])${escapeRe(term)}`, "i").exec(text);
+function position(text2, term) {
+  if (!isAscii(term)) return text2.indexOf(term);
+  const m = new RegExp(`(^|[^A-Za-z0-9])${escapeRe(term)}`, "i").exec(text2);
   return m ? m.index + m[1].length : -1;
 }
-function termsInText(g, text) {
-  const found = Object.keys(g).map((k) => ({ k, at: position(text, k) })).filter((f) => f.at >= 0);
+function termsInText(g, text2) {
+  const found = Object.keys(g).map((k) => ({ k, at: position(text2, k) })).filter((f) => f.at >= 0);
   return found.filter((f) => !found.some((o) => o.k.length > f.k.length && o.k.toLowerCase().includes(f.k.toLowerCase()))).sort((a, b) => a.at - b.at).map((f) => f.k);
 }
 function lookupTerm(g, term) {
@@ -47,8 +47,9 @@ function lookupTerm(g, term) {
   return termsInText(g, t).flatMap((k) => expand(k, "contained"));
 }
 
-// src/notice.ts
-var BC_LAWS_NOTICE = "These materials contain information that has been derived from information originally made available by the Province of British Columbia at: http://www.bclaws.gov.bc.ca and this information is being used in accordance with the King's Printer Licence \u2013 British Columbia available at: https://www.bclaws.gov.bc.ca/standards/Licence.html. They have not, however, been produced in affiliation with, or with the endorsement of, the Province of British Columbia and THESE MATERIALS ARE NOT AN OFFICIAL VERSION.";
+// src/tool-error.ts
+var ToolError = class extends Error {
+};
 
 // node_modules/fast-xml-parser/src/util.js
 var nameStartChar = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
@@ -4013,7 +4014,7 @@ function prettify(node, options, matcher, readonlyMatcher) {
   return compress(node, options, matcher, readonlyMatcher);
 }
 function compress(arr, options, matcher, readonlyMatcher) {
-  let text;
+  let text2;
   const compressedObj = {};
   for (let i = 0; i < arr.length; i++) {
     const tagObj = arr[i];
@@ -4026,8 +4027,8 @@ function compress(arr, options, matcher, readonlyMatcher) {
       matcher.push(property, rawAttrs);
     }
     if (property === options.textNodeName) {
-      if (text === void 0) text = tagObj[property];
-      else text += "" + tagObj[property];
+      if (text2 === void 0) text2 = tagObj[property];
+      else text2 += "" + tagObj[property];
     } else if (property === void 0) {
       continue;
     } else if (tagObj[property]) {
@@ -4065,9 +4066,9 @@ function compress(arr, options, matcher, readonlyMatcher) {
       }
     }
   }
-  if (typeof text === "string") {
-    if (text.length > 0) compressedObj[options.textNodeName] = text;
-  } else if (text !== void 0) compressedObj[options.textNodeName] = text;
+  if (typeof text2 === "string") {
+    if (text2.length > 0) compressedObj[options.textNodeName] = text2;
+  } else if (text2 !== void 0) compressedObj[options.textNodeName] = text2;
   return compressedObj;
 }
 function propName(obj) {
@@ -4165,7 +4166,7 @@ var XMLParser = class {
   }
 };
 
-// src/sources/bc-xml.ts
+// src/sources/xml.ts
 var parser = new XMLParser({
   preserveOrder: true,
   // legislative text is mixed content: text and inline elements must stay in order
@@ -4200,6 +4201,222 @@ function convert(items) {
 }
 var isEl = (c) => typeof c === "object" && c !== null;
 var child = (n, name) => n.children.find((c) => isEl(c) && c.name === name);
+function findElement(n, name) {
+  for (const c of n.children) {
+    if (!isEl(c)) continue;
+    if (c.name === name) return c;
+    const deeper = findElement(c, name);
+    if (deeper) return deeper;
+  }
+  return null;
+}
+function decodeEntities(s) {
+  return s.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16))).replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d))).replace(/&nbsp;/g, "\xA0").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+}
+var WHOLE_SECTION = 600;
+var MAX_BEFORE = 300;
+var MAX_AFTER = 450;
+function cutSnippet(body, whenNoHit) {
+  const pos = body.indexOf("**");
+  if (pos === -1) return whenNoHit();
+  if (body.length <= WHOLE_SECTION) return body;
+  const clauseEnd = Math.max(body.lastIndexOf(". ", pos), body.lastIndexOf("; ", pos));
+  let start;
+  if (clauseEnd !== -1 && pos - clauseEnd <= MAX_BEFORE) start = clauseEnd + 2;
+  else if (pos <= MAX_BEFORE) start = 0;
+  else {
+    const sp = body.indexOf(" ", pos - 90);
+    start = sp !== -1 && sp < pos ? sp + 1 : pos - 90;
+  }
+  const hitEnd = body.indexOf("**", pos + 2) + 2;
+  const next = /[.;](?=\s|$)/.exec(body.slice(hitEnd));
+  let end;
+  if (next && hitEnd + next.index + 1 - pos <= MAX_AFTER) end = hitEnd + next.index + 1;
+  else {
+    const sp = body.lastIndexOf(" ", pos + 150);
+    end = sp > hitEnd ? sp : Math.min(body.length, pos + 150);
+  }
+  return (start > 0 ? "\u2026" : "") + body.slice(start, end) + (end < body.length ? "\u2026" : "");
+}
+
+// src/sources/federal-meta.ts
+var FED_BASE = "https://laws-lois.justice.gc.ca";
+var text = (html) => decodeEntities(html.replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim();
+function parseFedPage(html) {
+  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
+  const head = h1 ? text(h1[1]).match(/^(.*?)\s*\(((?:[^()]|\([^()]*\))*)\)$/) : null;
+  const line = text(html).match(/(?:Act|Regulations are) current to (\d{4}-\d{2}-\d{2})(?: and last amended on (\d{4}-\d{2}-\d{2}))?/);
+  return {
+    title: head ? head[1] : h1 ? text(h1[1]) || null : null,
+    citation: head ? head[2] : null,
+    currentTo: line ? line[1] : null,
+    lastAmended: line?.[2] ?? null
+  };
+}
+var field = (block, name) => {
+  const m = block.match(new RegExp(`<${name}>([^<]*)</${name}>`));
+  return m ? decodeEntities(m[1]).trim() : null;
+};
+var idFromLink = (link) => link ? decodeURIComponent(link.replace(/^.*\/XML\//, "").replace(/\.xml$/i, "")) : null;
+function parseLegis(xml) {
+  const out = [];
+  for (const m of xml.matchAll(/<Act>([\s\S]*?)<\/Act>/g)) {
+    const b = m[1];
+    const id = idFromLink(field(b, "LinkToXML"));
+    if (field(b, "Language") !== "eng" || !id) continue;
+    out.push({
+      id,
+      uniqueId: field(b, "UniqueId") ?? id,
+      kind: "act",
+      title: field(b, "Title") ?? id,
+      officialNumber: field(b, "OfficialNumber"),
+      ref: null,
+      regRefs: [...b.matchAll(/<Reg idRef="([^"]*)"/g)].map((r2) => r2[1])
+    });
+  }
+  for (const m of xml.matchAll(/<Regulation id="([^"]*)"[^>]*>([\s\S]*?)<\/Regulation>/g)) {
+    const b = m[2];
+    const id = idFromLink(field(b, "LinkToXML"));
+    if (field(b, "Language") !== "eng" || !id) continue;
+    out.push({ id, uniqueId: field(b, "UniqueId") ?? id, kind: "regulation", title: field(b, "Title") ?? id, officialNumber: null, ref: m[1], regRefs: [] });
+  }
+  return out;
+}
+function normalizeFedId(input) {
+  const t = input.trim();
+  const crc = t.match(/^C\.R\.C\.,?[\s_]*c\.[\s_]*(\d+)$/i);
+  const id = crc ? `C.R.C.,_c._${crc[1]}` : t.replace(/^(SOR|SI)\/(\d+-\d+)$/i, "$1-$2");
+  if (!/^[A-Za-z0-9][A-Za-z0-9.,_-]*$/.test(id) || id.includes("..")) {
+    throw new ToolError(`act_id "${input}" is not a Justice Laws id (such as L-2 or C.R.C.,_c._986). Look it up with find_act (tool) or find (command).`);
+  }
+  return id;
+}
+var isFederalId = (id) => /[-/]/.test(id) || /^C\.R\.C\./i.test(id.trim());
+
+// src/notice.ts
+var BC_LAWS_NOTICE = "These materials contain information that has been derived from information originally made available by the Province of British Columbia at: http://www.bclaws.gov.bc.ca and this information is being used in accordance with the King's Printer Licence \u2013 British Columbia available at: https://www.bclaws.gov.bc.ca/standards/Licence.html. They have not, however, been produced in affiliation with, or with the endorsement of, the Province of British Columbia and THESE MATERIALS ARE NOT AN OFFICIAL VERSION.";
+var FEDERAL_NOTICE = "These materials reproduce the consolidated Acts and regulations of Canada from the Justice Laws Website (https://laws-lois.justice.gc.ca), as permitted by the Reproduction of Federal Law Order (SI/97-5). They have not been produced in affiliation with, or with the endorsement of, the Government of Canada, and THESE MATERIALS ARE NOT AN OFFICIAL VERSION.";
+
+// src/sources/search-all.ts
+var EMPTY = { output: { query: "", documents_searched: 0, results: [], warnings: [], notes: [], notice: "" }, scored: [] };
+async function searchAll(sources, query, limit = 10) {
+  const [bs, fs] = await Promise.allSettled([sources.bc.searchScored(query, limit), sources.federal.searchScored(query, limit)]);
+  const failed = [bs, fs].filter((s) => s.status === "rejected");
+  if (failed.length === 2) throw failed[0].reason;
+  for (const f2 of failed) if (!(f2.reason instanceof ToolError)) throw f2.reason;
+  const b = bs.status === "fulfilled" ? bs.value : EMPTY;
+  const f = fs.status === "fulfilled" ? fs.value : EMPTY;
+  const lost = [
+    ...bs.status === "rejected" ? [`BC search failed, so only federal results are shown: ${bs.reason.message}`] : [],
+    ...fs.status === "rejected" ? [`Federal search failed, so only BC results are shown: ${fs.reason.message}`] : []
+  ];
+  const results = [...b.scored, ...f.scored].map((s, order) => ({ ...s, order })).sort((x, y) => y.score - x.score || x.order - y.order).slice(0, limit).map((s) => s.result);
+  return {
+    query,
+    documents_searched: b.output.documents_searched + f.output.documents_searched,
+    results,
+    warnings: [...lost, ...b.output.warnings, ...f.output.warnings],
+    notes: ["BC and federal results, ranked together by the same scoring.", .../* @__PURE__ */ new Set([...b.output.notes, ...f.output.notes])],
+    notice: `${BC_LAWS_NOTICE}
+
+${FEDERAL_NOTICE}`
+  };
+}
+
+// src/cli.ts
+var USAGE = `Usage: node bclaw.mjs <command> [arguments]
+
+  term <words>                               statutory English (BC and federal) for a Chinese or everyday-English term, and where it appears
+  search <bc|federal|all> <phrase> [...]     sections matching any of the phrases (each phrase is quoted; joined with OR)
+  section <act_id> <section>                 verbatim text of one section, with its citation
+  toc <act_id>                               parts, and every section number and heading
+  find <bc|federal> <act name>               acts and regulations by title, with their act_id
+
+BC act_ids look like 96113_01; federal ones like L-2 or C.R.C.,_c._986, so section and toc need no jurisdiction.
+Federal search covers the Canada Labour Code and its regulations. Output is JSON; non-ASCII characters are \\u-escaped.`;
+var ok = (value) => ({ code: 0, stdout: asciiJson(value), stderr: "" });
+var usage = () => ({ code: 2, stdout: "", stderr: USAGE });
+var quoted = (phrases) => phrases.map((p) => `"${p.replace(/"/g, "")}"`).join(" OR ");
+async function runCli(argv, { bc, federal, glossary: glossary2 }) {
+  const [cmd, ...args] = argv;
+  const [where, ...rest] = args;
+  try {
+    switch (cmd) {
+      case "help":
+      case "--help":
+      case "-h":
+        return { code: 0, stdout: USAGE, stderr: "" };
+      case "term":
+        return args.length > 0 ? ok(lookupTerm(glossary2, args.join(" "))) : usage();
+      case "search":
+        if (rest.length === 0) return usage();
+        if (where === "bc") return ok(await bc.search(quoted(rest), 10));
+        if (where === "federal") return ok(await federal.search(quoted(rest), 10));
+        if (where === "all") return ok(await searchAll({ bc, federal }, quoted(rest), 10));
+        return usage();
+      case "section":
+        if (args.length !== 2) return usage();
+        return ok(await (isFederalId(args[0]) ? federal.getSection(args[0], args[1]) : bc.getSection(args[0], args[1])));
+      case "toc":
+        if (args.length !== 1) return usage();
+        return ok(await (isFederalId(args[0]) ? federal.getToc(args[0]) : bc.getToc(args[0])));
+      case "find":
+        if (rest.length === 0) return usage();
+        if (where === "bc") return ok(await bc.findAct(rest.join(" ")));
+        if (where === "federal") return ok(await federal.findAct(rest.join(" ")));
+        return usage();
+      default:
+        return usage();
+    }
+  } catch (e) {
+    const message = e instanceof ToolError ? e.message : `Unexpected error while reading the official source: ${e instanceof Error ? e.message : String(e)}`;
+    return { code: 1, stdout: "", stderr: message };
+  }
+}
+
+// src/http.ts
+import { createHash } from "node:crypto";
+import { mkdirSync, readFileSync as readFileSync2, writeFileSync } from "node:fs";
+import { join } from "node:path";
+
+// src/version.ts
+var VERSION = "0.2.0";
+
+// src/http.ts
+var USER_AGENT = `canada-law-mcp/${VERSION} (+https://github.com/bellaaaaxu/canada-law)`;
+var DAY_MS = 24 * 36e5;
+function createCachedFetcher(opts) {
+  const ttl = opts.ttlMs ?? DAY_MS;
+  const doFetch = opts.fetchImpl ?? fetch;
+  const now = opts.now ?? (() => /* @__PURE__ */ new Date());
+  mkdirSync(opts.cacheDir, { recursive: true });
+  return async (url) => {
+    const file = join(opts.cacheDir, createHash("sha256").update(url).digest("hex") + ".json");
+    const cached = readCache(file);
+    if (cached && cached.url === url && now().getTime() - Date.parse(cached.fetchedAt) < ttl) {
+      return cached;
+    }
+    const res = await doFetch(url, { headers: { "User-Agent": USER_AGENT } });
+    const result = {
+      url,
+      status: res.status,
+      contentType: res.headers.get("content-type") ?? "",
+      body: await res.text(),
+      fetchedAt: now().toISOString()
+    };
+    if (result.status === 200) writeFileSync(file, JSON.stringify(result));
+    return result;
+  };
+}
+function readCache(file) {
+  try {
+    return JSON.parse(readFileSync2(file, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+// src/sources/bc-xml.ts
 var BR = "\uE000";
 var CHARS = {
   "in:eacute": "\xE9",
@@ -4286,17 +4503,17 @@ function renderBlock(node, depth, isSection, o) {
 }
 function renderTable(table, depth, o) {
   const lines = [];
-  const walk = (n) => {
+  const walk2 = (n) => {
     for (const c of n.children) {
       if (!isEl(c)) continue;
       if (c.name === "oasis:tcaption") lines.push(indent(depth) + inlineText(c, o));
       else if (c.name === "oasis:trow") {
         const cells = c.children.filter(isEl).map((e) => inlineText(e, o));
         lines.push(indent(depth) + cells.join(" | "));
-      } else walk(c);
+      } else walk2(c);
     }
   };
-  walk(table);
+  walk2(table);
   return lines;
 }
 var sectionNum = (s) => {
@@ -4309,9 +4526,9 @@ var sectionHeading = (s) => {
 };
 function containerLabel(n) {
   const num = child(n, "bcl:num");
-  const text = child(n, "bcl:text");
+  const text2 = child(n, "bcl:text");
   const numStr = num ? inlineText(num) : "";
-  const title = text ? inlineText(text) : "";
+  const title = text2 ? inlineText(text2) : "";
   if (n.name === "bcl:part") return `Part ${numStr}${title ? " \u2014 " + title : ""}`.trim();
   if (n.name === "bcl:division") return `Division ${numStr}${title ? " \u2014 " + title : ""}`.trim();
   if (n.name === "bcl:schedule") {
@@ -4347,31 +4564,31 @@ function findSections(doc, num) {
 }
 function buildToc(doc) {
   const out = [];
-  const walk = (n, depth, partDocId) => {
+  const walk2 = (n, depth, partDocId) => {
     for (const c of n.children) {
       if (!isEl(c)) continue;
       if (c.name === "bcl:section") {
         out.push({ kind: "section", num: sectionNum(c), title: sectionHeading(c), depth, partDocId });
       } else if (c.name === "bcl:part" || c.name === "bcl:division") {
         const num = child(c, "bcl:num");
-        const text = child(c, "bcl:text");
+        const text2 = child(c, "bcl:text");
         out.push({
           kind: c.name === "bcl:part" ? "part" : "division",
           num: num ? inlineText(num) : null,
-          title: text ? inlineText(text) : null,
+          title: text2 ? inlineText(text2) : null,
           depth,
           partDocId
         });
-        walk(c, depth + 1, partDocId);
+        walk2(c, depth + 1, partDocId);
       } else if (c.name === "bcl:schedule") {
         out.push({ kind: "schedule", num: null, title: containerLabel(c), depth, partDocId });
-        walk(c, depth + 1, partDocId);
+        walk2(c, depth + 1, partDocId);
       } else {
-        walk(c, depth, c.name === "act:content" && c.attrs.id ? c.attrs.id : partDocId);
+        walk2(c, depth, c.name === "act:content" && c.attrs.id ? c.attrs.id : partDocId);
       }
     }
   };
-  walk(doc, 0, null);
+  walk2(doc, 0, null);
   return out;
 }
 function renderToc(entries) {
@@ -4383,29 +4600,20 @@ function renderToc(entries) {
     return `${pad}${e.num}  ${e.title ?? ""}`.trimEnd();
   }).join("\n");
 }
-function findElement(n, name) {
-  for (const c of n.children) {
-    if (!isEl(c)) continue;
-    if (c.name === name) return c;
-    const deeper = findElement(c, name);
-    if (deeper) return deeper;
-  }
-  return null;
-}
 function docInfo(doc) {
   const root = doc.children.find(isEl);
   if (!root) return { kind: "unknown", title: null, regnum: null, status: null, repealedText: null };
   const kind = root.name === "act:act" ? "act" : root.name === "reg:regulation" ? "regulation" : "unknown";
-  const text = (name) => {
+  const text2 = (name) => {
     const n = child(root, name);
     return n ? inlineText(n) : null;
   };
   return {
     kind,
-    title: text(kind === "regulation" ? "reg:title" : "act:title"),
-    regnum: text("reg:regnum"),
+    title: text2(kind === "regulation" ? "reg:title" : "act:title"),
+    regnum: text2("reg:regnum"),
     status: root.attrs.status ?? null,
-    repealedText: text("act:repealedtext")
+    repealedText: text2("act:repealedtext")
   };
 }
 function analyzeHitSections(doc) {
@@ -4446,47 +4654,22 @@ function analyzeHitSections(doc) {
   });
   return out;
 }
-var WHOLE_SECTION = 600;
-var MAX_BEFORE = 300;
-var MAX_AFTER = 450;
 function makeSnippet(section) {
   const body = tidy(renderSection(section, { markHits: true }).replace(/\n/g, " "));
-  const pos = body.indexOf("**");
-  if (pos === -1) {
+  return cutSnippet(body, () => {
     const note = child(section, "bcl:marginalnote");
     return note ? inlineText(note, { markHits: true }) : body.slice(0, 240);
-  }
-  if (body.length <= WHOLE_SECTION) return body;
-  const clauseEnd = Math.max(body.lastIndexOf(". ", pos), body.lastIndexOf("; ", pos));
-  let start;
-  if (clauseEnd !== -1 && pos - clauseEnd <= MAX_BEFORE) start = clauseEnd + 2;
-  else if (pos <= MAX_BEFORE) start = 0;
-  else {
-    const sp = body.indexOf(" ", pos - 90);
-    start = sp !== -1 && sp < pos ? sp + 1 : pos - 90;
-  }
-  const hitEnd = body.indexOf("**", pos + 2) + 2;
-  const next = /[.;](?=\s|$)/.exec(body.slice(hitEnd));
-  let end;
-  if (next && hitEnd + next.index + 1 - pos <= MAX_AFTER) end = hitEnd + next.index + 1;
-  else {
-    const sp = body.lastIndexOf(" ", pos + 150);
-    end = sp > hitEnd ? sp : Math.min(body.length, pos + 150);
-  }
-  return (start > 0 ? "\u2026" : "") + body.slice(start, end) + (end < body.length ? "\u2026" : "");
+  });
 }
 
 // src/sources/bc-meta.ts
 var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-function isoDate(text) {
-  const m = text.match(/^([A-Z][a-z]+) (\d{1,2}), (\d{4})$/);
+function isoDate(text2) {
+  const m = text2.match(/^([A-Z][a-z]+) (\d{1,2}), (\d{4})$/);
   if (!m) return null;
   const month = MONTHS.indexOf(m[1]) + 1;
   if (month === 0) return null;
   return `${m[3]}-${String(month).padStart(2, "0")}-${m[2].padStart(2, "0")}`;
-}
-function decodeEntities(s) {
-  return s.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16))).replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d))).replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 }
 var plain = (html) => decodeEntities(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 function parsePageMeta(html) {
@@ -4521,16 +4704,16 @@ function parseFullSearch(xml) {
     }))
   };
 }
-function parseActFolder(folder) {
-  const name = folder.replace(/^\d+_/, "").trim();
+function parseActFolder(folder2) {
+  const name = folder2.replace(/^\d+_/, "").trim();
   const m = name.match(/^(.*?) \[(R?SBC) (\d{4})\] c\. ?([\w.]+)$/);
   return m ? { title: m[1], citation: `${m[2]} ${m[3]}, c. ${m[4]}` } : { title: name, citation: null };
 }
 var multiActIdFor = (partId) => partId.replace(/_[^_]+$/, "_00") + "_multi";
 function classifyDoc(d) {
-  const [, folder, ...rest] = d.loc.split("/");
-  if (!folder || rest.length === 0) return { kind: "other", reason: "unrecognised location" };
-  const act = parseActFolder(folder);
+  const [, folder2, ...rest] = d.loc.split("/");
+  if (!folder2 || rest.length === 0) return { kind: "other", reason: "unrecognised location" };
+  const act = parseActFolder(folder2);
   if (rest.length === 1 && /^00_/.test(rest[0])) {
     return { kind: "act", actId: d.id, docId: d.id, actTitle: act.title, actCitation: act.citation ?? "" };
   }
@@ -4557,14 +4740,14 @@ function classifyDoc(d) {
 }
 
 // src/sources/bc.ts
-var ToolError = class extends Error {
-};
 var BASE = "https://www.bclaws.gov.bc.ca/civix";
 var DOC = `${BASE}/document/id/complete/statreg/`;
 var MAX_PAGE = 20;
 var MAX_DOCS_SEARCHED = 8;
 var CONCURRENCY = 4;
 var SECTIONS_XPATH = "/xpath///bcl:section%5Bdescendant::hit%5D";
+var LITERAL_NOTE = 'Matching is literal (no plurals or stemming): include variants, e.g. "meal break" OR "meal breaks", or a wildcard such as break*.';
+var SNIPPET_NOTE = "A snippet is the whole section when the section is short; otherwise it is cut short to the clause around the first match (\u2026 marks a cut), and other parts of the section can change its meaning. Before quoting, explaining or citing a section, read its full text with get_section (MCP tool) or the section command.";
 var CURRENT_TO_WARNING = 'current_to is null: the official page did not show a "current to" date, so currency could not be confirmed. Check source_url before relying on this text.';
 var pageUrl = (id) => DOC + id.replace(/_multi$/, "");
 var BcClient = class {
@@ -4673,6 +4856,10 @@ var BcClient = class {
   }
   // ---------- search_law ----------
   async search(query, limit = 10) {
+    return (await this.searchScored(query, limit)).output;
+  }
+  /** search() plus each result's score, so that search_law "all" can rank BC and federal results together. */
+  async searchScored(query, limit = 10) {
     const q = query.replace(/\//g, " ").replace(/\s+/g, " ").trim();
     if (!q) throw new ToolError("query is empty.");
     const wrapped = `(${q})`;
@@ -4716,17 +4903,20 @@ var BcClient = class {
       ]
     }));
     return {
-      query: q,
-      documents_matched: totalHits,
-      documents_searched: candidates.length,
-      results,
-      warnings,
-      notes: [
-        `BC Laws full-site search returns documents, not sections: the top ${MAX_PAGE} documents by its own ranking were taken, point-in-time versions and legislative-change tables were dropped, and up to ${MAX_DOCS_SEARCHED} current acts/regulations were searched section by section.`,
-        'Matching is literal (no plurals or stemming): include variants, e.g. "meal break" OR "meal breaks", or a wildcard such as break*.',
-        "A snippet is the whole section when the section is short; otherwise it is cut short to the clause around the first match (\u2026 marks a cut), and other parts of the section can change its meaning. Before quoting, explaining or citing a section, read its full text with get_section (MCP tool) or the section command."
-      ],
-      notice: BC_LAWS_NOTICE
+      output: {
+        query: q,
+        documents_matched: totalHits,
+        documents_searched: candidates.length,
+        results,
+        warnings,
+        notes: [
+          `BC Laws full-site search returns documents, not sections: the top ${MAX_PAGE} documents by its own ranking were taken, point-in-time versions and legislative-change tables were dropped, and up to ${MAX_DOCS_SEARCHED} current acts/regulations were searched section by section.`,
+          LITERAL_NOTE,
+          SNIPPET_NOTE
+        ],
+        notice: BC_LAWS_NOTICE
+      },
+      scored: top.map((h, i) => ({ result: results[i], score: score(h) }))
     };
   }
   // ---------- internals ----------
@@ -4811,86 +5001,574 @@ async function mapLimit(items, limit, fn) {
   return out;
 }
 
-// src/cli.ts
-var USAGE = `Usage: node bclaw.mjs <command> [arguments]
-
-  term <words>                    statutory English for a Chinese or everyday-English term, and where it appears
-  search <phrase> [<phrase> ...]  sections matching any of the phrases (each phrase is quoted; joined with OR)
-  section <act_id> <section>      verbatim text of one section, with its citation
-  toc <act_id>                    parts, and every section number and heading
-  find <act name>                 acts and regulations by title, with their act_id
-
-Output is JSON; non-ASCII characters are \\u-escaped. BC law only (federal law is not covered yet).`;
-var ok = (value) => ({ code: 0, stdout: asciiJson(value), stderr: "" });
-var usage = () => ({ code: 2, stdout: "", stderr: USAGE });
-async function runCli(argv, { bc: bc2, glossary: glossary2 }) {
-  const [cmd, ...args] = argv;
-  try {
-    switch (cmd) {
-      case "help":
-      case "--help":
-      case "-h":
-        return { code: 0, stdout: USAGE, stderr: "" };
-      case "term":
-        return args.length > 0 ? ok(lookupTerm(glossary2, args.join(" "))) : usage();
-      case "search":
-        return args.length > 0 ? ok(await bc2.search(args.map((p) => `"${p.replace(/"/g, "")}"`).join(" OR "), 10)) : usage();
-      case "section":
-        return args.length === 2 ? ok(await bc2.getSection(args[0], args[1])) : usage();
-      case "toc":
-        return args.length === 1 ? ok(await bc2.getToc(args[0])) : usage();
-      case "find":
-        return args.length > 0 ? ok(await bc2.findAct(args.join(" "))) : usage();
-      default:
-        return usage();
+// src/sources/federal-xml.ts
+var BR2 = "\uE000";
+function inlineRaw2(nodes) {
+  let s = "";
+  for (const c of nodes) {
+    if (!isEl(c)) {
+      s += c;
+      continue;
     }
-  } catch (e) {
-    const message = e instanceof ToolError ? e.message : `Unexpected error while reading BC Laws: ${e instanceof Error ? e.message : String(e)}`;
-    return { code: 1, stdout: "", stderr: message };
+    if (c.name === "HistoricalNote" || c.name === "MarginalNote" || c.name === "Footnote" || c.name === "FootnoteRef" || c.name === "PageBreak") continue;
+    if (c.name === "DefinedTermEn") s += `"${inlineRaw2(c.children).trim()}"`;
+    else if (c.name === "Repealed") s += (s !== "" && !/\s$/.test(s) ? " " : "") + inlineRaw2(c.children);
+    else if (c.name === "LineBreak") s += BR2;
+    else if (c.name === "Leader" || c.name === "LeaderRightJustified") s += " ";
+    else if (c.name === "ImageGroup" || c.name === "Image") s += "[image omitted: see source_url]";
+    else s += inlineRaw2(c.children);
+  }
+  return s;
+}
+var tidy2 = (raw) => raw.replace(/\s+/g, " ").replace(new RegExp(` ?${BR2} ?`, "g"), "\n").trim();
+var inlineText2 = (n) => tidy2(inlineRaw2(n.children));
+var indent2 = (depth) => "  ".repeat(depth);
+var BLOCKS = /* @__PURE__ */ new Set(["Subsection", "Paragraph", "Subparagraph", "Clause", "Subclause", "Subsubclause", "Definition", "Provision", "Item", "FormulaParagraph"]);
+function renderFedSection(section, o = {}) {
+  const lines = renderBlock2(section, 0);
+  return (o.mark ? lines.map((l) => l.replace(o.mark, (m) => `**${m}**`)) : lines).join("\n");
+}
+function renderBlock2(node, depth) {
+  const lines = [];
+  const labelNode = child(node, "Label");
+  const label = labelNode ? inlineText2(labelNode) : "";
+  let cur = label;
+  const flush = () => {
+    if (cur !== null && tidy2(cur) !== "") lines.push(...tidy2(cur).split("\n").map((l) => indent2(depth) + l));
+    cur = null;
+  };
+  const append = (s) => {
+    if (cur === null) cur = "";
+    cur += cur.trim() !== "" && s.trim() !== "" && !/^\s/.test(s) ? " " + s : s;
+  };
+  const block = (ls) => {
+    flush();
+    lines.push(...ls);
+  };
+  for (const c of node.children) {
+    if (!isEl(c)) {
+      if (c.trim()) append(c);
+      continue;
+    }
+    if (c.name === "Label" || c.name === "MarginalNote" || c.name === "HistoricalNote" || c.name === "FootnoteRef") continue;
+    if (c.name === "Text") append(inlineRaw2(c.children));
+    else if (BLOCKS.has(c.name)) {
+      const childDepth = c.name === "Subsection" ? depth : depth + 1;
+      const childLines = renderBlock2(c, childDepth);
+      if (label && cur !== null && tidy2(cur) === label && childLines.length > 0 && childDepth === depth) {
+        childLines[0] = indent2(depth) + label + " " + childLines[0].trimStart();
+        cur = null;
+      } else flush();
+      lines.push(...childLines);
+    } else if (c.name.startsWith("Continued")) {
+      const t = inlineText2(c);
+      if (t) block([indent2(depth) + t]);
+    } else if (c.name === "ReadAsText" || c.name === "AmendedText") block(quoted2(c, depth + 1));
+    else if (c.name === "Section") block(renderBlock2(c, depth + 1));
+    else if (c.name === "List") block(c.children.filter(isEl).flatMap((i) => renderBlock2(i, depth + 1)));
+    else if (c.name === "TableGroup" || c.name === "table") block(renderTable2(c, depth));
+    else if (c.name === "FormulaGroup") block(renderFormula(c, depth));
+    else if (c.name === "Footnote") {
+      const l = child(c, "Label");
+      const body = tidy2(inlineRaw2(c.children.filter((x) => !(isEl(x) && x.name === "Label"))));
+      block([`${indent2(depth)}[footnote${l ? " " + inlineText2(l) : ""}] ${body}`.trimEnd()]);
+    } else if (c.name === "ImageGroup") block([indent2(depth) + "[image omitted: see source_url]"]);
+    else append(inlineRaw2([c]));
+  }
+  flush();
+  if (node.attrs["in-force"] === "no" && lines.length > 0) lines[0] = indent2(depth) + "[Not in force] " + lines[0].trimStart();
+  return lines;
+}
+function quoted2(n, depth) {
+  return n.children.filter(isEl).flatMap((c) => {
+    if (c.name === "Section" || BLOCKS.has(c.name)) return renderBlock2(c, depth);
+    if (c.name === "Heading") return [indent2(depth) + headingText(c)];
+    const t = inlineText2(c);
+    return t ? [indent2(depth) + t] : [];
+  });
+}
+function renderTable2(table, depth) {
+  const lines = [];
+  const walk2 = (n) => {
+    for (const c of n.children) {
+      if (!isEl(c)) continue;
+      if (c.name === "title" || c.name === "Caption") lines.push(indent2(depth) + inlineText2(c));
+      else if (c.name === "row") lines.push(indent2(depth) + c.children.filter(isEl).map((e) => tidy2(inlineRaw2(e.children))).join(" | "));
+      else walk2(c);
+    }
+  };
+  walk2(table);
+  return lines.filter((l) => l.trim() !== "");
+}
+function renderFormula(group, depth) {
+  return group.children.filter(isEl).flatMap((c) => {
+    if (c.name === "FormulaDefinition") {
+      const term = child(c, "FormulaTerm");
+      const rest = c.children.filter((x) => !(isEl(x) && x.name === "FormulaTerm"));
+      return [indent2(depth) + tidy2(`${term ? inlineText2(term) : ""} ${inlineRaw2(rest)}`)];
+    }
+    if (BLOCKS.has(c.name)) return renderBlock2(c, depth + 1);
+    const t = inlineText2(c);
+    return t ? [indent2(depth) + t] : [];
+  });
+}
+function headingText(h) {
+  const label = child(h, "Label");
+  const title = child(h, "TitleText");
+  const note = child(h, "Note");
+  const text2 = [label ? inlineText2(label) : "", title ? inlineText2(title) : ""].filter(Boolean).join(" \u2014 ");
+  return (note ? `${text2} ${inlineText2(note)}` : text2).trim();
+}
+function scheduleTitle(s) {
+  const h = child(s, "ScheduleFormHeading");
+  const text2 = h ? h.children.filter(isEl).map(inlineText2).filter(Boolean).join(" ") : "";
+  return text2 || "Schedule";
+}
+var notTheLaw = (s) => s.attrs.id === "RelatedProvs" || s.attrs.id === "NifProvs";
+function walk(container, base, v) {
+  let stack = [];
+  const location = () => [...base, ...stack.map((s) => s.text)];
+  for (const c of container.children) {
+    if (!isEl(c)) continue;
+    if (c.name === "Heading") {
+      const level = Number(c.attrs.level ?? 1);
+      const text2 = headingText(c);
+      stack = stack.filter((s) => s.level < level);
+      if (text2) {
+        stack.push({ level, text: text2 });
+        v.heading?.(text2, location().length - 1);
+      }
+    } else if (c.name === "Section") v.section(c, location());
+    else if (c.name === "Schedule") {
+      if (notTheLaw(c)) continue;
+      const title = scheduleTitle(c);
+      v.heading?.(title, location().length);
+      walk(c, [...location(), title], v);
+    } else if (c.name !== "HistoricalNote" && c.name !== "Identification") walk(c, location(), v);
   }
 }
-
-// src/http.ts
-import { createHash } from "node:crypto";
-import { mkdirSync, readFileSync as readFileSync2, writeFileSync } from "node:fs";
-import { join } from "node:path";
-var USER_AGENT = "canada-law-mcp/0.1 (+https://github.com/bellaaaaxu/canada-law)";
-var DAY_MS = 24 * 36e5;
-function createCachedFetcher(opts) {
-  const ttl = opts.ttlMs ?? DAY_MS;
-  const doFetch = opts.fetchImpl ?? fetch;
-  const now = opts.now ?? (() => /* @__PURE__ */ new Date());
-  mkdirSync(opts.cacheDir, { recursive: true });
-  return async (url) => {
-    const file = join(opts.cacheDir, createHash("sha256").update(url).digest("hex") + ".json");
-    const cached = readCache(file);
-    if (cached && cached.url === url && now().getTime() - Date.parse(cached.fetchedAt) < ttl) {
-      return cached;
+function walkLaw(doc, v) {
+  const root = doc.children.find(isEl);
+  if (!root) return;
+  for (const c of root.children) {
+    if (!isEl(c)) continue;
+    if (c.name === "Body") walk(c, [], v);
+    else if (c.name === "Schedule" && !notTheLaw(c)) {
+      const title = scheduleTitle(c);
+      v.heading?.(title, 0);
+      walk(c, [title], v);
     }
-    const res = await doFetch(url, { headers: { "User-Agent": USER_AGENT } });
-    const result = {
-      url,
-      status: res.status,
-      contentType: res.headers.get("content-type") ?? "",
-      body: await res.text(),
-      fetchedAt: now().toISOString()
-    };
-    if (result.status === 200) writeFileSync(file, JSON.stringify(result));
-    return result;
+  }
+}
+var REPEALED_ONLY = /^\[Repealed\b[^\]]*\]$/;
+function toSection(node, location) {
+  const labelNode = child(node, "Label");
+  const num = labelNode ? inlineText2(labelNode) : "";
+  const note = child(node, "MarginalNote");
+  return {
+    node,
+    num,
+    heading: note ? inlineText2(note) : null,
+    location,
+    nearestHeading: location.at(-1) ?? null,
+    repealed: REPEALED_ONLY.test(renderFedSection(node).slice(num.length).trim()),
+    range: /\s(?:to|and)\s/.test(num)
   };
 }
-function readCache(file) {
-  try {
-    return JSON.parse(readFileSync2(file, "utf8"));
-  } catch {
-    return null;
+function bodySections(doc) {
+  const out = [];
+  walkLaw(doc, { section: (node, location) => out.push(toSection(node, location)) });
+  return out;
+}
+var parts = (n) => n.split(".").map((p) => parseInt(p, 10));
+function compareNums(a, b) {
+  const x = parts(a);
+  const y = parts(b);
+  for (let i = 0; i < Math.max(x.length, y.length); i++) {
+    const d = (x[i] ?? -1) - (y[i] ?? -1);
+    if (d !== 0) return d;
   }
+  return 0;
+}
+function inRange(label, num) {
+  const to = label.match(/^([\d.]+) to ([\d.]+)$/);
+  if (to) return compareNums(to[1], num) <= 0 && compareNums(num, to[2]) <= 0;
+  return label.split(/,\s*|\s+and\s+/).includes(num);
+}
+function findFedSections(sections, num) {
+  const exact = sections.filter((s) => s.num === num);
+  return exact.length > 0 ? exact : sections.filter((s) => s.range && inRange(s.num, num));
+}
+function hasNotInForcePart(node) {
+  return node.attrs["in-force"] === "no" || node.children.some((c) => isEl(c) && hasNotInForcePart(c));
+}
+function fedDocInfo(doc) {
+  const root = doc.children.find(isEl);
+  const kind = root?.name === "Statute" ? "act" : root?.name === "Regulation" ? "regulation" : "unknown";
+  const ident = root ? child(root, "Identification") : void 0;
+  const text2 = (name) => {
+    const n = ident ? child(ident, name) : void 0;
+    return n ? inlineText2(n) || null : null;
+  };
+  const numbered = bodySections(doc).filter((s) => /^\d/.test(s.num));
+  return {
+    kind,
+    title: text2("ShortTitle") ?? text2("LongTitle"),
+    instrumentNumber: text2("InstrumentNumber"),
+    lastAmended: root?.attrs["lims:lastAmendedDate"] ?? null,
+    allRepealed: numbered.length > 0 && numbered.every((s) => s.repealed),
+    readerNote: text2("ReaderNote")
+  };
+}
+function instruction(n) {
+  return n.children.map((c) => !isEl(c) ? c : c.name === "AmendedText" || c.name === "HistoricalNote" || c.name === "Footnote" ? " " : ` ${instruction(c)} `).join("");
+}
+var PROVISION = String.raw`\b(?:sub)?(?:section|paragraph|subparagraph|clause)s?\b`;
+var CHANGED = new RegExp(String.raw`(${PROVISION}\s(?:(?!${PROVISION})[^:;])*?)\s(?:is|are)\s(?:replaced|amended|repealed)\b`, "gi");
+function notInForce(doc) {
+  const root = doc.children.find(isEl);
+  const nif = root?.children.find((c) => isEl(c) && c.name === "Schedule" && c.attrs.id === "NifProvs");
+  if (!nif) return [];
+  const out = [];
+  const collect = (n) => {
+    for (const c of n.children) {
+      if (!isEl(c)) continue;
+      if (c.name !== "RelatedOrNotInForce") {
+        collect(c);
+        continue;
+      }
+      const h = child(c, "Heading");
+      const citation = h ? headingText(h).replace(/^[\s—–-]+/, "") : "";
+      const nums = /* @__PURE__ */ new Set();
+      const added = (x, inAmended) => {
+        for (const k of x.children) {
+          if (!isEl(k)) continue;
+          if (inAmended && k.name === "Section") {
+            const l = child(k, "Label");
+            if (l) nums.add(inlineText2(l));
+          }
+          added(k, inAmended || k.name === "AmendedText");
+        }
+      };
+      const said = tidy2(instruction(c));
+      for (const m of said.matchAll(CHANGED)) {
+        for (const d of m[1].split(/\sof\s/)[0].matchAll(/(?<![\w.(])(\d+(?:\.\d+)*)/g)) nums.add(d[1]);
+      }
+      added(c, false);
+      out.push({ citation, sections: [...nums] });
+    }
+  };
+  collect(nif);
+  return out;
+}
+function fedToc(doc) {
+  const lines = [];
+  walkLaw(doc, {
+    heading: (text2, depth) => lines.push(indent2(depth) + text2),
+    section: (node, location) => {
+      const s = toSection(node, location);
+      if (s.num !== "") lines.push(`${indent2(location.length)}${s.num}  ${s.heading ?? (s.repealed ? "Repealed" : "")}`.trimEnd());
+    }
+  });
+  return lines.join("\n");
+}
+function allOf(n, name) {
+  return n.children.flatMap((c) => !isEl(c) ? [] : c.name === name ? [c, ...allOf(c, name)] : allOf(c, name));
+}
+function sectionRecords(doc) {
+  return bodySections(doc).filter((s) => /^\d/.test(s.num) && !s.range && !s.repealed).map((s) => ({
+    num: s.num,
+    heading: s.heading,
+    nearestHeading: s.nearestHeading,
+    location: s.location,
+    text: renderFedSection(s.node),
+    notes: allOf(s.node, "MarginalNote").map((m) => inlineText2(m)).join(" | "),
+    definedTerms: allOf(s.node, "DefinedTermEn").map((d) => inlineText2(d))
+  }));
+}
+
+// src/sources/federal.ts
+var CONCURRENCY2 = 4;
+var SEARCHED_ACT = "L-2";
+var LEGIS_URL = `${FED_BASE}/eng/XML/Legis.xml`;
+var xmlUrl = (id) => `${FED_BASE}/eng/XML/${id}.xml`;
+var folder = (kind) => kind === "regulation" ? "regulations" : "acts";
+var fedPageUrl = (kind, id) => `${FED_BASE}/eng/${folder(kind)}/${id}/index.html`;
+var sectionUrl = (kind, id, num) => `${FED_BASE}/eng/${folder(kind)}/${id}/section-${num}.html`;
+var word = (kind) => kind === "regulation" ? "regulation" : "act";
+var FederalClient = class {
+  fetcher;
+  parsed = /* @__PURE__ */ new Map();
+  searchable = /* @__PURE__ */ new Map();
+  legisCache = null;
+  constructor(opts) {
+    this.fetcher = opts.fetcher;
+  }
+  // ---------- find_act ----------
+  async findAct(name) {
+    const clean = name.replace(/["\\]/g, " ").replace(/\s+/g, " ").trim();
+    if (!clean) throw new ToolError("name is empty.");
+    const q = clean.toLowerCase();
+    const words = q.split(" ").map((w) => new RegExp(`\\b${w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i"));
+    const rank = (e) => {
+      const t = e.title.toLowerCase();
+      return t === q ? 0 : t.includes(q) ? 1 : words.every((w) => w.test(t)) ? 2 : -1;
+    };
+    const found = (await this.legis()).map((e, order) => ({ e, r: rank(e), order })).filter((x) => x.r >= 0).sort((a, b) => a.r - b.r || (a.e.kind === b.e.kind ? 0 : a.e.kind === "act" ? -1 : 1) || a.e.title.length - b.e.title.length || a.order - b.order).slice(0, 10);
+    const pages = await mapLimit(found, CONCURRENCY2, ({ e }) => this.pageMeta(e.kind, e.id));
+    return found.map(({ e }, i) => ({ act_id: e.id, title: e.title, citation: pages[i].citation ?? "", type: e.kind, source_url: fedPageUrl(e.kind, e.id) }));
+  }
+  // ---------- get_toc ----------
+  async getToc(actId) {
+    const { id, doc, info, fetchedAt } = await this.load(actId);
+    const page = await this.pageMeta(info.kind, id);
+    const pending = notInForce(doc);
+    return {
+      act: {
+        jurisdiction: "federal",
+        act_title: info.title ?? page.title ?? id,
+        act_citation: page.citation ?? info.instrumentNumber ?? "",
+        act_id: id,
+        source_url: fedPageUrl(info.kind, id),
+        current_to: page.currentTo,
+        retrieved_at: fetchedAt
+      },
+      outline: fedToc(doc),
+      warnings: [...docWarnings(info, page), ...info.allRepealed ? [`Every section of this ${word(info.kind)} reads "[Repealed\u2026]": it is repealed.`] : []],
+      notes: pending.length > 0 ? [`This ${word(info.kind)} lists ${pending.length} amendment${pending.length === 1 ? "" : "s"} not in force yet. They are not in this outline; the official page lists them under "Amendments not in force".`] : [],
+      notice: FEDERAL_NOTICE
+    };
+  }
+  // ---------- get_section ----------
+  async getSection(actId, section) {
+    const num = normalizeSection(section);
+    const { id, doc, info, fetchedAt } = await this.load(actId);
+    const title = info.title ?? id;
+    if (info.allRepealed) {
+      throw new ToolError(`${title} (${id}) is repealed: every section of it reads "[Repealed\u2026]". Find the current act with find_act (tool) or find (command).`);
+    }
+    const matches = findFedSections(bodySections(doc), num);
+    const pending = notInForce(doc);
+    const pendingFor = (n) => pending.filter((a) => a.sections.includes(n)).map((a) => a.citation);
+    if (matches.length === 0) {
+      const adds = pendingFor(num);
+      if (adds.length > 0) {
+        throw new ToolError(
+          `Section ${num} of ${title} (${id}) is not in force: only an amendment that is not in force yet would add or change it (${adds.join("; ")}). The official page lists it under "Amendments not in force": ${fedPageUrl(info.kind, id)}`
+        );
+      }
+      throw new ToolError(`No section ${num} in ${title} (${id}). Its table of contents (get_toc tool, or toc command) lists the section numbers.`);
+    }
+    const page = await this.pageMeta(info.kind, id);
+    const warnings = docWarnings(info, page);
+    if (matches.length > 1) warnings.push(`${matches.length} provisions are numbered ${num} in this ${word(info.kind)} (for example one in a schedule). All are returned; check "location".`);
+    for (const m of matches) {
+      if (m.range) warnings.push(`Sections ${m.num} were repealed together. The official website has no page for section ${num} on its own, so source_url is the table of contents.`);
+      else if (m.repealed) warnings.push(`Section ${m.num} is repealed.`);
+      if (hasNotInForcePart(m.node)) warnings.push(`Part of section ${m.num} is not in force yet: it is marked "[Not in force]" (shaded on the official page).`);
+      const changes = pendingFor(m.num);
+      if (changes.length > 0) {
+        warnings.push(
+          `An amendment that is not in force yet would change section ${m.num} (${changes.join("; ")}). The text returned is the text in force; the official page lists the amendment under "Amendments not in force".`
+        );
+      }
+    }
+    const results = matches.map((m) => ({
+      citation: {
+        jurisdiction: "federal",
+        act_title: title,
+        act_citation: page.citation ?? info.instrumentNumber ?? "",
+        act_id: id,
+        section: m.num,
+        heading: m.heading,
+        source_url: m.range ? fedPageUrl(info.kind, id) : sectionUrl(info.kind, id, m.num),
+        current_to: page.currentTo,
+        retrieved_at: fetchedAt
+      },
+      location: m.location,
+      text: renderFedSection(m.node)
+    }));
+    const [first, ...others] = results;
+    return { ...first, ...others.length > 0 ? { other_matches: others } : {}, warnings, notice: FEDERAL_NOTICE };
+  }
+  // ---------- search_law ----------
+  async search(query, limit = 10) {
+    return (await this.searchScored(query, limit)).output;
+  }
+  /** search() plus each result's score, so that search_law "all" can rank BC and federal results together. */
+  async searchScored(query, limit = 10) {
+    const phrases = parsePhrases(query);
+    if (phrases.length === 0) throw new ToolError("query is empty.");
+    const alternatives = phrases.map(phrasePattern).join("|");
+    const hitsIn = (s) => (s.match(new RegExp(alternatives, "gi")) ?? []).length;
+    const has = (s) => s !== null && new RegExp(alternatives, "i").test(s);
+    const whole = new RegExp(`^(?:${alternatives})$`, "i");
+    const mark = (s) => s.replace(new RegExp(alternatives, "gi"), (m) => `**${m}**`);
+    const warnings = [];
+    const scope = await this.searchScope(warnings);
+    let searched = 0;
+    const perDoc = await mapLimit(scope, CONCURRENCY2, async (entry, docIndex) => {
+      const res = await this.fetcher(xmlUrl(entry.id));
+      if (res.status !== 200) {
+        warnings.push(`${entry.title} (${entry.id}) could not be read (HTTP ${res.status}), so it was not searched.`);
+        return [];
+      }
+      searched++;
+      const { info, records } = this.toSearchable(res);
+      return records.flatMap((r2, secIndex) => {
+        const hits = hitsIn(r2.text) + hitsIn(r2.notes);
+        const above = has(r2.nearestHeading);
+        if (hits === 0 && !above) return [];
+        const exact = r2.definedTerms.some((t) => whole.test(t));
+        const partial = !exact && r2.definedTerms.some((t) => has(t));
+        const heading = has(r2.heading);
+        const headingFirst = heading && new RegExp(`^(?:${alternatives})`, "i").test(r2.heading ?? "");
+        const score = (exact ? 100 : partial ? 20 : 0) + (heading ? 50 : 0) + (headingFirst ? 10 : 0) + (above ? 30 : 0) + Math.min(hits, 10) + (entry.kind === "act" ? 15 : 0);
+        const match = [
+          ...exact ? ["defines the term"] : partial ? ["inside a defined term"] : [],
+          ...heading ? ["heading"] : [],
+          ...above ? ["heading above the section"] : [],
+          `${hits} hit${hits === 1 ? "" : "s"}`
+        ];
+        return [{ entry, r: r2, info, fetchedAt: res.fetchedAt, score, match, order: docIndex * 1e5 + secIndex }];
+      });
+    });
+    const top = perDoc.flat().sort((a, b) => b.score - a.score || a.order - b.order).slice(0, limit);
+    const pages = /* @__PURE__ */ new Map();
+    await mapLimit([...new Set(top.map((h) => h.entry.id))], CONCURRENCY2, async (id) => {
+      const h = top.find((x) => x.entry.id === id);
+      pages.set(id, await this.pageMeta(h.info.kind, id));
+    });
+    const undated = [...pages].filter(([, p]) => !p.currentTo).map(([id]) => id);
+    if (undated.length > 0) warnings.push(`${CURRENT_TO_WARNING} (${undated.join(", ")})`);
+    const scored = top.map(({ entry, r: r2, info, fetchedAt, score, match }) => {
+      const page = pages.get(entry.id);
+      const body = r2.text.split("\n").map(mark).join(" ").replace(/\s+/g, " ");
+      const lead = has(r2.heading) ? mark(r2.heading) : has(r2.nearestHeading) ? mark(r2.nearestHeading) : null;
+      const snippet = cutSnippet(body, () => `${lead ? `[${lead}] ` : ""}${body.length > 240 ? body.slice(0, 240) + "\u2026" : body}`);
+      return {
+        score,
+        result: {
+          jurisdiction: "federal",
+          act_title: info.title ?? entry.title,
+          act_citation: page.citation ?? info.instrumentNumber ?? "",
+          act_id: entry.id,
+          section: r2.num,
+          heading: r2.heading,
+          source_url: sectionUrl(info.kind, entry.id, r2.num),
+          current_to: page.currentTo,
+          retrieved_at: fetchedAt,
+          snippet,
+          match
+        }
+      };
+    });
+    const regs = scope.length - 1;
+    return {
+      output: {
+        query: phrases.map((p) => `"${p}"`).join(" OR "),
+        documents_searched: searched,
+        results: scored.map((s) => s.result),
+        warnings,
+        notes: [
+          `Federal search covers the Canada Labour Code and the ${regs} regulation${regs === 1 ? "" : "s"} made under it, from the official list of acts and regulations. Other federal acts and regulations, and amendments not in force yet, are not searched: find an act with find_act, then read it with get_toc and get_section.`,
+          LITERAL_NOTE,
+          SNIPPET_NOTE
+        ],
+        notice: FEDERAL_NOTICE
+      },
+      scored
+    };
+  }
+  /** The Canada Labour Code and, from the official list, the regulations made under it. */
+  async searchScope(warnings) {
+    const code = { id: SEARCHED_ACT, title: "Canada Labour Code", kind: "act" };
+    let list;
+    try {
+      list = await this.legis();
+    } catch (e) {
+      if (!(e instanceof ToolError)) throw e;
+      warnings.push(`The official list of acts and regulations could not be read (${e.message.match(/HTTP \d+/)?.[0] ?? "error"}), so only the Canada Labour Code itself was searched, not its regulations.`);
+      return [code];
+    }
+    const act = list.find((e) => e.id === SEARCHED_ACT);
+    const regs = (act?.regRefs ?? []).flatMap((ref) => list.filter((e) => e.ref === ref));
+    return [{ ...code, title: act?.title ?? code.title }, ...regs.map((e) => ({ id: e.id, title: e.title, kind: e.kind }))];
+  }
+  toSearchable(res) {
+    const key = `${res.url}@${res.fetchedAt}`;
+    let s = this.searchable.get(key);
+    if (!s) {
+      const doc = parseXml2(res.body);
+      s = { info: fedDocInfo(doc), records: sectionRecords(doc) };
+      this.searchable.set(key, s);
+      if (this.searchable.size > 80) this.searchable.delete(this.searchable.keys().next().value);
+    }
+    return s;
+  }
+  // ---------- internals ----------
+  async load(actId) {
+    const id = normalizeFedId(actId);
+    const res = await this.fetcher(xmlUrl(id));
+    if (res.status === 404) throw new ToolError(`No federal act or regulation with act_id "${id}". Look up the id with find_act (tool) or find (command).`);
+    if (res.status !== 200) throw new ToolError(`Justice Laws returned HTTP ${res.status} for ${id}.`);
+    const doc = this.parse(res);
+    const info = fedDocInfo(doc);
+    if (info.kind === "unknown") throw new ToolError(`${id} is not an act or regulation in XML form. Look up the act id with find_act (tool) or find (command).`);
+    return { id, doc, info, fetchedAt: res.fetchedAt };
+  }
+  parse(res) {
+    const key = `${res.url}@${res.fetchedAt}`;
+    let doc = this.parsed.get(key);
+    if (!doc) {
+      doc = parseXml2(res.body);
+      this.parsed.set(key, doc);
+      if (this.parsed.size > 6) this.parsed.delete(this.parsed.keys().next().value);
+    }
+    return doc;
+  }
+  async pageMeta(kind, id) {
+    const res = await this.fetcher(fedPageUrl(kind, id));
+    return res.status === 200 ? parseFedPage(res.body) : { title: null, citation: null, currentTo: null, lastAmended: null };
+  }
+  /** The English entries of the official list of acts and regulations. */
+  async legis() {
+    const res = await this.fetcher(LEGIS_URL);
+    if (res.status !== 200) {
+      throw new ToolError(`The official list of federal acts and regulations could not be read (HTTP ${res.status}). Try again later, or pass a known act_id (such as L-2) to get_toc.`);
+    }
+    const key = `${res.url}@${res.fetchedAt}`;
+    if (this.legisCache?.key !== key) this.legisCache = { key, entries: parseLegis(res.body) };
+    return this.legisCache.entries;
+  }
+};
+function docWarnings(info, page) {
+  const w = [];
+  if (!page.currentTo) w.push(CURRENT_TO_WARNING);
+  if (page.lastAmended && info.lastAmended && page.lastAmended !== info.lastAmended) {
+    w.push(
+      `The official page says this ${word(info.kind)} was last amended on ${page.lastAmended}, but the XML text is the version last amended on ${info.lastAmended}, so it may not be the current text. Check source_url.`
+    );
+  }
+  if (info.readerNote) w.push(`Official note on this ${word(info.kind)}: ${info.readerNote}`);
+  return w;
+}
+function parsePhrases(query) {
+  return query.split(/\s+OR\s+/).map((p) => p.trim().replace(/^[("\s]+|[)"\s]+$/g, "").trim()).filter(Boolean);
+}
+function phrasePattern(phrase) {
+  const words = phrase.split(/\s+/).map((w) => {
+    const star = w.endsWith("*");
+    const core = (star ? w.slice(0, -1) : w).replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/['\u2019]/g, "['\u2019]");
+    return star ? `${core}\\w*` : core;
+  });
+  return `(?<![\\w])${words.join("\\s+")}(?![\\w])`;
 }
 
 // src/cli-entry.ts
 var glossary = loadGlossary(fileURLToPath(new URL("../assets/glossary.json", import.meta.url)));
-var bc = new BcClient({ fetcher: createCachedFetcher({ cacheDir: join2(tmpdir(), "canada-law-cache") }) });
-var r = await runCli(process.argv.slice(2), { bc, glossary });
+var fetcher = createCachedFetcher({ cacheDir: join2(tmpdir(), "canada-law-cache") });
+var r = await runCli(process.argv.slice(2), { bc: new BcClient({ fetcher }), federal: new FederalClient({ fetcher }), glossary });
 if (r.stdout) process.stdout.write(r.stdout + "\n");
 if (r.stderr) process.stderr.write(r.stderr + "\n");
 process.exitCode = r.code;

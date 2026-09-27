@@ -1,54 +1,198 @@
 {
-  "工时": [{ "jurisdiction": "bc", "en_terms": ["hours of work"], "acts": [{ "act_id": "96113_01", "where": "s.35; s.37; Part 4" }] }],
-  "加班": [{ "jurisdiction": "bc", "en_terms": ["overtime"], "acts": [{ "act_id": "96113_01", "where": "s.35; s.40; s.42; Part 4" }] }],
-  "加班费": [{ "jurisdiction": "bc", "en_terms": ["overtime wages"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.40; s.42" }] }],
-  "餐休": [{ "jurisdiction": "bc", "en_terms": ["meal break", "meal breaks"], "acts": [{ "act_id": "96113_01", "where": "s.32" }] }],
+  "工时": [
+    { "jurisdiction": "bc", "en_terms": ["hours of work"], "acts": [{ "act_id": "96113_01", "where": "s.35; s.37; Part 4" }] },
+    { "jurisdiction": "federal", "en_terms": ["standard hours of work", "hours of work"], "acts": [{ "act_id": "L-2", "where": "s.166 definition; s.169" }] }
+  ],
+  "加班": [
+    { "jurisdiction": "bc", "en_terms": ["overtime"], "acts": [{ "act_id": "96113_01", "where": "s.35; s.40; s.42; Part 4" }] },
+    { "jurisdiction": "federal", "en_terms": ["overtime"], "acts": [{ "act_id": "L-2", "where": "s.166 definition; s.174" }] }
+  ],
+  "加班费": [
+    { "jurisdiction": "bc", "en_terms": ["overtime wages"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.40; s.42" }] },
+    { "jurisdiction": "federal", "en_terms": ["overtime", "overtime pay"], "acts": [{ "act_id": "L-2", "where": "s.166 definition; s.174" }] }
+  ],
+  "餐休": [
+    { "jurisdiction": "bc", "en_terms": ["meal break", "meal breaks"], "acts": [{ "act_id": "96113_01", "where": "s.32" }] },
+    { "jurisdiction": "federal", "en_terms": ["break"], "acts": [{ "act_id": "L-2", "where": "s.169.1" }] }
+  ],
   "两头班": [{ "jurisdiction": "bc", "en_terms": ["split shift", "split shifts"], "acts": [{ "act_id": "96113_01", "where": "s.33" }] }],
-  "最低日工时": [{ "jurisdiction": "bc", "en_terms": ["minimum daily hours"], "acts": [{ "act_id": "96113_01", "where": "s.34" }] }],
-  "每周休息": [{ "jurisdiction": "bc", "en_terms": ["hours free from work"], "acts": [{ "act_id": "96113_01", "where": "s.36" }] }],
-  "平均工时协议": [{ "jurisdiction": "bc", "en_terms": ["averaging agreement"], "acts": [{ "act_id": "96113_01", "where": "s.37; s.40" }] }],
-  "加班储存": [{ "jurisdiction": "bc", "en_terms": ["time bank", "banking of overtime wages"], "acts": [{ "act_id": "96113_01", "where": "s.42" }] }],
-  "法定假日": [{ "jurisdiction": "bc", "en_terms": ["statutory holiday", "statutory holidays"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.44; Part 5" }] }],
-  "法定假日工资": [{ "jurisdiction": "bc", "en_terms": ["statutory holiday pay"], "acts": [{ "act_id": "96113_01", "where": "s.45" }] }],
-  "法定假日上班": [{ "jurisdiction": "bc", "en_terms": ["works on a statutory holiday", "work on statutory holiday"], "acts": [{ "act_id": "96113_01", "where": "s.46" }] }],
-  "年假": [{ "jurisdiction": "bc", "en_terms": ["annual vacation"], "acts": [{ "act_id": "96113_01", "where": "s.57; Part 7" }] }],
-  "年假工资": [{ "jurisdiction": "bc", "en_terms": ["vacation pay"], "acts": [{ "act_id": "96113_01", "where": "s.58" }] }],
-  "最低工资": [{ "jurisdiction": "bc", "en_terms": ["minimum wage"], "acts": [{ "act_id": "96113_01", "where": "s.16; s.16.1; s.16.2" }] }],
-  "发薪日": [{ "jurisdiction": "bc", "en_terms": ["paydays", "pay period"], "acts": [{ "act_id": "96113_01", "where": "s.17" }] }],
+  "最低日工时": [
+    { "jurisdiction": "bc", "en_terms": ["minimum daily hours"], "acts": [{ "act_id": "96113_01", "where": "s.34" }] },
+    { "jurisdiction": "federal", "en_terms": ["reporting pay", "reports for work"], "acts": [{ "act_id": "C.R.C.,_c._986", "where": "s.11.1" }] }
+  ],
+  "每周休息": [
+    { "jurisdiction": "bc", "en_terms": ["hours free from work"], "acts": [{ "act_id": "96113_01", "where": "s.36" }] },
+    { "jurisdiction": "federal", "en_terms": ["day of rest"], "acts": [{ "act_id": "L-2", "where": "s.173" }] }
+  ],
+  "平均工时协议": [
+    { "jurisdiction": "bc", "en_terms": ["averaging agreement"], "acts": [{ "act_id": "96113_01", "where": "s.37; s.40" }] },
+    { "jurisdiction": "federal", "en_terms": ["averaging of hours of work"], "acts": [{ "act_id": "L-2", "where": "s.169" }] }
+  ],
+  "加班储存": [
+    { "jurisdiction": "bc", "en_terms": ["time bank", "banking of overtime wages"], "acts": [{ "act_id": "96113_01", "where": "s.42" }] },
+    { "jurisdiction": "federal", "en_terms": ["time off"], "acts": [{ "act_id": "L-2", "where": "s.174" }] }
+  ],
+  "法定假日": [
+    { "jurisdiction": "bc", "en_terms": ["statutory holiday", "statutory holidays"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.44; Part 5" }] },
+    { "jurisdiction": "federal", "en_terms": ["general holiday", "general holidays"], "acts": [{ "act_id": "L-2", "where": "s.166 definition; s.192; Part III" }] }
+  ],
+  "法定假日工资": [
+    { "jurisdiction": "bc", "en_terms": ["statutory holiday pay"], "acts": [{ "act_id": "96113_01", "where": "s.45" }] },
+    { "jurisdiction": "federal", "en_terms": ["holiday pay"], "acts": [{ "act_id": "L-2", "where": "s.196" }] }
+  ],
+  "法定假日上班": [
+    { "jurisdiction": "bc", "en_terms": ["works on a statutory holiday", "work on statutory holiday"], "acts": [{ "act_id": "96113_01", "where": "s.46" }] },
+    { "jurisdiction": "federal", "en_terms": ["holiday work"], "acts": [{ "act_id": "L-2", "where": "s.197" }] }
+  ],
+  "年假": [
+    { "jurisdiction": "bc", "en_terms": ["annual vacation"], "acts": [{ "act_id": "96113_01", "where": "s.57; Part 7" }] },
+    { "jurisdiction": "federal", "en_terms": ["annual vacation", "annual vacations"], "acts": [{ "act_id": "L-2", "where": "s.184; Division IV" }] }
+  ],
+  "年假工资": [
+    { "jurisdiction": "bc", "en_terms": ["vacation pay"], "acts": [{ "act_id": "96113_01", "where": "s.58" }] },
+    { "jurisdiction": "federal", "en_terms": ["vacation pay"], "acts": [{ "act_id": "L-2", "where": "s.183 definition; s.184.01" }] }
+  ],
+  "最低工资": [
+    { "jurisdiction": "bc", "en_terms": ["minimum wage"], "acts": [{ "act_id": "96113_01", "where": "s.16; s.16.1; s.16.2" }] },
+    { "jurisdiction": "federal", "en_terms": ["minimum wage", "minimum hourly rate"], "acts": [{ "act_id": "L-2", "where": "s.178" }] }
+  ],
+  "发薪日": [
+    { "jurisdiction": "bc", "en_terms": ["paydays", "pay period"], "acts": [{ "act_id": "96113_01", "where": "s.17" }] },
+    { "jurisdiction": "federal", "en_terms": ["regular pay-day"], "acts": [{ "act_id": "L-2", "where": "s.247" }] }
+  ],
   "离职工资": [{ "jurisdiction": "bc", "en_terms": ["wages owing"], "acts": [{ "act_id": "96113_01", "where": "s.18" }] }],
-  "工资单": [{ "jurisdiction": "bc", "en_terms": ["wage statement", "wage statements"], "acts": [{ "act_id": "96113_01", "where": "s.27" }] }],
-  "工资记录": [{ "jurisdiction": "bc", "en_terms": ["payroll records"], "acts": [{ "act_id": "96113_01", "where": "s.28" }] }],
-  "扣工资": [{ "jurisdiction": "bc", "en_terms": ["deduct", "deductions"], "acts": [{ "act_id": "96113_01", "where": "s.21" }] }],
-  "小费": [{ "jurisdiction": "bc", "en_terms": ["gratuities", "gratuity"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.30.3; s.30.4" }] }],
+  "工资单": [
+    { "jurisdiction": "bc", "en_terms": ["wage statement", "wage statements"], "acts": [{ "act_id": "96113_01", "where": "s.27" }] },
+    { "jurisdiction": "federal", "en_terms": ["pay statement"], "acts": [{ "act_id": "L-2", "where": "s.254" }] }
+  ],
+  "工资记录": [
+    { "jurisdiction": "bc", "en_terms": ["payroll records"], "acts": [{ "act_id": "96113_01", "where": "s.28" }] },
+    { "jurisdiction": "federal", "en_terms": ["records"], "acts": [{ "act_id": "L-2", "where": "s.252" }] }
+  ],
+  "扣工资": [
+    { "jurisdiction": "bc", "en_terms": ["deduct", "deductions"], "acts": [{ "act_id": "96113_01", "where": "s.21" }] },
+    { "jurisdiction": "federal", "en_terms": ["deductions", "deduction"], "acts": [{ "act_id": "L-2", "where": "s.254.1" }] }
+  ],
+  "小费": [
+    { "jurisdiction": "bc", "en_terms": ["gratuities", "gratuity"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.30.3; s.30.4" }] },
+    { "jurisdiction": "federal", "en_terms": ["tips", "gratuities"], "acts": [{ "act_id": "L-2", "where": "s.166 definition" }] }
+  ],
   "工作服": [{ "jurisdiction": "bc", "en_terms": ["special clothing"], "acts": [{ "act_id": "96113_01", "where": "s.25" }] }],
-  "解雇通知": [{ "jurisdiction": "bc", "en_terms": ["written notice of termination", "notice of termination"], "acts": [{ "act_id": "96113_01", "where": "s.63" }] }],
-  "遣散费": [{ "jurisdiction": "bc", "en_terms": ["compensation for length of service"], "acts": [{ "act_id": "96113_01", "where": "s.63" }] }],
-  "集体解雇": [{ "jurisdiction": "bc", "en_terms": ["group termination", "group terminations"], "acts": [{ "act_id": "96113_01", "where": "s.64" }] }],
-  "临时裁员": [{ "jurisdiction": "bc", "en_terms": ["temporary layoff"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.63" }] }],
+  "解雇通知": [
+    { "jurisdiction": "bc", "en_terms": ["written notice of termination", "notice of termination"], "acts": [{ "act_id": "96113_01", "where": "s.63" }] },
+    { "jurisdiction": "federal", "en_terms": ["notice in writing", "wages in lieu of notice"], "acts": [{ "act_id": "L-2", "where": "s.230" }] }
+  ],
+  "遣散费": [
+    { "jurisdiction": "bc", "en_terms": ["compensation for length of service"], "acts": [{ "act_id": "96113_01", "where": "s.63" }] },
+    { "jurisdiction": "federal", "en_terms": ["severance pay"], "acts": [{ "act_id": "L-2", "where": "s.235; Division XI" }] }
+  ],
+  "集体解雇": [
+    { "jurisdiction": "bc", "en_terms": ["group termination", "group terminations"], "acts": [{ "act_id": "96113_01", "where": "s.64" }] },
+    { "jurisdiction": "federal", "en_terms": ["group termination"], "acts": [{ "act_id": "L-2", "where": "s.212; Division IX" }] }
+  ],
+  "临时裁员": [
+    { "jurisdiction": "bc", "en_terms": ["temporary layoff"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.63" }] },
+    { "jurisdiction": "federal", "en_terms": ["lay-off", "lays off"], "acts": [{ "act_id": "L-2", "where": "s.230" }, { "act_id": "C.R.C.,_c._986", "where": "s.30" }] }
+  ],
   "推定解雇": [{ "jurisdiction": "bc", "en_terms": ["substantially altered"], "acts": [{ "act_id": "96113_01", "where": "s.66" }] }],
-  "产假": [{ "jurisdiction": "bc", "en_terms": ["maternity leave"], "acts": [{ "act_id": "96113_01", "where": "s.50" }] }],
-  "育儿假": [{ "jurisdiction": "bc", "en_terms": ["parental leave"], "acts": [{ "act_id": "96113_01", "where": "s.51" }] }],
-  "家庭责任假": [{ "jurisdiction": "bc", "en_terms": ["family responsibility leave"], "acts": [{ "act_id": "96113_01", "where": "s.52" }] }],
-  "病假": [{ "jurisdiction": "bc", "en_terms": ["illness or injury leave"], "acts": [{ "act_id": "96113_01", "where": "s.49.1" }] }],
-  "丧假": [{ "jurisdiction": "bc", "en_terms": ["bereavement leave"], "acts": [{ "act_id": "96113_01", "where": "s.53" }] }],
-  "同情照护假": [{ "jurisdiction": "bc", "en_terms": ["compassionate care leave"], "acts": [{ "act_id": "96113_01", "where": "s.52.1" }] }],
-  "家暴假": [{ "jurisdiction": "bc", "en_terms": ["domestic or sexual violence"], "acts": [{ "act_id": "96113_01", "where": "s.52.5" }] }],
-  "投诉": [{ "jurisdiction": "bc", "en_terms": ["complaint", "complaints"], "acts": [{ "act_id": "96113_01", "where": "s.74; s.76; Part 10" }] }],
-  "报复": [{ "jurisdiction": "bc", "en_terms": ["mistreated"], "acts": [{ "act_id": "96113_01", "where": "s.83" }] }],
+  "产假": [
+    { "jurisdiction": "bc", "en_terms": ["maternity leave"], "acts": [{ "act_id": "96113_01", "where": "s.50" }] },
+    { "jurisdiction": "federal", "en_terms": ["maternity leave"], "acts": [{ "act_id": "L-2", "where": "s.206" }] }
+  ],
+  "育儿假": [
+    { "jurisdiction": "bc", "en_terms": ["parental leave"], "acts": [{ "act_id": "96113_01", "where": "s.51" }] },
+    { "jurisdiction": "federal", "en_terms": ["parental leave"], "acts": [{ "act_id": "L-2", "where": "s.206.1" }] }
+  ],
+  "家庭责任假": [
+    { "jurisdiction": "bc", "en_terms": ["family responsibility leave"], "acts": [{ "act_id": "96113_01", "where": "s.52" }] },
+    { "jurisdiction": "federal", "en_terms": ["personal leave"], "acts": [{ "act_id": "L-2", "where": "s.206.6" }] }
+  ],
+  "病假": [
+    { "jurisdiction": "bc", "en_terms": ["illness or injury leave"], "acts": [{ "act_id": "96113_01", "where": "s.49.1" }] },
+    { "jurisdiction": "federal", "en_terms": ["medical leave"], "acts": [{ "act_id": "L-2", "where": "s.239; Division XIII" }] }
+  ],
+  "丧假": [
+    { "jurisdiction": "bc", "en_terms": ["bereavement leave"], "acts": [{ "act_id": "96113_01", "where": "s.53" }] },
+    { "jurisdiction": "federal", "en_terms": ["bereavement leave"], "acts": [{ "act_id": "L-2", "where": "s.210; Division VIII" }] }
+  ],
+  "同情照护假": [
+    { "jurisdiction": "bc", "en_terms": ["compassionate care leave"], "acts": [{ "act_id": "96113_01", "where": "s.52.1" }] },
+    { "jurisdiction": "federal", "en_terms": ["compassionate care leave"], "acts": [{ "act_id": "L-2", "where": "s.206.3" }] }
+  ],
+  "家暴假": [
+    { "jurisdiction": "bc", "en_terms": ["domestic or sexual violence"], "acts": [{ "act_id": "96113_01", "where": "s.52.5" }] },
+    { "jurisdiction": "federal", "en_terms": ["family violence"], "acts": [{ "act_id": "L-2", "where": "s.206.7" }] }
+  ],
+  "投诉": [
+    { "jurisdiction": "bc", "en_terms": ["complaint", "complaints"], "acts": [{ "act_id": "96113_01", "where": "s.74; s.76; Part 10" }] },
+    { "jurisdiction": "federal", "en_terms": ["complaint", "complaints"], "acts": [{ "act_id": "L-2", "where": "s.251.01" }] }
+  ],
+  "报复": [
+    { "jurisdiction": "bc", "en_terms": ["mistreated"], "acts": [{ "act_id": "96113_01", "where": "s.83" }] },
+    { "jurisdiction": "federal", "en_terms": ["reprisals"], "acts": [{ "act_id": "L-2", "where": "s.246.1; Division XIV.1" }] }
+  ],
   "家政工": [{ "jurisdiction": "bc", "en_terms": ["domestic worker", "domestic workers"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.14" }] }],
   "平台工人": [{ "jurisdiction": "bc", "en_terms": ["online platform worker", "online platform workers"], "acts": [{ "act_id": "96113_01", "where": "s.3.1" }] }],
-  "童工": [{ "jurisdiction": "bc", "en_terms": ["child", "children"], "acts": [{ "act_id": "96113_01", "where": "s.9; s.9.1" }] }],
-  "工资": [{ "jurisdiction": "bc", "en_terms": ["wages"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition" }] }],
-  "stat holiday": [{ "jurisdiction": "bc", "en_terms": ["statutory holiday", "statutory holidays"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.44; Part 5" }] }],
-  "lunch break": [{ "jurisdiction": "bc", "en_terms": ["meal break", "meal breaks"], "acts": [{ "act_id": "96113_01", "where": "s.32" }] }],
-  "overtime pay": [{ "jurisdiction": "bc", "en_terms": ["overtime wages"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.40; s.42" }] }],
-  "severance": [{ "jurisdiction": "bc", "en_terms": ["compensation for length of service"], "acts": [{ "act_id": "96113_01", "where": "s.63" }] }],
-  "termination pay": [{ "jurisdiction": "bc", "en_terms": ["compensation for length of service", "written notice of termination"], "acts": [{ "act_id": "96113_01", "where": "s.63" }] }],
-  "sick leave": [{ "jurisdiction": "bc", "en_terms": ["illness or injury leave"], "acts": [{ "act_id": "96113_01", "where": "s.49.1" }] }],
-  "sick day": [{ "jurisdiction": "bc", "en_terms": ["illness or injury leave"], "acts": [{ "act_id": "96113_01", "where": "s.49.1" }] }],
-  "vacation": [{ "jurisdiction": "bc", "en_terms": ["annual vacation", "vacation pay"], "acts": [{ "act_id": "96113_01", "where": "s.57; s.58; Part 7" }] }],
-  "pay stub": [{ "jurisdiction": "bc", "en_terms": ["wage statement", "wage statements"], "acts": [{ "act_id": "96113_01", "where": "s.27" }] }],
-  "tips": [{ "jurisdiction": "bc", "en_terms": ["gratuities", "gratuity"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.30.3; s.30.4" }] }],
-  "layoff": [{ "jurisdiction": "bc", "en_terms": ["temporary layoff"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.63" }] }],
-  "payday": [{ "jurisdiction": "bc", "en_terms": ["paydays", "pay period"], "acts": [{ "act_id": "96113_01", "where": "s.17" }] }]
+  "童工": [
+    { "jurisdiction": "bc", "en_terms": ["child", "children"], "acts": [{ "act_id": "96113_01", "where": "s.9; s.9.1" }] },
+    { "jurisdiction": "federal", "en_terms": ["under the age of 18 years"], "acts": [{ "act_id": "L-2", "where": "s.179" }] }
+  ],
+  "工资": [
+    { "jurisdiction": "bc", "en_terms": ["wages"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition" }] },
+    { "jurisdiction": "federal", "en_terms": ["wages"], "acts": [{ "act_id": "L-2", "where": "s.166 definition" }] }
+  ],
+  "联邦监管行业": [{ "jurisdiction": "federal", "en_terms": ["federal work, undertaking or business"], "acts": [{ "act_id": "L-2", "where": "s.2 definition" }] }],
+  "不当解雇": [{ "jurisdiction": "federal", "en_terms": ["unjust dismissal"], "acts": [{ "act_id": "L-2", "where": "s.240; Division XIV" }] }],
+  "个人假": [{ "jurisdiction": "federal", "en_terms": ["personal leave"], "acts": [{ "act_id": "L-2", "where": "s.206.6" }] }],
+  "最长工时": [{ "jurisdiction": "federal", "en_terms": ["maximum hours of work"], "acts": [{ "act_id": "L-2", "where": "s.171" }] }],
+  "职场骚扰": [{ "jurisdiction": "federal", "en_terms": ["harassment and violence"], "acts": [{ "act_id": "L-2", "where": "s.122 definition" }] }],
+  "stat holiday": [
+    { "jurisdiction": "bc", "en_terms": ["statutory holiday", "statutory holidays"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.44; Part 5" }] },
+    { "jurisdiction": "federal", "en_terms": ["general holiday", "general holidays"], "acts": [{ "act_id": "L-2", "where": "s.166 definition; s.192" }] }
+  ],
+  "lunch break": [
+    { "jurisdiction": "bc", "en_terms": ["meal break", "meal breaks"], "acts": [{ "act_id": "96113_01", "where": "s.32" }] },
+    { "jurisdiction": "federal", "en_terms": ["break"], "acts": [{ "act_id": "L-2", "where": "s.169.1" }] }
+  ],
+  "overtime pay": [
+    { "jurisdiction": "bc", "en_terms": ["overtime wages"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.40; s.42" }] },
+    { "jurisdiction": "federal", "en_terms": ["overtime", "overtime pay"], "acts": [{ "act_id": "L-2", "where": "s.166 definition; s.174" }] }
+  ],
+  "severance": [
+    { "jurisdiction": "bc", "en_terms": ["compensation for length of service"], "acts": [{ "act_id": "96113_01", "where": "s.63" }] },
+    { "jurisdiction": "federal", "en_terms": ["severance pay"], "acts": [{ "act_id": "L-2", "where": "s.235; Division XI" }] }
+  ],
+  "termination pay": [
+    { "jurisdiction": "bc", "en_terms": ["compensation for length of service", "written notice of termination"], "acts": [{ "act_id": "96113_01", "where": "s.63" }] },
+    { "jurisdiction": "federal", "en_terms": ["wages in lieu of notice", "severance pay"], "acts": [{ "act_id": "L-2", "where": "s.230; s.235; Division XI" }] }
+  ],
+  "sick leave": [
+    { "jurisdiction": "bc", "en_terms": ["illness or injury leave"], "acts": [{ "act_id": "96113_01", "where": "s.49.1" }] },
+    { "jurisdiction": "federal", "en_terms": ["medical leave"], "acts": [{ "act_id": "L-2", "where": "s.239" }] }
+  ],
+  "sick day": [
+    { "jurisdiction": "bc", "en_terms": ["illness or injury leave"], "acts": [{ "act_id": "96113_01", "where": "s.49.1" }] },
+    { "jurisdiction": "federal", "en_terms": ["medical leave"], "acts": [{ "act_id": "L-2", "where": "s.239" }] }
+  ],
+  "vacation": [
+    { "jurisdiction": "bc", "en_terms": ["annual vacation", "vacation pay"], "acts": [{ "act_id": "96113_01", "where": "s.57; s.58; Part 7" }] },
+    { "jurisdiction": "federal", "en_terms": ["annual vacation", "vacation pay"], "acts": [{ "act_id": "L-2", "where": "s.184; s.184.01" }] }
+  ],
+  "pay stub": [
+    { "jurisdiction": "bc", "en_terms": ["wage statement", "wage statements"], "acts": [{ "act_id": "96113_01", "where": "s.27" }] },
+    { "jurisdiction": "federal", "en_terms": ["pay statement"], "acts": [{ "act_id": "L-2", "where": "s.254" }] }
+  ],
+  "tips": [
+    { "jurisdiction": "bc", "en_terms": ["gratuities", "gratuity"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.30.3; s.30.4" }] },
+    { "jurisdiction": "federal", "en_terms": ["tips", "gratuities"], "acts": [{ "act_id": "L-2", "where": "s.166 definition" }] }
+  ],
+  "layoff": [
+    { "jurisdiction": "bc", "en_terms": ["temporary layoff"], "acts": [{ "act_id": "96113_01", "where": "s.1 definition; s.63" }] },
+    { "jurisdiction": "federal", "en_terms": ["lay-off", "lays off"], "acts": [{ "act_id": "L-2", "where": "s.230" }, { "act_id": "C.R.C.,_c._986", "where": "s.30" }] }
+  ],
+  "payday": [
+    { "jurisdiction": "bc", "en_terms": ["paydays", "pay period"], "acts": [{ "act_id": "96113_01", "where": "s.17" }] },
+    { "jurisdiction": "federal", "en_terms": ["regular pay-day"], "acts": [{ "act_id": "L-2", "where": "s.247" }] }
+  ],
+  "federally regulated": [{ "jurisdiction": "federal", "en_terms": ["federal work, undertaking or business"], "acts": [{ "act_id": "L-2", "where": "s.2 definition" }] }]
 }

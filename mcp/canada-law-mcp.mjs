@@ -46,58 +46,202 @@ var define_GLOSSARY_default;
 var init_define_GLOSSARY = __esm({
   "<define:__GLOSSARY__>"() {
     define_GLOSSARY_default = {
-      \u5DE5\u65F6: [{ jurisdiction: "bc", en_terms: ["hours of work"], acts: [{ act_id: "96113_01", where: "s.35; s.37; Part 4" }] }],
-      \u52A0\u73ED: [{ jurisdiction: "bc", en_terms: ["overtime"], acts: [{ act_id: "96113_01", where: "s.35; s.40; s.42; Part 4" }] }],
-      \u52A0\u73ED\u8D39: [{ jurisdiction: "bc", en_terms: ["overtime wages"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.40; s.42" }] }],
-      \u9910\u4F11: [{ jurisdiction: "bc", en_terms: ["meal break", "meal breaks"], acts: [{ act_id: "96113_01", where: "s.32" }] }],
+      \u5DE5\u65F6: [
+        { jurisdiction: "bc", en_terms: ["hours of work"], acts: [{ act_id: "96113_01", where: "s.35; s.37; Part 4" }] },
+        { jurisdiction: "federal", en_terms: ["standard hours of work", "hours of work"], acts: [{ act_id: "L-2", where: "s.166 definition; s.169" }] }
+      ],
+      \u52A0\u73ED: [
+        { jurisdiction: "bc", en_terms: ["overtime"], acts: [{ act_id: "96113_01", where: "s.35; s.40; s.42; Part 4" }] },
+        { jurisdiction: "federal", en_terms: ["overtime"], acts: [{ act_id: "L-2", where: "s.166 definition; s.174" }] }
+      ],
+      \u52A0\u73ED\u8D39: [
+        { jurisdiction: "bc", en_terms: ["overtime wages"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.40; s.42" }] },
+        { jurisdiction: "federal", en_terms: ["overtime", "overtime pay"], acts: [{ act_id: "L-2", where: "s.166 definition; s.174" }] }
+      ],
+      \u9910\u4F11: [
+        { jurisdiction: "bc", en_terms: ["meal break", "meal breaks"], acts: [{ act_id: "96113_01", where: "s.32" }] },
+        { jurisdiction: "federal", en_terms: ["break"], acts: [{ act_id: "L-2", where: "s.169.1" }] }
+      ],
       \u4E24\u5934\u73ED: [{ jurisdiction: "bc", en_terms: ["split shift", "split shifts"], acts: [{ act_id: "96113_01", where: "s.33" }] }],
-      \u6700\u4F4E\u65E5\u5DE5\u65F6: [{ jurisdiction: "bc", en_terms: ["minimum daily hours"], acts: [{ act_id: "96113_01", where: "s.34" }] }],
-      \u6BCF\u5468\u4F11\u606F: [{ jurisdiction: "bc", en_terms: ["hours free from work"], acts: [{ act_id: "96113_01", where: "s.36" }] }],
-      \u5E73\u5747\u5DE5\u65F6\u534F\u8BAE: [{ jurisdiction: "bc", en_terms: ["averaging agreement"], acts: [{ act_id: "96113_01", where: "s.37; s.40" }] }],
-      \u52A0\u73ED\u50A8\u5B58: [{ jurisdiction: "bc", en_terms: ["time bank", "banking of overtime wages"], acts: [{ act_id: "96113_01", where: "s.42" }] }],
-      \u6CD5\u5B9A\u5047\u65E5: [{ jurisdiction: "bc", en_terms: ["statutory holiday", "statutory holidays"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.44; Part 5" }] }],
-      \u6CD5\u5B9A\u5047\u65E5\u5DE5\u8D44: [{ jurisdiction: "bc", en_terms: ["statutory holiday pay"], acts: [{ act_id: "96113_01", where: "s.45" }] }],
-      \u6CD5\u5B9A\u5047\u65E5\u4E0A\u73ED: [{ jurisdiction: "bc", en_terms: ["works on a statutory holiday", "work on statutory holiday"], acts: [{ act_id: "96113_01", where: "s.46" }] }],
-      \u5E74\u5047: [{ jurisdiction: "bc", en_terms: ["annual vacation"], acts: [{ act_id: "96113_01", where: "s.57; Part 7" }] }],
-      \u5E74\u5047\u5DE5\u8D44: [{ jurisdiction: "bc", en_terms: ["vacation pay"], acts: [{ act_id: "96113_01", where: "s.58" }] }],
-      \u6700\u4F4E\u5DE5\u8D44: [{ jurisdiction: "bc", en_terms: ["minimum wage"], acts: [{ act_id: "96113_01", where: "s.16; s.16.1; s.16.2" }] }],
-      \u53D1\u85AA\u65E5: [{ jurisdiction: "bc", en_terms: ["paydays", "pay period"], acts: [{ act_id: "96113_01", where: "s.17" }] }],
+      \u6700\u4F4E\u65E5\u5DE5\u65F6: [
+        { jurisdiction: "bc", en_terms: ["minimum daily hours"], acts: [{ act_id: "96113_01", where: "s.34" }] },
+        { jurisdiction: "federal", en_terms: ["reporting pay", "reports for work"], acts: [{ act_id: "C.R.C.,_c._986", where: "s.11.1" }] }
+      ],
+      \u6BCF\u5468\u4F11\u606F: [
+        { jurisdiction: "bc", en_terms: ["hours free from work"], acts: [{ act_id: "96113_01", where: "s.36" }] },
+        { jurisdiction: "federal", en_terms: ["day of rest"], acts: [{ act_id: "L-2", where: "s.173" }] }
+      ],
+      \u5E73\u5747\u5DE5\u65F6\u534F\u8BAE: [
+        { jurisdiction: "bc", en_terms: ["averaging agreement"], acts: [{ act_id: "96113_01", where: "s.37; s.40" }] },
+        { jurisdiction: "federal", en_terms: ["averaging of hours of work"], acts: [{ act_id: "L-2", where: "s.169" }] }
+      ],
+      \u52A0\u73ED\u50A8\u5B58: [
+        { jurisdiction: "bc", en_terms: ["time bank", "banking of overtime wages"], acts: [{ act_id: "96113_01", where: "s.42" }] },
+        { jurisdiction: "federal", en_terms: ["time off"], acts: [{ act_id: "L-2", where: "s.174" }] }
+      ],
+      \u6CD5\u5B9A\u5047\u65E5: [
+        { jurisdiction: "bc", en_terms: ["statutory holiday", "statutory holidays"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.44; Part 5" }] },
+        { jurisdiction: "federal", en_terms: ["general holiday", "general holidays"], acts: [{ act_id: "L-2", where: "s.166 definition; s.192; Part III" }] }
+      ],
+      \u6CD5\u5B9A\u5047\u65E5\u5DE5\u8D44: [
+        { jurisdiction: "bc", en_terms: ["statutory holiday pay"], acts: [{ act_id: "96113_01", where: "s.45" }] },
+        { jurisdiction: "federal", en_terms: ["holiday pay"], acts: [{ act_id: "L-2", where: "s.196" }] }
+      ],
+      \u6CD5\u5B9A\u5047\u65E5\u4E0A\u73ED: [
+        { jurisdiction: "bc", en_terms: ["works on a statutory holiday", "work on statutory holiday"], acts: [{ act_id: "96113_01", where: "s.46" }] },
+        { jurisdiction: "federal", en_terms: ["holiday work"], acts: [{ act_id: "L-2", where: "s.197" }] }
+      ],
+      \u5E74\u5047: [
+        { jurisdiction: "bc", en_terms: ["annual vacation"], acts: [{ act_id: "96113_01", where: "s.57; Part 7" }] },
+        { jurisdiction: "federal", en_terms: ["annual vacation", "annual vacations"], acts: [{ act_id: "L-2", where: "s.184; Division IV" }] }
+      ],
+      \u5E74\u5047\u5DE5\u8D44: [
+        { jurisdiction: "bc", en_terms: ["vacation pay"], acts: [{ act_id: "96113_01", where: "s.58" }] },
+        { jurisdiction: "federal", en_terms: ["vacation pay"], acts: [{ act_id: "L-2", where: "s.183 definition; s.184.01" }] }
+      ],
+      \u6700\u4F4E\u5DE5\u8D44: [
+        { jurisdiction: "bc", en_terms: ["minimum wage"], acts: [{ act_id: "96113_01", where: "s.16; s.16.1; s.16.2" }] },
+        { jurisdiction: "federal", en_terms: ["minimum wage", "minimum hourly rate"], acts: [{ act_id: "L-2", where: "s.178" }] }
+      ],
+      \u53D1\u85AA\u65E5: [
+        { jurisdiction: "bc", en_terms: ["paydays", "pay period"], acts: [{ act_id: "96113_01", where: "s.17" }] },
+        { jurisdiction: "federal", en_terms: ["regular pay-day"], acts: [{ act_id: "L-2", where: "s.247" }] }
+      ],
       \u79BB\u804C\u5DE5\u8D44: [{ jurisdiction: "bc", en_terms: ["wages owing"], acts: [{ act_id: "96113_01", where: "s.18" }] }],
-      \u5DE5\u8D44\u5355: [{ jurisdiction: "bc", en_terms: ["wage statement", "wage statements"], acts: [{ act_id: "96113_01", where: "s.27" }] }],
-      \u5DE5\u8D44\u8BB0\u5F55: [{ jurisdiction: "bc", en_terms: ["payroll records"], acts: [{ act_id: "96113_01", where: "s.28" }] }],
-      \u6263\u5DE5\u8D44: [{ jurisdiction: "bc", en_terms: ["deduct", "deductions"], acts: [{ act_id: "96113_01", where: "s.21" }] }],
-      \u5C0F\u8D39: [{ jurisdiction: "bc", en_terms: ["gratuities", "gratuity"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.30.3; s.30.4" }] }],
+      \u5DE5\u8D44\u5355: [
+        { jurisdiction: "bc", en_terms: ["wage statement", "wage statements"], acts: [{ act_id: "96113_01", where: "s.27" }] },
+        { jurisdiction: "federal", en_terms: ["pay statement"], acts: [{ act_id: "L-2", where: "s.254" }] }
+      ],
+      \u5DE5\u8D44\u8BB0\u5F55: [
+        { jurisdiction: "bc", en_terms: ["payroll records"], acts: [{ act_id: "96113_01", where: "s.28" }] },
+        { jurisdiction: "federal", en_terms: ["records"], acts: [{ act_id: "L-2", where: "s.252" }] }
+      ],
+      \u6263\u5DE5\u8D44: [
+        { jurisdiction: "bc", en_terms: ["deduct", "deductions"], acts: [{ act_id: "96113_01", where: "s.21" }] },
+        { jurisdiction: "federal", en_terms: ["deductions", "deduction"], acts: [{ act_id: "L-2", where: "s.254.1" }] }
+      ],
+      \u5C0F\u8D39: [
+        { jurisdiction: "bc", en_terms: ["gratuities", "gratuity"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.30.3; s.30.4" }] },
+        { jurisdiction: "federal", en_terms: ["tips", "gratuities"], acts: [{ act_id: "L-2", where: "s.166 definition" }] }
+      ],
       \u5DE5\u4F5C\u670D: [{ jurisdiction: "bc", en_terms: ["special clothing"], acts: [{ act_id: "96113_01", where: "s.25" }] }],
-      \u89E3\u96C7\u901A\u77E5: [{ jurisdiction: "bc", en_terms: ["written notice of termination", "notice of termination"], acts: [{ act_id: "96113_01", where: "s.63" }] }],
-      \u9063\u6563\u8D39: [{ jurisdiction: "bc", en_terms: ["compensation for length of service"], acts: [{ act_id: "96113_01", where: "s.63" }] }],
-      \u96C6\u4F53\u89E3\u96C7: [{ jurisdiction: "bc", en_terms: ["group termination", "group terminations"], acts: [{ act_id: "96113_01", where: "s.64" }] }],
-      \u4E34\u65F6\u88C1\u5458: [{ jurisdiction: "bc", en_terms: ["temporary layoff"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.63" }] }],
+      \u89E3\u96C7\u901A\u77E5: [
+        { jurisdiction: "bc", en_terms: ["written notice of termination", "notice of termination"], acts: [{ act_id: "96113_01", where: "s.63" }] },
+        { jurisdiction: "federal", en_terms: ["notice in writing", "wages in lieu of notice"], acts: [{ act_id: "L-2", where: "s.230" }] }
+      ],
+      \u9063\u6563\u8D39: [
+        { jurisdiction: "bc", en_terms: ["compensation for length of service"], acts: [{ act_id: "96113_01", where: "s.63" }] },
+        { jurisdiction: "federal", en_terms: ["severance pay"], acts: [{ act_id: "L-2", where: "s.235; Division XI" }] }
+      ],
+      \u96C6\u4F53\u89E3\u96C7: [
+        { jurisdiction: "bc", en_terms: ["group termination", "group terminations"], acts: [{ act_id: "96113_01", where: "s.64" }] },
+        { jurisdiction: "federal", en_terms: ["group termination"], acts: [{ act_id: "L-2", where: "s.212; Division IX" }] }
+      ],
+      \u4E34\u65F6\u88C1\u5458: [
+        { jurisdiction: "bc", en_terms: ["temporary layoff"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.63" }] },
+        { jurisdiction: "federal", en_terms: ["lay-off", "lays off"], acts: [{ act_id: "L-2", where: "s.230" }, { act_id: "C.R.C.,_c._986", where: "s.30" }] }
+      ],
       \u63A8\u5B9A\u89E3\u96C7: [{ jurisdiction: "bc", en_terms: ["substantially altered"], acts: [{ act_id: "96113_01", where: "s.66" }] }],
-      \u4EA7\u5047: [{ jurisdiction: "bc", en_terms: ["maternity leave"], acts: [{ act_id: "96113_01", where: "s.50" }] }],
-      \u80B2\u513F\u5047: [{ jurisdiction: "bc", en_terms: ["parental leave"], acts: [{ act_id: "96113_01", where: "s.51" }] }],
-      \u5BB6\u5EAD\u8D23\u4EFB\u5047: [{ jurisdiction: "bc", en_terms: ["family responsibility leave"], acts: [{ act_id: "96113_01", where: "s.52" }] }],
-      \u75C5\u5047: [{ jurisdiction: "bc", en_terms: ["illness or injury leave"], acts: [{ act_id: "96113_01", where: "s.49.1" }] }],
-      \u4E27\u5047: [{ jurisdiction: "bc", en_terms: ["bereavement leave"], acts: [{ act_id: "96113_01", where: "s.53" }] }],
-      \u540C\u60C5\u7167\u62A4\u5047: [{ jurisdiction: "bc", en_terms: ["compassionate care leave"], acts: [{ act_id: "96113_01", where: "s.52.1" }] }],
-      \u5BB6\u66B4\u5047: [{ jurisdiction: "bc", en_terms: ["domestic or sexual violence"], acts: [{ act_id: "96113_01", where: "s.52.5" }] }],
-      \u6295\u8BC9: [{ jurisdiction: "bc", en_terms: ["complaint", "complaints"], acts: [{ act_id: "96113_01", where: "s.74; s.76; Part 10" }] }],
-      \u62A5\u590D: [{ jurisdiction: "bc", en_terms: ["mistreated"], acts: [{ act_id: "96113_01", where: "s.83" }] }],
+      \u4EA7\u5047: [
+        { jurisdiction: "bc", en_terms: ["maternity leave"], acts: [{ act_id: "96113_01", where: "s.50" }] },
+        { jurisdiction: "federal", en_terms: ["maternity leave"], acts: [{ act_id: "L-2", where: "s.206" }] }
+      ],
+      \u80B2\u513F\u5047: [
+        { jurisdiction: "bc", en_terms: ["parental leave"], acts: [{ act_id: "96113_01", where: "s.51" }] },
+        { jurisdiction: "federal", en_terms: ["parental leave"], acts: [{ act_id: "L-2", where: "s.206.1" }] }
+      ],
+      \u5BB6\u5EAD\u8D23\u4EFB\u5047: [
+        { jurisdiction: "bc", en_terms: ["family responsibility leave"], acts: [{ act_id: "96113_01", where: "s.52" }] },
+        { jurisdiction: "federal", en_terms: ["personal leave"], acts: [{ act_id: "L-2", where: "s.206.6" }] }
+      ],
+      \u75C5\u5047: [
+        { jurisdiction: "bc", en_terms: ["illness or injury leave"], acts: [{ act_id: "96113_01", where: "s.49.1" }] },
+        { jurisdiction: "federal", en_terms: ["medical leave"], acts: [{ act_id: "L-2", where: "s.239; Division XIII" }] }
+      ],
+      \u4E27\u5047: [
+        { jurisdiction: "bc", en_terms: ["bereavement leave"], acts: [{ act_id: "96113_01", where: "s.53" }] },
+        { jurisdiction: "federal", en_terms: ["bereavement leave"], acts: [{ act_id: "L-2", where: "s.210; Division VIII" }] }
+      ],
+      \u540C\u60C5\u7167\u62A4\u5047: [
+        { jurisdiction: "bc", en_terms: ["compassionate care leave"], acts: [{ act_id: "96113_01", where: "s.52.1" }] },
+        { jurisdiction: "federal", en_terms: ["compassionate care leave"], acts: [{ act_id: "L-2", where: "s.206.3" }] }
+      ],
+      \u5BB6\u66B4\u5047: [
+        { jurisdiction: "bc", en_terms: ["domestic or sexual violence"], acts: [{ act_id: "96113_01", where: "s.52.5" }] },
+        { jurisdiction: "federal", en_terms: ["family violence"], acts: [{ act_id: "L-2", where: "s.206.7" }] }
+      ],
+      \u6295\u8BC9: [
+        { jurisdiction: "bc", en_terms: ["complaint", "complaints"], acts: [{ act_id: "96113_01", where: "s.74; s.76; Part 10" }] },
+        { jurisdiction: "federal", en_terms: ["complaint", "complaints"], acts: [{ act_id: "L-2", where: "s.251.01" }] }
+      ],
+      \u62A5\u590D: [
+        { jurisdiction: "bc", en_terms: ["mistreated"], acts: [{ act_id: "96113_01", where: "s.83" }] },
+        { jurisdiction: "federal", en_terms: ["reprisals"], acts: [{ act_id: "L-2", where: "s.246.1; Division XIV.1" }] }
+      ],
       \u5BB6\u653F\u5DE5: [{ jurisdiction: "bc", en_terms: ["domestic worker", "domestic workers"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.14" }] }],
       \u5E73\u53F0\u5DE5\u4EBA: [{ jurisdiction: "bc", en_terms: ["online platform worker", "online platform workers"], acts: [{ act_id: "96113_01", where: "s.3.1" }] }],
-      \u7AE5\u5DE5: [{ jurisdiction: "bc", en_terms: ["child", "children"], acts: [{ act_id: "96113_01", where: "s.9; s.9.1" }] }],
-      \u5DE5\u8D44: [{ jurisdiction: "bc", en_terms: ["wages"], acts: [{ act_id: "96113_01", where: "s.1 definition" }] }],
-      "stat holiday": [{ jurisdiction: "bc", en_terms: ["statutory holiday", "statutory holidays"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.44; Part 5" }] }],
-      "lunch break": [{ jurisdiction: "bc", en_terms: ["meal break", "meal breaks"], acts: [{ act_id: "96113_01", where: "s.32" }] }],
-      "overtime pay": [{ jurisdiction: "bc", en_terms: ["overtime wages"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.40; s.42" }] }],
-      severance: [{ jurisdiction: "bc", en_terms: ["compensation for length of service"], acts: [{ act_id: "96113_01", where: "s.63" }] }],
-      "termination pay": [{ jurisdiction: "bc", en_terms: ["compensation for length of service", "written notice of termination"], acts: [{ act_id: "96113_01", where: "s.63" }] }],
-      "sick leave": [{ jurisdiction: "bc", en_terms: ["illness or injury leave"], acts: [{ act_id: "96113_01", where: "s.49.1" }] }],
-      "sick day": [{ jurisdiction: "bc", en_terms: ["illness or injury leave"], acts: [{ act_id: "96113_01", where: "s.49.1" }] }],
-      vacation: [{ jurisdiction: "bc", en_terms: ["annual vacation", "vacation pay"], acts: [{ act_id: "96113_01", where: "s.57; s.58; Part 7" }] }],
-      "pay stub": [{ jurisdiction: "bc", en_terms: ["wage statement", "wage statements"], acts: [{ act_id: "96113_01", where: "s.27" }] }],
-      tips: [{ jurisdiction: "bc", en_terms: ["gratuities", "gratuity"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.30.3; s.30.4" }] }],
-      layoff: [{ jurisdiction: "bc", en_terms: ["temporary layoff"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.63" }] }],
-      payday: [{ jurisdiction: "bc", en_terms: ["paydays", "pay period"], acts: [{ act_id: "96113_01", where: "s.17" }] }]
+      \u7AE5\u5DE5: [
+        { jurisdiction: "bc", en_terms: ["child", "children"], acts: [{ act_id: "96113_01", where: "s.9; s.9.1" }] },
+        { jurisdiction: "federal", en_terms: ["under the age of 18 years"], acts: [{ act_id: "L-2", where: "s.179" }] }
+      ],
+      \u5DE5\u8D44: [
+        { jurisdiction: "bc", en_terms: ["wages"], acts: [{ act_id: "96113_01", where: "s.1 definition" }] },
+        { jurisdiction: "federal", en_terms: ["wages"], acts: [{ act_id: "L-2", where: "s.166 definition" }] }
+      ],
+      \u8054\u90A6\u76D1\u7BA1\u884C\u4E1A: [{ jurisdiction: "federal", en_terms: ["federal work, undertaking or business"], acts: [{ act_id: "L-2", where: "s.2 definition" }] }],
+      \u4E0D\u5F53\u89E3\u96C7: [{ jurisdiction: "federal", en_terms: ["unjust dismissal"], acts: [{ act_id: "L-2", where: "s.240; Division XIV" }] }],
+      \u4E2A\u4EBA\u5047: [{ jurisdiction: "federal", en_terms: ["personal leave"], acts: [{ act_id: "L-2", where: "s.206.6" }] }],
+      \u6700\u957F\u5DE5\u65F6: [{ jurisdiction: "federal", en_terms: ["maximum hours of work"], acts: [{ act_id: "L-2", where: "s.171" }] }],
+      \u804C\u573A\u9A9A\u6270: [{ jurisdiction: "federal", en_terms: ["harassment and violence"], acts: [{ act_id: "L-2", where: "s.122 definition" }] }],
+      "stat holiday": [
+        { jurisdiction: "bc", en_terms: ["statutory holiday", "statutory holidays"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.44; Part 5" }] },
+        { jurisdiction: "federal", en_terms: ["general holiday", "general holidays"], acts: [{ act_id: "L-2", where: "s.166 definition; s.192" }] }
+      ],
+      "lunch break": [
+        { jurisdiction: "bc", en_terms: ["meal break", "meal breaks"], acts: [{ act_id: "96113_01", where: "s.32" }] },
+        { jurisdiction: "federal", en_terms: ["break"], acts: [{ act_id: "L-2", where: "s.169.1" }] }
+      ],
+      "overtime pay": [
+        { jurisdiction: "bc", en_terms: ["overtime wages"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.40; s.42" }] },
+        { jurisdiction: "federal", en_terms: ["overtime", "overtime pay"], acts: [{ act_id: "L-2", where: "s.166 definition; s.174" }] }
+      ],
+      severance: [
+        { jurisdiction: "bc", en_terms: ["compensation for length of service"], acts: [{ act_id: "96113_01", where: "s.63" }] },
+        { jurisdiction: "federal", en_terms: ["severance pay"], acts: [{ act_id: "L-2", where: "s.235; Division XI" }] }
+      ],
+      "termination pay": [
+        { jurisdiction: "bc", en_terms: ["compensation for length of service", "written notice of termination"], acts: [{ act_id: "96113_01", where: "s.63" }] },
+        { jurisdiction: "federal", en_terms: ["wages in lieu of notice", "severance pay"], acts: [{ act_id: "L-2", where: "s.230; s.235; Division XI" }] }
+      ],
+      "sick leave": [
+        { jurisdiction: "bc", en_terms: ["illness or injury leave"], acts: [{ act_id: "96113_01", where: "s.49.1" }] },
+        { jurisdiction: "federal", en_terms: ["medical leave"], acts: [{ act_id: "L-2", where: "s.239" }] }
+      ],
+      "sick day": [
+        { jurisdiction: "bc", en_terms: ["illness or injury leave"], acts: [{ act_id: "96113_01", where: "s.49.1" }] },
+        { jurisdiction: "federal", en_terms: ["medical leave"], acts: [{ act_id: "L-2", where: "s.239" }] }
+      ],
+      vacation: [
+        { jurisdiction: "bc", en_terms: ["annual vacation", "vacation pay"], acts: [{ act_id: "96113_01", where: "s.57; s.58; Part 7" }] },
+        { jurisdiction: "federal", en_terms: ["annual vacation", "vacation pay"], acts: [{ act_id: "L-2", where: "s.184; s.184.01" }] }
+      ],
+      "pay stub": [
+        { jurisdiction: "bc", en_terms: ["wage statement", "wage statements"], acts: [{ act_id: "96113_01", where: "s.27" }] },
+        { jurisdiction: "federal", en_terms: ["pay statement"], acts: [{ act_id: "L-2", where: "s.254" }] }
+      ],
+      tips: [
+        { jurisdiction: "bc", en_terms: ["gratuities", "gratuity"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.30.3; s.30.4" }] },
+        { jurisdiction: "federal", en_terms: ["tips", "gratuities"], acts: [{ act_id: "L-2", where: "s.166 definition" }] }
+      ],
+      layoff: [
+        { jurisdiction: "bc", en_terms: ["temporary layoff"], acts: [{ act_id: "96113_01", where: "s.1 definition; s.63" }] },
+        { jurisdiction: "federal", en_terms: ["lay-off", "lays off"], acts: [{ act_id: "L-2", where: "s.230" }, { act_id: "C.R.C.,_c._986", where: "s.30" }] }
+      ],
+      payday: [
+        { jurisdiction: "bc", en_terms: ["paydays", "pay period"], acts: [{ act_id: "96113_01", where: "s.17" }] },
+        { jurisdiction: "federal", en_terms: ["regular pay-day"], acts: [{ act_id: "L-2", where: "s.247" }] }
+      ],
+      "federally regulated": [{ jurisdiction: "federal", en_terms: ["federal work, undertaking or business"], acts: [{ act_id: "L-2", where: "s.2 definition" }] }]
     };
   }
 });
@@ -3294,28 +3438,28 @@ var require_utils = __commonJS({
         if (left.length === 1 && left[0] === "") left.length = 0;
         if (right.length === 1 && right[0] === "") right.length = 0;
       }
-      const parts = left.concat(right);
+      const parts2 = left.concat(right);
       let hextetCount = 0;
-      for (let i = 0; i < parts.length; i++) {
-        const part = parts[i];
+      for (let i = 0; i < parts2.length; i++) {
+        const part = parts2[i];
         if (part === "") return void 0;
         if (part.indexOf(".") !== -1) {
-          if (i !== parts.length - 1 || compression !== -1 && right.length === 0 || !isIPv4(part)) return void 0;
+          if (i !== parts2.length - 1 || compression !== -1 && right.length === 0 || !isIPv4(part)) return void 0;
           hextetCount += 2;
           continue;
         }
         if (!isHextet(part)) return void 0;
-        parts[i] = parseInt(part, 16).toString(16);
+        parts2[i] = parseInt(part, 16).toString(16);
         hextetCount++;
       }
       if (compression === -1) {
         if (hextetCount !== 8) return void 0;
-        return compressIPv6ZeroRun(parts);
+        return compressIPv6ZeroRun(parts2);
       }
       if (hextetCount >= 8) return void 0;
-      const expanded = parts.slice(0, left.length);
+      const expanded = parts2.slice(0, left.length);
       for (let i = hextetCount; i < 8; i++) expanded.push("0");
-      for (let i = left.length; i < parts.length; i++) expanded.push(parts[i]);
+      for (let i = left.length; i < parts2.length; i++) expanded.push(parts2[i]);
       return compressIPv6ZeroRun(expanded);
     }
     function normalizeIPv6(host) {
@@ -4720,7 +4864,7 @@ var require_core = __commonJS({
       errorsText(errors = this.errors, { separator = ", ", dataVar = "data" } = {}) {
         if (!errors || errors.length === 0)
           return "No errors";
-        return errors.map((e) => `${dataVar}${e.instancePath} ${e.message}`).reduce((text, msg) => text + separator + msg);
+        return errors.map((e) => `${dataVar}${e.instancePath} ${e.message}`).reduce((text2, msg) => text2 + separator + msg);
       }
       $dataMetaSchema(metaSchema, keywordsJsonPointers) {
         const rules = this.RULES.all;
@@ -9119,10 +9263,10 @@ var $ZodObject = /* @__PURE__ */ $constructor("$ZodObject", (inst, def) => {
     const shape = def.shape;
     const propValues = {};
     for (const key in shape) {
-      const field = shape[key]._zod;
-      if (field.values) {
+      const field2 = shape[key]._zod;
+      if (field2.values) {
         propValues[key] ?? (propValues[key] = /* @__PURE__ */ new Set());
-        for (const v of field.values)
+        for (const v of field2.values)
           propValues[key].add(v);
       }
     }
@@ -10644,11 +10788,11 @@ var JSONSchemaGenerator = class {
               path: [...params.path, "allOf", 1]
             });
             const isSimpleIntersection = (val) => "allOf" in val && Object.keys(val).length === 1;
-            const allOf = [
+            const allOf2 = [
               ...isSimpleIntersection(a) ? a.allOf : [a],
               ...isSimpleIntersection(b) ? b.allOf : [b]
             ];
-            json.allOf = allOf;
+            json.allOf = allOf2;
             break;
           }
           case "tuple": {
@@ -13528,7 +13672,13 @@ init_define_GLOSSARY();
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-var USER_AGENT = "canada-law-mcp/0.1 (+https://github.com/bellaaaaxu/canada-law)";
+
+// src/version.ts
+init_define_GLOSSARY();
+var VERSION = "0.2.0";
+
+// src/http.ts
+var USER_AGENT = `canada-law-mcp/${VERSION} (+https://github.com/bellaaaaxu/canada-law)`;
 var DAY_MS = 24 * 36e5;
 function createCachedFetcher(opts) {
   const ttl = opts.ttlMs ?? DAY_MS;
@@ -18150,7 +18300,7 @@ var isJsonSchema7AllOfType = (type) => {
   return "allOf" in type;
 };
 function parseIntersectionDef(def, refs) {
-  const allOf = [
+  const allOf2 = [
     parseDef(def.left._def, {
       ...refs,
       currentPath: [...refs.currentPath, "allOf", "0"]
@@ -18162,7 +18312,7 @@ function parseIntersectionDef(def, refs) {
   ].filter((x) => !!x);
   let unevaluatedProperties = refs.target === "jsonSchema2019-09" ? { unevaluatedProperties: false } : void 0;
   const mergedAllOf = [];
-  allOf.forEach((schema) => {
+  allOf2.forEach((schema) => {
     if (isJsonSchema7AllOfType(schema)) {
       mergedAllOf.push(...schema.allOf);
       if (schema.unevaluatedProperties === void 0) {
@@ -21241,11 +21391,11 @@ var McpServer = class {
       return EMPTY_COMPLETION_RESULT;
     }
     const promptShape = getObjectShape(prompt.argsSchema);
-    const field = promptShape?.[request.params.argument.name];
-    if (!isCompletable(field)) {
+    const field2 = promptShape?.[request.params.argument.name];
+    if (!isCompletable(field2)) {
       return EMPTY_COMPLETION_RESULT;
     }
-    const completer = getCompleter(field);
+    const completer = getCompleter(field2);
     if (!completer) {
       return EMPTY_COMPLETION_RESULT;
     }
@@ -21518,8 +21668,8 @@ var McpServer = class {
     };
     this._registeredPrompts[name] = registeredPrompt;
     if (argsSchema) {
-      const hasCompletable = Object.values(argsSchema).some((field) => {
-        const inner = field instanceof ZodOptional2 ? field._def?.innerType : field;
+      const hasCompletable = Object.values(argsSchema).some((field2) => {
+        const inner = field2 instanceof ZodOptional2 ? field2._def?.innerType : field2;
         return isCompletable(inner);
       });
       if (hasCompletable) {
@@ -21728,9 +21878,9 @@ function promptArgumentsFromSchema(schema) {
   const shape = getObjectShape(schema);
   if (!shape)
     return [];
-  return Object.entries(shape).map(([name, field]) => {
-    const description = getSchemaDescription(field);
-    const isOptional = isSchemaOptional(field);
+  return Object.entries(shape).map(([name, field2]) => {
+    const description = getSchemaDescription(field2);
+    const isOptional = isSchemaOptional(field2);
     return {
       name,
       description,
@@ -21769,14 +21919,23 @@ var EMPTY_COMPLETION_RESULT = {
 // src/sources/bc.ts
 init_define_GLOSSARY();
 
+// src/tool-error.ts
+init_define_GLOSSARY();
+var ToolError = class extends Error {
+};
+
 // src/notice.ts
 init_define_GLOSSARY();
 var BC_LAWS_NOTICE = "These materials contain information that has been derived from information originally made available by the Province of British Columbia at: http://www.bclaws.gov.bc.ca and this information is being used in accordance with the King's Printer Licence \u2013 British Columbia available at: https://www.bclaws.gov.bc.ca/standards/Licence.html. They have not, however, been produced in affiliation with, or with the endorsement of, the Province of British Columbia and THESE MATERIALS ARE NOT AN OFFICIAL VERSION.";
+var FEDERAL_NOTICE = "These materials reproduce the consolidated Acts and regulations of Canada from the Justice Laws Website (https://laws-lois.justice.gc.ca), as permitted by the Reproduction of Federal Law Order (SI/97-5). They have not been produced in affiliation with, or with the endorsement of, the Government of Canada, and THESE MATERIALS ARE NOT AN OFFICIAL VERSION.";
 
 // src/sources/bc-meta.ts
 init_define_GLOSSARY();
 
 // src/sources/bc-xml.ts
+init_define_GLOSSARY();
+
+// src/sources/xml.ts
 init_define_GLOSSARY();
 
 // node_modules/fast-xml-parser/src/fxp.js
@@ -25799,7 +25958,7 @@ function prettify(node, options, matcher, readonlyMatcher) {
   return compress(node, options, matcher, readonlyMatcher);
 }
 function compress(arr, options, matcher, readonlyMatcher) {
-  let text;
+  let text2;
   const compressedObj = {};
   for (let i = 0; i < arr.length; i++) {
     const tagObj = arr[i];
@@ -25812,8 +25971,8 @@ function compress(arr, options, matcher, readonlyMatcher) {
       matcher.push(property, rawAttrs);
     }
     if (property === options.textNodeName) {
-      if (text === void 0) text = tagObj[property];
-      else text += "" + tagObj[property];
+      if (text2 === void 0) text2 = tagObj[property];
+      else text2 += "" + tagObj[property];
     } else if (property === void 0) {
       continue;
     } else if (tagObj[property]) {
@@ -25851,9 +26010,9 @@ function compress(arr, options, matcher, readonlyMatcher) {
       }
     }
   }
-  if (typeof text === "string") {
-    if (text.length > 0) compressedObj[options.textNodeName] = text;
-  } else if (text !== void 0) compressedObj[options.textNodeName] = text;
+  if (typeof text2 === "string") {
+    if (text2.length > 0) compressedObj[options.textNodeName] = text2;
+  } else if (text2 !== void 0) compressedObj[options.textNodeName] = text2;
   return compressedObj;
 }
 function propName(obj) {
@@ -25951,7 +26110,7 @@ var XMLParser = class {
   }
 };
 
-// src/sources/bc-xml.ts
+// src/sources/xml.ts
 var parser = new XMLParser({
   preserveOrder: true,
   // legislative text is mixed content: text and inline elements must stay in order
@@ -25986,6 +26145,45 @@ function convert(items) {
 }
 var isEl = (c) => typeof c === "object" && c !== null;
 var child = (n, name) => n.children.find((c) => isEl(c) && c.name === name);
+function findElement(n, name) {
+  for (const c of n.children) {
+    if (!isEl(c)) continue;
+    if (c.name === name) return c;
+    const deeper = findElement(c, name);
+    if (deeper) return deeper;
+  }
+  return null;
+}
+function decodeEntities(s) {
+  return s.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16))).replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d))).replace(/&nbsp;/g, "\xA0").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+}
+var WHOLE_SECTION = 600;
+var MAX_BEFORE = 300;
+var MAX_AFTER = 450;
+function cutSnippet(body, whenNoHit) {
+  const pos = body.indexOf("**");
+  if (pos === -1) return whenNoHit();
+  if (body.length <= WHOLE_SECTION) return body;
+  const clauseEnd = Math.max(body.lastIndexOf(". ", pos), body.lastIndexOf("; ", pos));
+  let start;
+  if (clauseEnd !== -1 && pos - clauseEnd <= MAX_BEFORE) start = clauseEnd + 2;
+  else if (pos <= MAX_BEFORE) start = 0;
+  else {
+    const sp = body.indexOf(" ", pos - 90);
+    start = sp !== -1 && sp < pos ? sp + 1 : pos - 90;
+  }
+  const hitEnd = body.indexOf("**", pos + 2) + 2;
+  const next = /[.;](?=\s|$)/.exec(body.slice(hitEnd));
+  let end;
+  if (next && hitEnd + next.index + 1 - pos <= MAX_AFTER) end = hitEnd + next.index + 1;
+  else {
+    const sp = body.lastIndexOf(" ", pos + 150);
+    end = sp > hitEnd ? sp : Math.min(body.length, pos + 150);
+  }
+  return (start > 0 ? "\u2026" : "") + body.slice(start, end) + (end < body.length ? "\u2026" : "");
+}
+
+// src/sources/bc-xml.ts
 var BR = "\uE000";
 var CHARS = {
   "in:eacute": "\xE9",
@@ -26072,17 +26270,17 @@ function renderBlock(node, depth, isSection, o) {
 }
 function renderTable(table, depth, o) {
   const lines = [];
-  const walk = (n) => {
+  const walk2 = (n) => {
     for (const c of n.children) {
       if (!isEl(c)) continue;
       if (c.name === "oasis:tcaption") lines.push(indent(depth) + inlineText(c, o));
       else if (c.name === "oasis:trow") {
         const cells = c.children.filter(isEl).map((e) => inlineText(e, o));
         lines.push(indent(depth) + cells.join(" | "));
-      } else walk(c);
+      } else walk2(c);
     }
   };
-  walk(table);
+  walk2(table);
   return lines;
 }
 var sectionNum = (s) => {
@@ -26095,9 +26293,9 @@ var sectionHeading = (s) => {
 };
 function containerLabel(n) {
   const num = child(n, "bcl:num");
-  const text = child(n, "bcl:text");
+  const text2 = child(n, "bcl:text");
   const numStr = num ? inlineText(num) : "";
-  const title = text ? inlineText(text) : "";
+  const title = text2 ? inlineText(text2) : "";
   if (n.name === "bcl:part") return `Part ${numStr}${title ? " \u2014 " + title : ""}`.trim();
   if (n.name === "bcl:division") return `Division ${numStr}${title ? " \u2014 " + title : ""}`.trim();
   if (n.name === "bcl:schedule") {
@@ -26133,31 +26331,31 @@ function findSections(doc, num) {
 }
 function buildToc(doc) {
   const out = [];
-  const walk = (n, depth, partDocId) => {
+  const walk2 = (n, depth, partDocId) => {
     for (const c of n.children) {
       if (!isEl(c)) continue;
       if (c.name === "bcl:section") {
         out.push({ kind: "section", num: sectionNum(c), title: sectionHeading(c), depth, partDocId });
       } else if (c.name === "bcl:part" || c.name === "bcl:division") {
         const num = child(c, "bcl:num");
-        const text = child(c, "bcl:text");
+        const text2 = child(c, "bcl:text");
         out.push({
           kind: c.name === "bcl:part" ? "part" : "division",
           num: num ? inlineText(num) : null,
-          title: text ? inlineText(text) : null,
+          title: text2 ? inlineText(text2) : null,
           depth,
           partDocId
         });
-        walk(c, depth + 1, partDocId);
+        walk2(c, depth + 1, partDocId);
       } else if (c.name === "bcl:schedule") {
         out.push({ kind: "schedule", num: null, title: containerLabel(c), depth, partDocId });
-        walk(c, depth + 1, partDocId);
+        walk2(c, depth + 1, partDocId);
       } else {
-        walk(c, depth, c.name === "act:content" && c.attrs.id ? c.attrs.id : partDocId);
+        walk2(c, depth, c.name === "act:content" && c.attrs.id ? c.attrs.id : partDocId);
       }
     }
   };
-  walk(doc, 0, null);
+  walk2(doc, 0, null);
   return out;
 }
 function renderToc(entries) {
@@ -26169,29 +26367,20 @@ function renderToc(entries) {
     return `${pad}${e.num}  ${e.title ?? ""}`.trimEnd();
   }).join("\n");
 }
-function findElement(n, name) {
-  for (const c of n.children) {
-    if (!isEl(c)) continue;
-    if (c.name === name) return c;
-    const deeper = findElement(c, name);
-    if (deeper) return deeper;
-  }
-  return null;
-}
 function docInfo(doc) {
   const root = doc.children.find(isEl);
   if (!root) return { kind: "unknown", title: null, regnum: null, status: null, repealedText: null };
   const kind = root.name === "act:act" ? "act" : root.name === "reg:regulation" ? "regulation" : "unknown";
-  const text = (name) => {
+  const text2 = (name) => {
     const n = child(root, name);
     return n ? inlineText(n) : null;
   };
   return {
     kind,
-    title: text(kind === "regulation" ? "reg:title" : "act:title"),
-    regnum: text("reg:regnum"),
+    title: text2(kind === "regulation" ? "reg:title" : "act:title"),
+    regnum: text2("reg:regnum"),
     status: root.attrs.status ?? null,
-    repealedText: text("act:repealedtext")
+    repealedText: text2("act:repealedtext")
   };
 }
 function analyzeHitSections(doc) {
@@ -26232,47 +26421,22 @@ function analyzeHitSections(doc) {
   });
   return out;
 }
-var WHOLE_SECTION = 600;
-var MAX_BEFORE = 300;
-var MAX_AFTER = 450;
 function makeSnippet(section) {
   const body = tidy(renderSection(section, { markHits: true }).replace(/\n/g, " "));
-  const pos = body.indexOf("**");
-  if (pos === -1) {
+  return cutSnippet(body, () => {
     const note = child(section, "bcl:marginalnote");
     return note ? inlineText(note, { markHits: true }) : body.slice(0, 240);
-  }
-  if (body.length <= WHOLE_SECTION) return body;
-  const clauseEnd = Math.max(body.lastIndexOf(". ", pos), body.lastIndexOf("; ", pos));
-  let start;
-  if (clauseEnd !== -1 && pos - clauseEnd <= MAX_BEFORE) start = clauseEnd + 2;
-  else if (pos <= MAX_BEFORE) start = 0;
-  else {
-    const sp = body.indexOf(" ", pos - 90);
-    start = sp !== -1 && sp < pos ? sp + 1 : pos - 90;
-  }
-  const hitEnd = body.indexOf("**", pos + 2) + 2;
-  const next = /[.;](?=\s|$)/.exec(body.slice(hitEnd));
-  let end;
-  if (next && hitEnd + next.index + 1 - pos <= MAX_AFTER) end = hitEnd + next.index + 1;
-  else {
-    const sp = body.lastIndexOf(" ", pos + 150);
-    end = sp > hitEnd ? sp : Math.min(body.length, pos + 150);
-  }
-  return (start > 0 ? "\u2026" : "") + body.slice(start, end) + (end < body.length ? "\u2026" : "");
+  });
 }
 
 // src/sources/bc-meta.ts
 var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-function isoDate(text) {
-  const m = text.match(/^([A-Z][a-z]+) (\d{1,2}), (\d{4})$/);
+function isoDate(text2) {
+  const m = text2.match(/^([A-Z][a-z]+) (\d{1,2}), (\d{4})$/);
   if (!m) return null;
   const month = MONTHS.indexOf(m[1]) + 1;
   if (month === 0) return null;
   return `${m[3]}-${String(month).padStart(2, "0")}-${m[2].padStart(2, "0")}`;
-}
-function decodeEntities(s) {
-  return s.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16))).replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d))).replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 }
 var plain = (html) => decodeEntities(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 function parsePageMeta(html) {
@@ -26307,16 +26471,16 @@ function parseFullSearch(xml) {
     }))
   };
 }
-function parseActFolder(folder) {
-  const name = folder.replace(/^\d+_/, "").trim();
+function parseActFolder(folder2) {
+  const name = folder2.replace(/^\d+_/, "").trim();
   const m = name.match(/^(.*?) \[(R?SBC) (\d{4})\] c\. ?([\w.]+)$/);
   return m ? { title: m[1], citation: `${m[2]} ${m[3]}, c. ${m[4]}` } : { title: name, citation: null };
 }
 var multiActIdFor = (partId) => partId.replace(/_[^_]+$/, "_00") + "_multi";
 function classifyDoc(d) {
-  const [, folder, ...rest] = d.loc.split("/");
-  if (!folder || rest.length === 0) return { kind: "other", reason: "unrecognised location" };
-  const act = parseActFolder(folder);
+  const [, folder2, ...rest] = d.loc.split("/");
+  if (!folder2 || rest.length === 0) return { kind: "other", reason: "unrecognised location" };
+  const act = parseActFolder(folder2);
   if (rest.length === 1 && /^00_/.test(rest[0])) {
     return { kind: "act", actId: d.id, docId: d.id, actTitle: act.title, actCitation: act.citation ?? "" };
   }
@@ -26343,14 +26507,14 @@ function classifyDoc(d) {
 }
 
 // src/sources/bc.ts
-var ToolError = class extends Error {
-};
 var BASE = "https://www.bclaws.gov.bc.ca/civix";
 var DOC = `${BASE}/document/id/complete/statreg/`;
 var MAX_PAGE = 20;
 var MAX_DOCS_SEARCHED = 8;
 var CONCURRENCY = 4;
 var SECTIONS_XPATH = "/xpath///bcl:section%5Bdescendant::hit%5D";
+var LITERAL_NOTE = 'Matching is literal (no plurals or stemming): include variants, e.g. "meal break" OR "meal breaks", or a wildcard such as break*.';
+var SNIPPET_NOTE = "A snippet is the whole section when the section is short; otherwise it is cut short to the clause around the first match (\u2026 marks a cut), and other parts of the section can change its meaning. Before quoting, explaining or citing a section, read its full text with get_section (MCP tool) or the section command.";
 var CURRENT_TO_WARNING = 'current_to is null: the official page did not show a "current to" date, so currency could not be confirmed. Check source_url before relying on this text.';
 var pageUrl = (id) => DOC + id.replace(/_multi$/, "");
 var BcClient = class {
@@ -26459,6 +26623,10 @@ var BcClient = class {
   }
   // ---------- search_law ----------
   async search(query, limit = 10) {
+    return (await this.searchScored(query, limit)).output;
+  }
+  /** search() plus each result's score, so that search_law "all" can rank BC and federal results together. */
+  async searchScored(query, limit = 10) {
     const q = query.replace(/\//g, " ").replace(/\s+/g, " ").trim();
     if (!q) throw new ToolError("query is empty.");
     const wrapped = `(${q})`;
@@ -26502,17 +26670,20 @@ var BcClient = class {
       ]
     }));
     return {
-      query: q,
-      documents_matched: totalHits,
-      documents_searched: candidates.length,
-      results,
-      warnings,
-      notes: [
-        `BC Laws full-site search returns documents, not sections: the top ${MAX_PAGE} documents by its own ranking were taken, point-in-time versions and legislative-change tables were dropped, and up to ${MAX_DOCS_SEARCHED} current acts/regulations were searched section by section.`,
-        'Matching is literal (no plurals or stemming): include variants, e.g. "meal break" OR "meal breaks", or a wildcard such as break*.',
-        "A snippet is the whole section when the section is short; otherwise it is cut short to the clause around the first match (\u2026 marks a cut), and other parts of the section can change its meaning. Before quoting, explaining or citing a section, read its full text with get_section (MCP tool) or the section command."
-      ],
-      notice: BC_LAWS_NOTICE
+      output: {
+        query: q,
+        documents_matched: totalHits,
+        documents_searched: candidates.length,
+        results,
+        warnings,
+        notes: [
+          `BC Laws full-site search returns documents, not sections: the top ${MAX_PAGE} documents by its own ranking were taken, point-in-time versions and legislative-change tables were dropped, and up to ${MAX_DOCS_SEARCHED} current acts/regulations were searched section by section.`,
+          LITERAL_NOTE,
+          SNIPPET_NOTE
+        ],
+        notice: BC_LAWS_NOTICE
+      },
+      scored: top.map((h, i) => ({ result: results[i], score: score(h) }))
     };
   }
   // ---------- internals ----------
@@ -26597,13 +26768,634 @@ async function mapLimit(items, limit, fn) {
   return out;
 }
 
+// src/sources/federal.ts
+init_define_GLOSSARY();
+
+// src/sources/federal-meta.ts
+init_define_GLOSSARY();
+var FED_BASE = "https://laws-lois.justice.gc.ca";
+var text = (html) => decodeEntities(html.replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim();
+function parseFedPage(html) {
+  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
+  const head = h1 ? text(h1[1]).match(/^(.*?)\s*\(((?:[^()]|\([^()]*\))*)\)$/) : null;
+  const line = text(html).match(/(?:Act|Regulations are) current to (\d{4}-\d{2}-\d{2})(?: and last amended on (\d{4}-\d{2}-\d{2}))?/);
+  return {
+    title: head ? head[1] : h1 ? text(h1[1]) || null : null,
+    citation: head ? head[2] : null,
+    currentTo: line ? line[1] : null,
+    lastAmended: line?.[2] ?? null
+  };
+}
+var field = (block, name) => {
+  const m = block.match(new RegExp(`<${name}>([^<]*)</${name}>`));
+  return m ? decodeEntities(m[1]).trim() : null;
+};
+var idFromLink = (link) => link ? decodeURIComponent(link.replace(/^.*\/XML\//, "").replace(/\.xml$/i, "")) : null;
+function parseLegis(xml) {
+  const out = [];
+  for (const m of xml.matchAll(/<Act>([\s\S]*?)<\/Act>/g)) {
+    const b = m[1];
+    const id = idFromLink(field(b, "LinkToXML"));
+    if (field(b, "Language") !== "eng" || !id) continue;
+    out.push({
+      id,
+      uniqueId: field(b, "UniqueId") ?? id,
+      kind: "act",
+      title: field(b, "Title") ?? id,
+      officialNumber: field(b, "OfficialNumber"),
+      ref: null,
+      regRefs: [...b.matchAll(/<Reg idRef="([^"]*)"/g)].map((r) => r[1])
+    });
+  }
+  for (const m of xml.matchAll(/<Regulation id="([^"]*)"[^>]*>([\s\S]*?)<\/Regulation>/g)) {
+    const b = m[2];
+    const id = idFromLink(field(b, "LinkToXML"));
+    if (field(b, "Language") !== "eng" || !id) continue;
+    out.push({ id, uniqueId: field(b, "UniqueId") ?? id, kind: "regulation", title: field(b, "Title") ?? id, officialNumber: null, ref: m[1], regRefs: [] });
+  }
+  return out;
+}
+function normalizeFedId(input) {
+  const t = input.trim();
+  const crc = t.match(/^C\.R\.C\.,?[\s_]*c\.[\s_]*(\d+)$/i);
+  const id = crc ? `C.R.C.,_c._${crc[1]}` : t.replace(/^(SOR|SI)\/(\d+-\d+)$/i, "$1-$2");
+  if (!/^[A-Za-z0-9][A-Za-z0-9.,_-]*$/.test(id) || id.includes("..")) {
+    throw new ToolError(`act_id "${input}" is not a Justice Laws id (such as L-2 or C.R.C.,_c._986). Look it up with find_act (tool) or find (command).`);
+  }
+  return id;
+}
+
+// src/sources/federal-xml.ts
+init_define_GLOSSARY();
+var BR2 = "\uE000";
+function inlineRaw2(nodes) {
+  let s = "";
+  for (const c of nodes) {
+    if (!isEl(c)) {
+      s += c;
+      continue;
+    }
+    if (c.name === "HistoricalNote" || c.name === "MarginalNote" || c.name === "Footnote" || c.name === "FootnoteRef" || c.name === "PageBreak") continue;
+    if (c.name === "DefinedTermEn") s += `"${inlineRaw2(c.children).trim()}"`;
+    else if (c.name === "Repealed") s += (s !== "" && !/\s$/.test(s) ? " " : "") + inlineRaw2(c.children);
+    else if (c.name === "LineBreak") s += BR2;
+    else if (c.name === "Leader" || c.name === "LeaderRightJustified") s += " ";
+    else if (c.name === "ImageGroup" || c.name === "Image") s += "[image omitted: see source_url]";
+    else s += inlineRaw2(c.children);
+  }
+  return s;
+}
+var tidy2 = (raw) => raw.replace(/\s+/g, " ").replace(new RegExp(` ?${BR2} ?`, "g"), "\n").trim();
+var inlineText2 = (n) => tidy2(inlineRaw2(n.children));
+var indent2 = (depth) => "  ".repeat(depth);
+var BLOCKS = /* @__PURE__ */ new Set(["Subsection", "Paragraph", "Subparagraph", "Clause", "Subclause", "Subsubclause", "Definition", "Provision", "Item", "FormulaParagraph"]);
+function renderFedSection(section, o = {}) {
+  const lines = renderBlock2(section, 0);
+  return (o.mark ? lines.map((l) => l.replace(o.mark, (m) => `**${m}**`)) : lines).join("\n");
+}
+function renderBlock2(node, depth) {
+  const lines = [];
+  const labelNode = child(node, "Label");
+  const label = labelNode ? inlineText2(labelNode) : "";
+  let cur = label;
+  const flush = () => {
+    if (cur !== null && tidy2(cur) !== "") lines.push(...tidy2(cur).split("\n").map((l) => indent2(depth) + l));
+    cur = null;
+  };
+  const append = (s) => {
+    if (cur === null) cur = "";
+    cur += cur.trim() !== "" && s.trim() !== "" && !/^\s/.test(s) ? " " + s : s;
+  };
+  const block = (ls) => {
+    flush();
+    lines.push(...ls);
+  };
+  for (const c of node.children) {
+    if (!isEl(c)) {
+      if (c.trim()) append(c);
+      continue;
+    }
+    if (c.name === "Label" || c.name === "MarginalNote" || c.name === "HistoricalNote" || c.name === "FootnoteRef") continue;
+    if (c.name === "Text") append(inlineRaw2(c.children));
+    else if (BLOCKS.has(c.name)) {
+      const childDepth = c.name === "Subsection" ? depth : depth + 1;
+      const childLines = renderBlock2(c, childDepth);
+      if (label && cur !== null && tidy2(cur) === label && childLines.length > 0 && childDepth === depth) {
+        childLines[0] = indent2(depth) + label + " " + childLines[0].trimStart();
+        cur = null;
+      } else flush();
+      lines.push(...childLines);
+    } else if (c.name.startsWith("Continued")) {
+      const t = inlineText2(c);
+      if (t) block([indent2(depth) + t]);
+    } else if (c.name === "ReadAsText" || c.name === "AmendedText") block(quoted(c, depth + 1));
+    else if (c.name === "Section") block(renderBlock2(c, depth + 1));
+    else if (c.name === "List") block(c.children.filter(isEl).flatMap((i) => renderBlock2(i, depth + 1)));
+    else if (c.name === "TableGroup" || c.name === "table") block(renderTable2(c, depth));
+    else if (c.name === "FormulaGroup") block(renderFormula(c, depth));
+    else if (c.name === "Footnote") {
+      const l = child(c, "Label");
+      const body = tidy2(inlineRaw2(c.children.filter((x) => !(isEl(x) && x.name === "Label"))));
+      block([`${indent2(depth)}[footnote${l ? " " + inlineText2(l) : ""}] ${body}`.trimEnd()]);
+    } else if (c.name === "ImageGroup") block([indent2(depth) + "[image omitted: see source_url]"]);
+    else append(inlineRaw2([c]));
+  }
+  flush();
+  if (node.attrs["in-force"] === "no" && lines.length > 0) lines[0] = indent2(depth) + "[Not in force] " + lines[0].trimStart();
+  return lines;
+}
+function quoted(n, depth) {
+  return n.children.filter(isEl).flatMap((c) => {
+    if (c.name === "Section" || BLOCKS.has(c.name)) return renderBlock2(c, depth);
+    if (c.name === "Heading") return [indent2(depth) + headingText(c)];
+    const t = inlineText2(c);
+    return t ? [indent2(depth) + t] : [];
+  });
+}
+function renderTable2(table, depth) {
+  const lines = [];
+  const walk2 = (n) => {
+    for (const c of n.children) {
+      if (!isEl(c)) continue;
+      if (c.name === "title" || c.name === "Caption") lines.push(indent2(depth) + inlineText2(c));
+      else if (c.name === "row") lines.push(indent2(depth) + c.children.filter(isEl).map((e) => tidy2(inlineRaw2(e.children))).join(" | "));
+      else walk2(c);
+    }
+  };
+  walk2(table);
+  return lines.filter((l) => l.trim() !== "");
+}
+function renderFormula(group, depth) {
+  return group.children.filter(isEl).flatMap((c) => {
+    if (c.name === "FormulaDefinition") {
+      const term = child(c, "FormulaTerm");
+      const rest = c.children.filter((x) => !(isEl(x) && x.name === "FormulaTerm"));
+      return [indent2(depth) + tidy2(`${term ? inlineText2(term) : ""} ${inlineRaw2(rest)}`)];
+    }
+    if (BLOCKS.has(c.name)) return renderBlock2(c, depth + 1);
+    const t = inlineText2(c);
+    return t ? [indent2(depth) + t] : [];
+  });
+}
+function headingText(h) {
+  const label = child(h, "Label");
+  const title = child(h, "TitleText");
+  const note = child(h, "Note");
+  const text2 = [label ? inlineText2(label) : "", title ? inlineText2(title) : ""].filter(Boolean).join(" \u2014 ");
+  return (note ? `${text2} ${inlineText2(note)}` : text2).trim();
+}
+function scheduleTitle(s) {
+  const h = child(s, "ScheduleFormHeading");
+  const text2 = h ? h.children.filter(isEl).map(inlineText2).filter(Boolean).join(" ") : "";
+  return text2 || "Schedule";
+}
+var notTheLaw = (s) => s.attrs.id === "RelatedProvs" || s.attrs.id === "NifProvs";
+function walk(container, base, v) {
+  let stack = [];
+  const location = () => [...base, ...stack.map((s) => s.text)];
+  for (const c of container.children) {
+    if (!isEl(c)) continue;
+    if (c.name === "Heading") {
+      const level = Number(c.attrs.level ?? 1);
+      const text2 = headingText(c);
+      stack = stack.filter((s) => s.level < level);
+      if (text2) {
+        stack.push({ level, text: text2 });
+        v.heading?.(text2, location().length - 1);
+      }
+    } else if (c.name === "Section") v.section(c, location());
+    else if (c.name === "Schedule") {
+      if (notTheLaw(c)) continue;
+      const title = scheduleTitle(c);
+      v.heading?.(title, location().length);
+      walk(c, [...location(), title], v);
+    } else if (c.name !== "HistoricalNote" && c.name !== "Identification") walk(c, location(), v);
+  }
+}
+function walkLaw(doc, v) {
+  const root = doc.children.find(isEl);
+  if (!root) return;
+  for (const c of root.children) {
+    if (!isEl(c)) continue;
+    if (c.name === "Body") walk(c, [], v);
+    else if (c.name === "Schedule" && !notTheLaw(c)) {
+      const title = scheduleTitle(c);
+      v.heading?.(title, 0);
+      walk(c, [title], v);
+    }
+  }
+}
+var REPEALED_ONLY = /^\[Repealed\b[^\]]*\]$/;
+function toSection(node, location) {
+  const labelNode = child(node, "Label");
+  const num = labelNode ? inlineText2(labelNode) : "";
+  const note = child(node, "MarginalNote");
+  return {
+    node,
+    num,
+    heading: note ? inlineText2(note) : null,
+    location,
+    nearestHeading: location.at(-1) ?? null,
+    repealed: REPEALED_ONLY.test(renderFedSection(node).slice(num.length).trim()),
+    range: /\s(?:to|and)\s/.test(num)
+  };
+}
+function bodySections(doc) {
+  const out = [];
+  walkLaw(doc, { section: (node, location) => out.push(toSection(node, location)) });
+  return out;
+}
+var parts = (n) => n.split(".").map((p) => parseInt(p, 10));
+function compareNums(a, b) {
+  const x = parts(a);
+  const y = parts(b);
+  for (let i = 0; i < Math.max(x.length, y.length); i++) {
+    const d = (x[i] ?? -1) - (y[i] ?? -1);
+    if (d !== 0) return d;
+  }
+  return 0;
+}
+function inRange(label, num) {
+  const to = label.match(/^([\d.]+) to ([\d.]+)$/);
+  if (to) return compareNums(to[1], num) <= 0 && compareNums(num, to[2]) <= 0;
+  return label.split(/,\s*|\s+and\s+/).includes(num);
+}
+function findFedSections(sections, num) {
+  const exact = sections.filter((s) => s.num === num);
+  return exact.length > 0 ? exact : sections.filter((s) => s.range && inRange(s.num, num));
+}
+function hasNotInForcePart(node) {
+  return node.attrs["in-force"] === "no" || node.children.some((c) => isEl(c) && hasNotInForcePart(c));
+}
+function fedDocInfo(doc) {
+  const root = doc.children.find(isEl);
+  const kind = root?.name === "Statute" ? "act" : root?.name === "Regulation" ? "regulation" : "unknown";
+  const ident = root ? child(root, "Identification") : void 0;
+  const text2 = (name) => {
+    const n = ident ? child(ident, name) : void 0;
+    return n ? inlineText2(n) || null : null;
+  };
+  const numbered = bodySections(doc).filter((s) => /^\d/.test(s.num));
+  return {
+    kind,
+    title: text2("ShortTitle") ?? text2("LongTitle"),
+    instrumentNumber: text2("InstrumentNumber"),
+    lastAmended: root?.attrs["lims:lastAmendedDate"] ?? null,
+    allRepealed: numbered.length > 0 && numbered.every((s) => s.repealed),
+    readerNote: text2("ReaderNote")
+  };
+}
+function instruction(n) {
+  return n.children.map((c) => !isEl(c) ? c : c.name === "AmendedText" || c.name === "HistoricalNote" || c.name === "Footnote" ? " " : ` ${instruction(c)} `).join("");
+}
+var PROVISION = String.raw`\b(?:sub)?(?:section|paragraph|subparagraph|clause)s?\b`;
+var CHANGED = new RegExp(String.raw`(${PROVISION}\s(?:(?!${PROVISION})[^:;])*?)\s(?:is|are)\s(?:replaced|amended|repealed)\b`, "gi");
+function notInForce(doc) {
+  const root = doc.children.find(isEl);
+  const nif = root?.children.find((c) => isEl(c) && c.name === "Schedule" && c.attrs.id === "NifProvs");
+  if (!nif) return [];
+  const out = [];
+  const collect = (n) => {
+    for (const c of n.children) {
+      if (!isEl(c)) continue;
+      if (c.name !== "RelatedOrNotInForce") {
+        collect(c);
+        continue;
+      }
+      const h = child(c, "Heading");
+      const citation = h ? headingText(h).replace(/^[\s—–-]+/, "") : "";
+      const nums = /* @__PURE__ */ new Set();
+      const added = (x, inAmended) => {
+        for (const k of x.children) {
+          if (!isEl(k)) continue;
+          if (inAmended && k.name === "Section") {
+            const l = child(k, "Label");
+            if (l) nums.add(inlineText2(l));
+          }
+          added(k, inAmended || k.name === "AmendedText");
+        }
+      };
+      const said = tidy2(instruction(c));
+      for (const m of said.matchAll(CHANGED)) {
+        for (const d of m[1].split(/\sof\s/)[0].matchAll(/(?<![\w.(])(\d+(?:\.\d+)*)/g)) nums.add(d[1]);
+      }
+      added(c, false);
+      out.push({ citation, sections: [...nums] });
+    }
+  };
+  collect(nif);
+  return out;
+}
+function fedToc(doc) {
+  const lines = [];
+  walkLaw(doc, {
+    heading: (text2, depth) => lines.push(indent2(depth) + text2),
+    section: (node, location) => {
+      const s = toSection(node, location);
+      if (s.num !== "") lines.push(`${indent2(location.length)}${s.num}  ${s.heading ?? (s.repealed ? "Repealed" : "")}`.trimEnd());
+    }
+  });
+  return lines.join("\n");
+}
+function allOf(n, name) {
+  return n.children.flatMap((c) => !isEl(c) ? [] : c.name === name ? [c, ...allOf(c, name)] : allOf(c, name));
+}
+function sectionRecords(doc) {
+  return bodySections(doc).filter((s) => /^\d/.test(s.num) && !s.range && !s.repealed).map((s) => ({
+    num: s.num,
+    heading: s.heading,
+    nearestHeading: s.nearestHeading,
+    location: s.location,
+    text: renderFedSection(s.node),
+    notes: allOf(s.node, "MarginalNote").map((m) => inlineText2(m)).join(" | "),
+    definedTerms: allOf(s.node, "DefinedTermEn").map((d) => inlineText2(d))
+  }));
+}
+
+// src/sources/federal.ts
+var CONCURRENCY2 = 4;
+var SEARCHED_ACT = "L-2";
+var LEGIS_URL = `${FED_BASE}/eng/XML/Legis.xml`;
+var xmlUrl = (id) => `${FED_BASE}/eng/XML/${id}.xml`;
+var folder = (kind) => kind === "regulation" ? "regulations" : "acts";
+var fedPageUrl = (kind, id) => `${FED_BASE}/eng/${folder(kind)}/${id}/index.html`;
+var sectionUrl = (kind, id, num) => `${FED_BASE}/eng/${folder(kind)}/${id}/section-${num}.html`;
+var word = (kind) => kind === "regulation" ? "regulation" : "act";
+var FederalClient = class {
+  fetcher;
+  parsed = /* @__PURE__ */ new Map();
+  searchable = /* @__PURE__ */ new Map();
+  legisCache = null;
+  constructor(opts) {
+    this.fetcher = opts.fetcher;
+  }
+  // ---------- find_act ----------
+  async findAct(name) {
+    const clean = name.replace(/["\\]/g, " ").replace(/\s+/g, " ").trim();
+    if (!clean) throw new ToolError("name is empty.");
+    const q = clean.toLowerCase();
+    const words = q.split(" ").map((w) => new RegExp(`\\b${w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i"));
+    const rank = (e) => {
+      const t = e.title.toLowerCase();
+      return t === q ? 0 : t.includes(q) ? 1 : words.every((w) => w.test(t)) ? 2 : -1;
+    };
+    const found = (await this.legis()).map((e, order) => ({ e, r: rank(e), order })).filter((x) => x.r >= 0).sort((a, b) => a.r - b.r || (a.e.kind === b.e.kind ? 0 : a.e.kind === "act" ? -1 : 1) || a.e.title.length - b.e.title.length || a.order - b.order).slice(0, 10);
+    const pages = await mapLimit(found, CONCURRENCY2, ({ e }) => this.pageMeta(e.kind, e.id));
+    return found.map(({ e }, i) => ({ act_id: e.id, title: e.title, citation: pages[i].citation ?? "", type: e.kind, source_url: fedPageUrl(e.kind, e.id) }));
+  }
+  // ---------- get_toc ----------
+  async getToc(actId) {
+    const { id, doc, info, fetchedAt } = await this.load(actId);
+    const page = await this.pageMeta(info.kind, id);
+    const pending = notInForce(doc);
+    return {
+      act: {
+        jurisdiction: "federal",
+        act_title: info.title ?? page.title ?? id,
+        act_citation: page.citation ?? info.instrumentNumber ?? "",
+        act_id: id,
+        source_url: fedPageUrl(info.kind, id),
+        current_to: page.currentTo,
+        retrieved_at: fetchedAt
+      },
+      outline: fedToc(doc),
+      warnings: [...docWarnings(info, page), ...info.allRepealed ? [`Every section of this ${word(info.kind)} reads "[Repealed\u2026]": it is repealed.`] : []],
+      notes: pending.length > 0 ? [`This ${word(info.kind)} lists ${pending.length} amendment${pending.length === 1 ? "" : "s"} not in force yet. They are not in this outline; the official page lists them under "Amendments not in force".`] : [],
+      notice: FEDERAL_NOTICE
+    };
+  }
+  // ---------- get_section ----------
+  async getSection(actId, section) {
+    const num = normalizeSection(section);
+    const { id, doc, info, fetchedAt } = await this.load(actId);
+    const title = info.title ?? id;
+    if (info.allRepealed) {
+      throw new ToolError(`${title} (${id}) is repealed: every section of it reads "[Repealed\u2026]". Find the current act with find_act (tool) or find (command).`);
+    }
+    const matches = findFedSections(bodySections(doc), num);
+    const pending = notInForce(doc);
+    const pendingFor = (n) => pending.filter((a) => a.sections.includes(n)).map((a) => a.citation);
+    if (matches.length === 0) {
+      const adds = pendingFor(num);
+      if (adds.length > 0) {
+        throw new ToolError(
+          `Section ${num} of ${title} (${id}) is not in force: only an amendment that is not in force yet would add or change it (${adds.join("; ")}). The official page lists it under "Amendments not in force": ${fedPageUrl(info.kind, id)}`
+        );
+      }
+      throw new ToolError(`No section ${num} in ${title} (${id}). Its table of contents (get_toc tool, or toc command) lists the section numbers.`);
+    }
+    const page = await this.pageMeta(info.kind, id);
+    const warnings = docWarnings(info, page);
+    if (matches.length > 1) warnings.push(`${matches.length} provisions are numbered ${num} in this ${word(info.kind)} (for example one in a schedule). All are returned; check "location".`);
+    for (const m of matches) {
+      if (m.range) warnings.push(`Sections ${m.num} were repealed together. The official website has no page for section ${num} on its own, so source_url is the table of contents.`);
+      else if (m.repealed) warnings.push(`Section ${m.num} is repealed.`);
+      if (hasNotInForcePart(m.node)) warnings.push(`Part of section ${m.num} is not in force yet: it is marked "[Not in force]" (shaded on the official page).`);
+      const changes = pendingFor(m.num);
+      if (changes.length > 0) {
+        warnings.push(
+          `An amendment that is not in force yet would change section ${m.num} (${changes.join("; ")}). The text returned is the text in force; the official page lists the amendment under "Amendments not in force".`
+        );
+      }
+    }
+    const results = matches.map((m) => ({
+      citation: {
+        jurisdiction: "federal",
+        act_title: title,
+        act_citation: page.citation ?? info.instrumentNumber ?? "",
+        act_id: id,
+        section: m.num,
+        heading: m.heading,
+        source_url: m.range ? fedPageUrl(info.kind, id) : sectionUrl(info.kind, id, m.num),
+        current_to: page.currentTo,
+        retrieved_at: fetchedAt
+      },
+      location: m.location,
+      text: renderFedSection(m.node)
+    }));
+    const [first, ...others] = results;
+    return { ...first, ...others.length > 0 ? { other_matches: others } : {}, warnings, notice: FEDERAL_NOTICE };
+  }
+  // ---------- search_law ----------
+  async search(query, limit = 10) {
+    return (await this.searchScored(query, limit)).output;
+  }
+  /** search() plus each result's score, so that search_law "all" can rank BC and federal results together. */
+  async searchScored(query, limit = 10) {
+    const phrases = parsePhrases(query);
+    if (phrases.length === 0) throw new ToolError("query is empty.");
+    const alternatives = phrases.map(phrasePattern).join("|");
+    const hitsIn = (s) => (s.match(new RegExp(alternatives, "gi")) ?? []).length;
+    const has = (s) => s !== null && new RegExp(alternatives, "i").test(s);
+    const whole = new RegExp(`^(?:${alternatives})$`, "i");
+    const mark = (s) => s.replace(new RegExp(alternatives, "gi"), (m) => `**${m}**`);
+    const warnings = [];
+    const scope = await this.searchScope(warnings);
+    let searched = 0;
+    const perDoc = await mapLimit(scope, CONCURRENCY2, async (entry, docIndex) => {
+      const res = await this.fetcher(xmlUrl(entry.id));
+      if (res.status !== 200) {
+        warnings.push(`${entry.title} (${entry.id}) could not be read (HTTP ${res.status}), so it was not searched.`);
+        return [];
+      }
+      searched++;
+      const { info, records } = this.toSearchable(res);
+      return records.flatMap((r, secIndex) => {
+        const hits = hitsIn(r.text) + hitsIn(r.notes);
+        const above = has(r.nearestHeading);
+        if (hits === 0 && !above) return [];
+        const exact = r.definedTerms.some((t) => whole.test(t));
+        const partial2 = !exact && r.definedTerms.some((t) => has(t));
+        const heading = has(r.heading);
+        const headingFirst = heading && new RegExp(`^(?:${alternatives})`, "i").test(r.heading ?? "");
+        const score = (exact ? 100 : partial2 ? 20 : 0) + (heading ? 50 : 0) + (headingFirst ? 10 : 0) + (above ? 30 : 0) + Math.min(hits, 10) + (entry.kind === "act" ? 15 : 0);
+        const match = [
+          ...exact ? ["defines the term"] : partial2 ? ["inside a defined term"] : [],
+          ...heading ? ["heading"] : [],
+          ...above ? ["heading above the section"] : [],
+          `${hits} hit${hits === 1 ? "" : "s"}`
+        ];
+        return [{ entry, r, info, fetchedAt: res.fetchedAt, score, match, order: docIndex * 1e5 + secIndex }];
+      });
+    });
+    const top = perDoc.flat().sort((a, b) => b.score - a.score || a.order - b.order).slice(0, limit);
+    const pages = /* @__PURE__ */ new Map();
+    await mapLimit([...new Set(top.map((h) => h.entry.id))], CONCURRENCY2, async (id) => {
+      const h = top.find((x) => x.entry.id === id);
+      pages.set(id, await this.pageMeta(h.info.kind, id));
+    });
+    const undated = [...pages].filter(([, p]) => !p.currentTo).map(([id]) => id);
+    if (undated.length > 0) warnings.push(`${CURRENT_TO_WARNING} (${undated.join(", ")})`);
+    const scored = top.map(({ entry, r, info, fetchedAt, score, match }) => {
+      const page = pages.get(entry.id);
+      const body = r.text.split("\n").map(mark).join(" ").replace(/\s+/g, " ");
+      const lead = has(r.heading) ? mark(r.heading) : has(r.nearestHeading) ? mark(r.nearestHeading) : null;
+      const snippet = cutSnippet(body, () => `${lead ? `[${lead}] ` : ""}${body.length > 240 ? body.slice(0, 240) + "\u2026" : body}`);
+      return {
+        score,
+        result: {
+          jurisdiction: "federal",
+          act_title: info.title ?? entry.title,
+          act_citation: page.citation ?? info.instrumentNumber ?? "",
+          act_id: entry.id,
+          section: r.num,
+          heading: r.heading,
+          source_url: sectionUrl(info.kind, entry.id, r.num),
+          current_to: page.currentTo,
+          retrieved_at: fetchedAt,
+          snippet,
+          match
+        }
+      };
+    });
+    const regs = scope.length - 1;
+    return {
+      output: {
+        query: phrases.map((p) => `"${p}"`).join(" OR "),
+        documents_searched: searched,
+        results: scored.map((s) => s.result),
+        warnings,
+        notes: [
+          `Federal search covers the Canada Labour Code and the ${regs} regulation${regs === 1 ? "" : "s"} made under it, from the official list of acts and regulations. Other federal acts and regulations, and amendments not in force yet, are not searched: find an act with find_act, then read it with get_toc and get_section.`,
+          LITERAL_NOTE,
+          SNIPPET_NOTE
+        ],
+        notice: FEDERAL_NOTICE
+      },
+      scored
+    };
+  }
+  /** The Canada Labour Code and, from the official list, the regulations made under it. */
+  async searchScope(warnings) {
+    const code = { id: SEARCHED_ACT, title: "Canada Labour Code", kind: "act" };
+    let list;
+    try {
+      list = await this.legis();
+    } catch (e) {
+      if (!(e instanceof ToolError)) throw e;
+      warnings.push(`The official list of acts and regulations could not be read (${e.message.match(/HTTP \d+/)?.[0] ?? "error"}), so only the Canada Labour Code itself was searched, not its regulations.`);
+      return [code];
+    }
+    const act = list.find((e) => e.id === SEARCHED_ACT);
+    const regs = (act?.regRefs ?? []).flatMap((ref) => list.filter((e) => e.ref === ref));
+    return [{ ...code, title: act?.title ?? code.title }, ...regs.map((e) => ({ id: e.id, title: e.title, kind: e.kind }))];
+  }
+  toSearchable(res) {
+    const key = `${res.url}@${res.fetchedAt}`;
+    let s = this.searchable.get(key);
+    if (!s) {
+      const doc = parseXml2(res.body);
+      s = { info: fedDocInfo(doc), records: sectionRecords(doc) };
+      this.searchable.set(key, s);
+      if (this.searchable.size > 80) this.searchable.delete(this.searchable.keys().next().value);
+    }
+    return s;
+  }
+  // ---------- internals ----------
+  async load(actId) {
+    const id = normalizeFedId(actId);
+    const res = await this.fetcher(xmlUrl(id));
+    if (res.status === 404) throw new ToolError(`No federal act or regulation with act_id "${id}". Look up the id with find_act (tool) or find (command).`);
+    if (res.status !== 200) throw new ToolError(`Justice Laws returned HTTP ${res.status} for ${id}.`);
+    const doc = this.parse(res);
+    const info = fedDocInfo(doc);
+    if (info.kind === "unknown") throw new ToolError(`${id} is not an act or regulation in XML form. Look up the act id with find_act (tool) or find (command).`);
+    return { id, doc, info, fetchedAt: res.fetchedAt };
+  }
+  parse(res) {
+    const key = `${res.url}@${res.fetchedAt}`;
+    let doc = this.parsed.get(key);
+    if (!doc) {
+      doc = parseXml2(res.body);
+      this.parsed.set(key, doc);
+      if (this.parsed.size > 6) this.parsed.delete(this.parsed.keys().next().value);
+    }
+    return doc;
+  }
+  async pageMeta(kind, id) {
+    const res = await this.fetcher(fedPageUrl(kind, id));
+    return res.status === 200 ? parseFedPage(res.body) : { title: null, citation: null, currentTo: null, lastAmended: null };
+  }
+  /** The English entries of the official list of acts and regulations. */
+  async legis() {
+    const res = await this.fetcher(LEGIS_URL);
+    if (res.status !== 200) {
+      throw new ToolError(`The official list of federal acts and regulations could not be read (HTTP ${res.status}). Try again later, or pass a known act_id (such as L-2) to get_toc.`);
+    }
+    const key = `${res.url}@${res.fetchedAt}`;
+    if (this.legisCache?.key !== key) this.legisCache = { key, entries: parseLegis(res.body) };
+    return this.legisCache.entries;
+  }
+};
+function docWarnings(info, page) {
+  const w = [];
+  if (!page.currentTo) w.push(CURRENT_TO_WARNING);
+  if (page.lastAmended && info.lastAmended && page.lastAmended !== info.lastAmended) {
+    w.push(
+      `The official page says this ${word(info.kind)} was last amended on ${page.lastAmended}, but the XML text is the version last amended on ${info.lastAmended}, so it may not be the current text. Check source_url.`
+    );
+  }
+  if (info.readerNote) w.push(`Official note on this ${word(info.kind)}: ${info.readerNote}`);
+  return w;
+}
+function parsePhrases(query) {
+  return query.split(/\s+OR\s+/).map((p) => p.trim().replace(/^[("\s]+|[)"\s]+$/g, "").trim()).filter(Boolean);
+}
+function phrasePattern(phrase) {
+  const words = phrase.split(/\s+/).map((w) => {
+    const star = w.endsWith("*");
+    const core = (star ? w.slice(0, -1) : w).replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/['\u2019]/g, "['\u2019]");
+    return star ? `${core}\\w*` : core;
+  });
+  return `(?<![\\w])${words.join("\\s+")}(?![\\w])`;
+}
+
 // src/tools/find-act.ts
 init_define_GLOSSARY();
 
 // src/tools/shared.ts
 init_define_GLOSSARY();
-var FEDERAL_NOT_YET = 'Federal legislation is not available yet (planned for milestone M2). Only jurisdiction "bc" works for now.';
-var jurisdiction = external_exports.enum(["bc", "federal"]).describe('"bc" for British Columbia statutes and regulations; "federal" for federal law (not available until M2).');
+var jurisdiction = external_exports.enum(["bc", "federal"]).describe('"bc" for British Columbia statutes and regulations (BC Laws); "federal" for acts and regulations of Canada (Justice Laws), such as the Canada Labour Code.');
 var READ_ONLY = { readOnlyHint: true, openWorldHint: true };
 var ok = (value) => ({ content: [{ type: "text", text: JSON.stringify(value, null, 2) }] });
 var fail = (message) => ({ isError: true, content: [{ type: "text", text: message }] });
@@ -26612,30 +27404,30 @@ async function run(body) {
     return ok(await body());
   } catch (e) {
     if (e instanceof ToolError) return fail(e.message);
-    return fail(`Unexpected error while reading BC Laws: ${e instanceof Error ? e.message : String(e)}`);
+    return fail(`Unexpected error while reading the official source: ${e instanceof Error ? e.message : String(e)}`);
   }
 }
 
 // src/tools/find-act.ts
-function registerFindAct(server2, bc) {
+function registerFindAct(server2, { bc, federal }) {
   server2.registerTool(
     "find_act",
     {
       title: "Find an act or regulation",
-      description: 'Find acts and regulations by title. Returns candidates with act_id (pass it to get_toc and get_section), the official title, citation (e.g. "RSBC 1996, c. 113" or "B.C. Reg. 396/95"), source_url, and for acts whether they are current or repealed/replaced. Exact title matches and current acts come first.',
+      description: 'Find acts and regulations by title. Returns candidates with act_id (pass it to get_toc and get_section), the official title, citation (e.g. "RSBC 1996, c. 113" or "B.C. Reg. 396/95"; federal "R.S.C., 1985, c. L-2" or "C.R.C., c. 986"), source_url, and for BC acts whether they are current or repealed/replaced. Exact title matches come first. Federal titles come from the official list of acts and regulations, which does not mark repealed acts: get_toc and get_section say when an act is repealed.',
       inputSchema: {
-        name: external_exports.string().min(1).describe('Official English title or distinctive words from it, e.g. "Employment Standards Act". Abbreviations such as "ESA" are not recognised.'),
+        name: external_exports.string().min(1).describe('Official English title or distinctive words from it, e.g. "Employment Standards Act" or "Canada Labour Code". Abbreviations such as "ESA" are not recognised.'),
         jurisdiction
       },
       annotations: READ_ONLY
     },
-    async ({ name, jurisdiction: j }) => j === "federal" ? fail(FEDERAL_NOT_YET) : run(() => bc.findAct(name))
+    async ({ name, jurisdiction: j }) => run(() => j === "federal" ? federal.findAct(name) : bc.findAct(name))
   );
 }
 
 // src/tools/get-section.ts
 init_define_GLOSSARY();
-function registerGetSection(server2, bc) {
+function registerGetSection(server2, { bc, federal }) {
   server2.registerTool(
     "get_section",
     {
@@ -26643,18 +27435,18 @@ function registerGetSection(server2, bc) {
       description: 'Verbatim text of one section, laid out as on the official page (subsections, paragraphs, definitions), with the full citation: act_title, act_citation, act_id, section, heading, source_url (links to the section), current_to (the official "current to" date) and retrieved_at. Quote this text rather than paraphrasing it as the law.',
       inputSchema: {
         jurisdiction,
-        act_id: external_exports.string().min(1).describe('The act_id returned by find_act, e.g. "96113_01".'),
-        section: external_exports.string().min(1).describe('Section number as printed in the act, e.g. "40", "52.13", "128-129".')
+        act_id: external_exports.string().min(1).describe('The act_id returned by find_act, e.g. "96113_01" (BC Employment Standards Act) or "L-2" (Canada Labour Code).'),
+        section: external_exports.string().min(1).describe('Section number as printed in the act, e.g. "40", "52.13", "169.1", "128-129".')
       },
       annotations: READ_ONLY
     },
-    async ({ jurisdiction: j, act_id, section }) => j === "federal" ? fail(FEDERAL_NOT_YET) : run(() => bc.getSection(act_id, section))
+    async ({ jurisdiction: j, act_id, section }) => run(() => j === "federal" ? federal.getSection(act_id, section) : bc.getSection(act_id, section))
   );
 }
 
 // src/tools/get-toc.ts
 init_define_GLOSSARY();
-function registerGetToc(server2, bc) {
+function registerGetToc(server2, { bc, federal }) {
   server2.registerTool(
     "get_toc",
     {
@@ -26662,11 +27454,11 @@ function registerGetToc(server2, bc) {
       description: "Table of contents of an act or regulation: Parts, Divisions and Schedules with every section number and heading, plus the act's citation, source_url and official current_to date. Use it to pick the right section number before calling get_section.",
       inputSchema: {
         jurisdiction,
-        act_id: external_exports.string().min(1).describe('The act_id returned by find_act, e.g. "96113_01".')
+        act_id: external_exports.string().min(1).describe('The act_id returned by find_act, e.g. "96113_01" (BC Employment Standards Act) or "L-2" (Canada Labour Code).')
       },
       annotations: READ_ONLY
     },
-    async ({ jurisdiction: j, act_id }) => j === "federal" ? fail(FEDERAL_NOT_YET) : run(() => bc.getToc(act_id))
+    async ({ jurisdiction: j, act_id }) => run(() => j === "federal" ? federal.getToc(act_id) : bc.getToc(act_id))
   );
 }
 
@@ -26678,13 +27470,13 @@ init_define_GLOSSARY();
 var GLOSSARY_FILE = new URL("../data/glossary.json", import.meta.url);
 var isAscii = (s) => /^[\x00-\x7f]*$/.test(s);
 var escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function position(text, term) {
-  if (!isAscii(term)) return text.indexOf(term);
-  const m = new RegExp(`(^|[^A-Za-z0-9])${escapeRe(term)}`, "i").exec(text);
+function position(text2, term) {
+  if (!isAscii(term)) return text2.indexOf(term);
+  const m = new RegExp(`(^|[^A-Za-z0-9])${escapeRe(term)}`, "i").exec(text2);
   return m ? m.index + m[1].length : -1;
 }
-function termsInText(g, text) {
-  const found = Object.keys(g).map((k) => ({ k, at: position(text, k) })).filter((f) => f.at >= 0);
+function termsInText(g, text2) {
+  const found = Object.keys(g).map((k) => ({ k, at: position(text2, k) })).filter((f) => f.at >= 0);
   return found.filter((f) => !found.some((o) => o.k.length > f.k.length && o.k.toLowerCase().includes(f.k.toLowerCase()))).sort((a, b) => a.at - b.at).map((f) => f.k);
 }
 function lookupTerm(g, term) {
@@ -26704,7 +27496,7 @@ function registerMapTerm(server2, glossary) {
     "map_term",
     {
       title: "Map a term to statutory wording",
-      description: "Map a Chinese (or English) employment-law concept to the statutory English each jurisdiction uses, and where it appears (act_id and sections). Call this before search_law when the question is in Chinese. Returns [] when the term is not in the curated glossary: then do not present your own translation as the statutory term; try a more basic term, or search with your own English wording and say that you did.",
+      description: "Map a Chinese (or everyday English) employment-law concept to the statutory English each jurisdiction uses, BC and federal, and where it appears (act_id and sections). Call this before search_law when the question is in Chinese or uses everyday words, and search each jurisdiction with its own terms. Returns [] when the term is not in the curated glossary: then do not present your own translation as the statutory term; try a more basic term, or search with your own English wording and say that you did.",
       inputSchema: {
         term: external_exports.string().min(1).describe('A concept such as \u6CD5\u5B9A\u5047\u65E5, \u52A0\u73ED, \u9910\u4F11, or an English term such as "statutory holiday".')
       },
@@ -26716,7 +27508,36 @@ function registerMapTerm(server2, glossary) {
 
 // src/tools/search-law.ts
 init_define_GLOSSARY();
-function registerSearchLaw(server2, bc) {
+
+// src/sources/search-all.ts
+init_define_GLOSSARY();
+var EMPTY = { output: { query: "", documents_searched: 0, results: [], warnings: [], notes: [], notice: "" }, scored: [] };
+async function searchAll(sources, query, limit = 10) {
+  const [bs, fs] = await Promise.allSettled([sources.bc.searchScored(query, limit), sources.federal.searchScored(query, limit)]);
+  const failed = [bs, fs].filter((s) => s.status === "rejected");
+  if (failed.length === 2) throw failed[0].reason;
+  for (const f2 of failed) if (!(f2.reason instanceof ToolError)) throw f2.reason;
+  const b = bs.status === "fulfilled" ? bs.value : EMPTY;
+  const f = fs.status === "fulfilled" ? fs.value : EMPTY;
+  const lost = [
+    ...bs.status === "rejected" ? [`BC search failed, so only federal results are shown: ${bs.reason.message}`] : [],
+    ...fs.status === "rejected" ? [`Federal search failed, so only BC results are shown: ${fs.reason.message}`] : []
+  ];
+  const results = [...b.scored, ...f.scored].map((s, order) => ({ ...s, order })).sort((x, y) => y.score - x.score || x.order - y.order).slice(0, limit).map((s) => s.result);
+  return {
+    query,
+    documents_searched: b.output.documents_searched + f.output.documents_searched,
+    results,
+    warnings: [...lost, ...b.output.warnings, ...f.output.warnings],
+    notes: ["BC and federal results, ranked together by the same scoring.", .../* @__PURE__ */ new Set([...b.output.notes, ...f.output.notes])],
+    notice: `${BC_LAWS_NOTICE}
+
+${FEDERAL_NOTICE}`
+  };
+}
+
+// src/tools/search-law.ts
+function registerSearchLaw(server2, sources) {
   server2.registerTool(
     "search_law",
     {
@@ -26724,30 +27545,31 @@ function registerSearchLaw(server2, bc) {
       description: 'Search current legislation for English statutory wording and get the matching sections, best first, each with citation fields (act, section, heading, source_url, current_to) and a snippet. The query must use the statutory English of the jurisdiction: if the question is in Chinese or uses everyday words, call map_term first (for example BC says "statutory holiday" where federal law says "general holiday"). Then read the full text with get_section before answering.',
       inputSchema: {
         query: external_exports.string().min(1).describe('English statutory wording. Use "double quotes" for phrases and OR for variants, e.g. "meal break" OR "meal breaks". Matching is literal: no plurals or stemming.'),
-        jurisdiction: external_exports.enum(["bc", "federal", "all"]).describe('"bc", "federal" (available from M2) or "all".'),
+        jurisdiction: external_exports.enum(["bc", "federal", "all"]).describe('"bc" (all BC statutes and regulations), "federal" (the Canada Labour Code and the regulations made under it) or "all" (both, ranked together).'),
         limit: external_exports.number().int().min(1).max(20).default(10).describe("Maximum number of sections to return (default 10).")
       },
       annotations: READ_ONLY
     },
-    async ({ query, jurisdiction: jurisdiction2, limit }) => {
-      if (jurisdiction2 === "federal") return fail(FEDERAL_NOT_YET);
-      return run(async () => {
-        const r = await bc.search(query, limit);
-        if (jurisdiction2 === "all") r.notes.push(`${FEDERAL_NOT_YET} These results are BC only.`);
-        return r;
-      });
-    }
+    async ({ query, jurisdiction: jurisdiction2, limit }) => run(
+      async () => jurisdiction2 === "bc" ? sources.bc.search(query, limit) : jurisdiction2 === "federal" ? sources.federal.search(query, limit) : searchAll(sources, query, limit)
+    )
   );
 }
 
 // src/server.ts
-var INSTRUCTIONS = `This server returns the current official text of British Columbia statutes and regulations (federal law will be added later).
+var INSTRUCTIONS = `This server returns the current official text of British Columbia and federal (Canada) statutes and regulations.
 
-Never answer a BC employment-law question from memory, even a simple one. The law changes, so get the current official text with these tools and answer from it.
+Never answer a BC or federal employment-law question from memory, even a simple one. The law changes, so get the current official text with these tools and answer from it.
+
+Which law applies:
+- Most workplaces in BC are under BC law: the Employment Standards Act (jurisdiction "bc", act_id 96113_01) and its regulations.
+- Federally regulated workplaces are under the Canada Labour Code (jurisdiction "federal", act_id L-2) and its regulations, such as the Canada Labour Standards Regulations (act_id C.R.C.,_c._986). To tell whether a particular business is federally regulated, read the definition of "federal work, undertaking or business" in section 2 of the Code (get_section, federal, L-2, 2) rather than relying on memory.
+- If you cannot tell which law applies, search both (jurisdiction "all") and say so.
+- Federal search covers the Canada Labour Code and its regulations only. Federal benefits law, such as Employment Insurance (EI) and the Canada Pension Plan (CPP), is not covered: say so instead of answering from memory.
 
 Steps:
-1. Call map_term with the key legal concept in the user's own words (any language, e.g. Chinese or everyday English such as "stat holiday"). If it returns statutory terms, use exactly those. If it returns [], use your own English wording and say so in the answer.
-2. Call search_law with the statutory terms. Matching is literal, so give singular and plural, e.g. "meal break" OR "meal breaks".
+1. Call map_term with the key legal concept in the user's own words (any language, e.g. Chinese or everyday English such as "stat holiday"). It returns the statutory terms of each jurisdiction: use exactly those of the jurisdiction you search. If it returns [], use your own English wording and say so in the answer.
+2. Call search_law with the jurisdiction and its statutory terms. Matching is literal, so give singular and plural, e.g. "meal break" OR "meal breaks".
 3. Call get_section for every section you will quote, explain or cite, including the sections map_term pointed to, and read the text. Search snippets are cut short, so never work from a snippet. If the answer needs a fact the text does not give (for example the date of a holiday, or who is excluded from a rule), look it up with search_law and get_section too. If you still cannot find it, you may mention it only in part 4 of the answer.
 
 Answer in the user's language, in this order:
@@ -26755,20 +27577,20 @@ Answer in the user's language, in this order:
 2. What it means - explain it in the user's language.
 3. What decides the outcome - list the facts that decide how the rule applies (for example length of service, a written agreement, the type of employer). Do not decide the user's own case: do not say what they are owed or whether their employer broke the law.
 4. Not from the official text - only if you add anything the retrieved text does not say (for example the dates of holidays, or whether a layoff counts as just cause). Start by saying, in the user's language, that this part was not checked against the official text. Do not decide the user's own case here either. Leave this part out when there is nothing to add.
-5. Where to get help - if the user describes their own work situation, say that the Employment Standards Branch can help, in the user's language: https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us
-6. Sources - for every provision you relied on: act title, section number, source_url and current_to. Then this line: "Text from BC Laws (www.bclaws.gov.bc.ca) under the King's Printer Licence; not an official version. This is general legal information, not legal advice."
+5. Where to get help - if the user describes their own work situation, say in the user's language who can help. BC workplaces: the Employment Standards Branch, https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/contact-us . Federally regulated workplaces: the federal Labour Program, https://www.canada.ca/en/services/jobs/workplace/federal-labour-standards/filing-complaint.html
+6. Sources - for every provision you relied on: act title, section number, source_url and current_to. Then one line for each source you used: "Text from BC Laws (www.bclaws.gov.bc.ca) under the King's Printer Licence; not an official version." / "Text from the Justice Laws Website (laws-lois.justice.gc.ca); not an official version." Then: "This is general legal information, not legal advice."
 
 Rules:
 - In parts 1 to 3, state only what the retrieved text says; anything else goes in part 4. If a search finds nothing, say what you searched for; do not conclude that the law has no such rule.
 - If current_to is null or a tool returns warnings, tell the user.
-- Most BC workplaces are under BC law, but federally regulated industries (banks, airlines, telecommunications, interprovincial transport and similar) are under federal law such as the Canada Labour Code, which this server does not cover yet. Remind the user to check which applies.`;
+- Say which law you answered from. Most BC workplaces are under BC law, but federally regulated industries (banks, airlines, telecommunications, interprovincial transport and similar) are under federal law. Remind the user to check which applies.`;
 function createServer(deps) {
-  const server2 = new McpServer({ name: "canada-law", version: "0.1.0" }, { instructions: INSTRUCTIONS });
-  const bc = new BcClient({ fetcher: deps.fetcher });
-  registerFindAct(server2, bc);
-  registerGetToc(server2, bc);
-  registerGetSection(server2, bc);
-  registerSearchLaw(server2, bc);
+  const server2 = new McpServer({ name: "canada-law", version: VERSION }, { instructions: INSTRUCTIONS });
+  const sources = { bc: new BcClient({ fetcher: deps.fetcher }), federal: new FederalClient({ fetcher: deps.fetcher }) };
+  registerFindAct(server2, sources);
+  registerGetToc(server2, sources);
+  registerGetSection(server2, sources);
+  registerSearchLaw(server2, sources);
   registerMapTerm(server2, deps.glossary);
   return server2;
 }

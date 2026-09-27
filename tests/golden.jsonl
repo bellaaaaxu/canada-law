@@ -1,7 +1,12 @@
 {"q": "BC 一天工作超过几小时要付加班费？", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "40"}}
 {"q": "BC 员工连续工作多久必须给餐休？", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "32"}}
 {"q": "BC 的法定假日有哪些？", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "1"}}
-{"q": "联邦监管行业的法定假日怎么规定？", "expect": {"jurisdiction": "federal", "act_id": "L-2", "section": null}}
+{"q": "在联邦监管行业工作，超过多少小时要付加班费？", "expect": {"jurisdiction": "federal", "act_id": "L-2", "section": "174"}}
+{"q": "在联邦监管行业（比如银行）上班，连续工作多久必须给餐休？", "expect": {"jurisdiction": "federal", "act_id": "L-2", "section": "169.1"}}
+{"q": "联邦监管行业的法定假日有哪些？", "expect": {"jurisdiction": "federal", "act_id": "L-2", "section": "166"}}
 {"q": "In BC, after how many hours of work in a day does overtime pay start?", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "40"}}
 {"q": "How long can I work in BC before my employer has to give me a lunch break?", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "32"}}
 {"q": "What are the stat holidays in BC?", "expect": {"jurisdiction": "bc", "act_id": "96113_01", "section": "1"}}
+{"q": "I work for a bank in BC. After how many hours of work does overtime pay start?", "expect": {"jurisdiction": "federal", "act_id": "L-2", "section": "174"}}
+{"q": "I work for an airline in BC. How long can I work before my employer has to give me a lunch break?", "expect": {"jurisdiction": "federal", "act_id": "L-2", "section": "169.1"}}
+{"q": "What are the stat holidays for federally regulated employees?", "expect": {"jurisdiction": "federal", "act_id": "L-2", "section": "166"}}
