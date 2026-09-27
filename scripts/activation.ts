@@ -3,7 +3,7 @@
 // the tester's own settings, skills or plugins (the set-up of the 2026-09-24 D1b test in SPEC-开源分发.md).
 // It spends the tester's own Claude usage (D1b: about US$0.10 a question), so it is not part of npm test.
 //
-//   npm run activation                                       golden BC questions + two about the asker's own case
+//   npm run activation                                       golden questions (BC and federal) + four about the asker's own case
 //   npm run activation -- --only zh-s40,en-own-laid-off --repeat 3 --model <model>
 //   npm run activation -- --dry-run                          print the claude command; ask nothing
 //   npm run activation -- --parse <run.jsonl> --case <id>    re-check a saved transcript
@@ -19,22 +19,34 @@ import { quoteForCmd } from '../src/install/apply.js';
 import { findOnPath } from '../src/install/env.js';
 
 const SKILL = 'canada-employment-law';
-const ESB_CONTACT = 'employment-standards-advice/employment-standards/contact-us';
+// Where to get help (SKILL.md answer format, part 5), for each jurisdiction
+const HELP = { bc: 'employment-standards-advice/employment-standards/contact-us', federal: 'federal-labour-standards/filing-complaint' };
 const root = fileURLToPath(new URL('../', import.meta.url));
 const isZh = (s: string) => /[一-鿿]/.test(s);
 const cjkCount = (s: string) => (s.match(/[一-鿿]/g) ?? []).length;
 
-type Case = { id: string; q: string; own: boolean; section: string };
+type Jurisdiction = 'bc' | 'federal';
+type Case = { id: string; q: string; own: boolean; jurisdiction: Jurisdiction; act: string; section: string };
 const golden: Case[] = readFileSync(join(root, 'tests', 'golden.jsonl'), 'utf8')
   .split('\n')
   .filter((l) => l.trim())
   .map((l) => JSON.parse(l))
-  .filter((c) => c.expect.jurisdiction === 'bc')
-  .map((c) => ({ id: `${isZh(c.q) ? 'zh' : 'en'}-s${c.expect.section}`, q: c.q, own: false, section: c.expect.section }));
-// D1b's questions about the asker's own case, where the answer must not decide the case (SKILL.md answer format, part 3).
+  .map((c) => ({
+    id: `${isZh(c.q) ? 'zh' : 'en'}-${c.expect.jurisdiction === 'federal' ? 'fed-' : ''}s${c.expect.section}`,
+    q: c.q,
+    own: false,
+    jurisdiction: c.expect.jurisdiction,
+    act: c.expect.act_id,
+    section: c.expect.section,
+  }));
+// Questions about the asker's own case, where the answer must not decide the case (SKILL.md answer format, part 3).
+// D1b's two BC ones; M2's two federal ones, where the AI also has to see that federal law applies.
 const own: Case[] = [
-  { id: 'en-own-laid-off', q: 'I got laid off from my restaurant job in Vancouver after working there for 2 years. Am I owed severance?', own: true, section: '63' },
-  { id: 'zh-own-laid-off', q: '我在温哥华的一家餐馆做了两年，被老板裁了，他要给我遣散费吗？', own: true, section: '63' },
+  { id: 'en-own-laid-off', q: 'I got laid off from my restaurant job in Vancouver after working there for 2 years. Am I owed severance?', own: true, jurisdiction: 'bc', act: '96113_01', section: '63' },
+  { id: 'zh-own-laid-off', q: '我在温哥华的一家餐馆做了两年，被老板裁了，他要给我遣散费吗？', own: true, jurisdiction: 'bc', act: '96113_01', section: '63' },
+  { id: 'zh-own-bank', q: '我在温哥华的一家银行上班，一天工作 9 个小时，多出来的 1 小时有加班费吗？', own: true, jurisdiction: 'federal', act: 'L-2', section: '174' },
+  // interprovincial trucking: the Motor Vehicle Operators Hours of Work Regulations, s.6 (highway operators, 60 hours a week)
+  { id: 'en-own-trucker', q: 'I drive a truck for a company that hauls freight between BC and Alberta. How many hours a week can they make me work?', own: true, jurisdiction: 'federal', act: 'C.R.C.,_c._990', section: '6' },
 ];
 const CASES = [...golden, ...own];
 
@@ -84,7 +96,7 @@ function readRun(jsonl: string): Run {
     .flatMap((b) => [...String(b.input?.command ?? '').matchAll(/bclaw\.mjs["']?\s+(term|search|section|toc|find)\b([^&|;\n]*)/g)])
     .map((m) => `${m[1]}${m[2]}`.replace(/\s+\d?>&?\S*/g, '').trim());
   const sections = commands.flatMap((c) => {
-    const m = /^section\s+"?([\w.-]+)"?\s+"?([\w.()]+)"?/.exec(c);
+    const m = /^section\s+["']?([\w.,-]+)["']?\s+["']?([\w.()]+)["']?/.exec(c); // federal ids have commas: C.R.C.,_c._986
     return m ? [`${m[1]} s.${m[2]}`] : [];
   });
   const init = events.find((e) => e.type === 'system' && e.subtype === 'init');
@@ -134,7 +146,8 @@ const VERDICT = [
 
 // Part 4 of the answer format holds whatever the tools did not return, labelled as not checked (D3 option A).
 // (2026-09-26 run 3: one Chinese answer titled it 非来自官方文本的补充, so 文本 as well as 原文.)
-const UNCHECKED_PART = /not from the official text|not checked|官方(原文|文本)(以外|之外)|不是(来自|出自)?官方(原文|文本)|非(来自)?官方(原文|文本)|未经?.{0,8}核(对|实)|没有.{0,8}核(对|实)/i;
+// (M2 2026-09-26: 不来自官方文本的内容, so 不 as well as 不是.)
+const UNCHECKED_PART = /not from the official text|not checked|官方(原文|文本)(以外|之外)|不是?(来自|出自)?官方(原文|文本)|非(来自)?官方(原文|文本)|未经?.{0,8}核(对|实)|没有.{0,8}核(对|实)/i;
 // What the model has added from memory before (D1b; D3 rounds 1 and 2). A match in the other parts that the tools never
 // returned is flagged. Only a pointer: the tools return English, so a looked-up fact that was translated is flagged too.
 const KNOWN_SLIPS: [string, RegExp][] = [
@@ -181,17 +194,25 @@ function check(c: Case, run: Run): Check[] {
     .filter((m) => !/\b(if|whether|how much|believe|think)\b[^.\n]{0,20}$/i.test(plain.slice(Math.max(0, m.index - 25), m.index)) && !/^[^.\n]{0,20}\bdepends\b/i.test(plain.slice(m.index + m[0].length)))
     .slice(0, 3)
     .map((m) => plain.slice(Math.max(0, m.index - 15), m.index + m[0].length + 15).replace(/\s+/g, ' '));
+  const federal = c.jurisdiction === 'federal';
   const checks: Check[] = [
     ['used the skill', run.skillUsed],
     ['ran the script', run.commands.length > 0],
-    [`section ${c.section} read or cited`, run.sections.includes(`96113_01 s.${c.section}`) || cited.test(a)],
+    [`${c.act} s.${c.section} read or cited`, run.sections.includes(`${c.act} s.${c.section}`) || cited.test(a)],
     ['same language as the question', isZh(c.q) ? cjkCount(a) >= 30 : cjkCount(a) === 0],
     ['five-part format', missing.length === 0, missing.length ? `missing: ${missing.join(', ')}` : undefined],
-    ['source_url', /bclaws\.gov\.bc\.ca\/civix\/document\/id\/complete\/statreg\//.test(a)],
+    ['source_url', federal ? /laws-lois\.justice\.gc\.ca\/eng\/(acts|regulations)\//.test(a) : /bclaws\.gov\.bc\.ca\/civix\/document\/id\/complete\/statreg\//.test(a)],
     ['current_to date', DATE.test(a)],
-    ['licence line', /King.s Printer Licen[cs]e/i.test(a)],
+    ['licence line', federal ? /Justice Laws Website/i.test(a) : /King.s Printer Licen[cs]e/i.test(a)],
     ['not legal advice', /not legal advice|不(是|构成)法律(意见|建议)|非法律(意见|建议)/i.test(a)],
-    ['federal-law reminder', /federal|联邦/i.test(a)],
+    // SKILL.md: say which law you answered from, and remind the user to check which applies. BC answers mention federal
+    // law; federal answers name the Code, and mention BC law or ask the user to confirm that federal law applies.
+    federal
+      ? [
+          'says which law applies',
+          /Canada Labour Code|劳动法典|劳工法/i.test(a) && /\bBC\b|British Columbia|卑诗|不列颠哥伦比亚|确认|核实|\bcheck\b|\bconfirm\b|\bverify\b/i.test(a),
+        ]
+      : ['federal-law reminder', /federal|联邦/i.test(a)],
     [
       'nothing unchecked outside part 4 (known slips)',
       slips.length === 0,
@@ -200,7 +221,7 @@ function check(c: Case, run: Run): Check[] {
     ['cited sections read in full', fromSnippets.length === 0, fromSnippets.length ? `only seen in search results: s.${fromSnippets.join(', s.')}` : undefined],
   ];
   if (c.own) {
-    checks.push(['Employment Standards Branch link', a.includes(ESB_CONTACT)]);
+    checks.push([federal ? 'Labour Program link' : 'Employment Standards Branch link', a.includes(HELP[c.jurisdiction])]);
     checks.push(['does not decide the case', verdicts.length === 0, verdicts.length ? `read: ${verdicts.map((v) => `"${v}"`).join('; ')}` : undefined]);
   }
   return checks;
