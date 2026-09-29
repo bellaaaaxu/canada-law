@@ -37,8 +37,10 @@ try {
   const fedSearch = JSON.parse(run('search', 'federal', 'general holiday', 'general holidays'));
   check('skill: search federal "general holiday"', fedSearch.results?.[0]?.section === '166', `first: ${fedSearch.results?.[0]?.act_id} s.${fedSearch.results?.[0]?.section}`);
   // Canary: every federal golden answer is in the Code itself, so a list that stopped naming its regulations would
-  // pass golden unnoticed. 33 documents on 2026-09-26 (the Code and 32 regulations).
-  check('skill: federal search read the Code and its regulations', fedSearch.documents_searched >= 30 && fedSearch.warnings?.length === 0, `${fedSearch.documents_searched} documents; warnings: ${fedSearch.warnings?.length}`);
+  // pass golden unnoticed. 33 documents on 2026-09-26 (the Code and 32 regulations); 29 since 2026-09-28, when the
+  // official list dropped its four wholly repealed regulations (SPEC.md, "联邦（Justice Laws）"). The floor stays
+  // three below that. Before lowering it again, find out which regulations left the list and why.
+  check('skill: federal search read the Code and its regulations', fedSearch.documents_searched >= 26 && fedSearch.warnings?.length === 0, `${fedSearch.documents_searched} documents; warnings: ${fedSearch.warnings?.length}`);
 
   // 2. the single-file MCP server on its own
   copyFileSync(join(root, 'mcp', 'canada-law-mcp.mjs'), join(work, 'canada-law-mcp.mjs'));
