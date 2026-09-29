@@ -13697,7 +13697,7 @@ function unreachable(url, error2) {
 
 // src/version.ts
 init_define_GLOSSARY();
-var VERSION = "0.2.2";
+var VERSION = "0.2.3";
 
 // src/http.ts
 var USER_AGENT = `canada-law-mcp/${VERSION} (+https://github.com/bellaaaaxu/canada-law)`;

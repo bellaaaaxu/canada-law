@@ -52,7 +52,7 @@ A real answer from our tests (Claude Code with this skill, 26 September 2026), w
 You need [Node.js](https://nodejs.org) 20 or newer. Then run:
 
 ```bash
-npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.2/canada-law-0.2.2.tgz install
+npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.3/canada-law-0.2.3.tgz install
 ```
 
 The installer finds the AI tools on your computer, **shows exactly what it will change, and asks before changing anything**. It backs up every config file it edits, and it never overwrites your own settings.
@@ -67,11 +67,11 @@ The installer finds the AI tools on your computer, **shows exactly what it will 
 | `… list` | show the supported tools |
 | `… uninstall` | remove everything the installer added |
 
-(`…` stands for `npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.2/canada-law-0.2.2.tgz`.)
+(`…` stands for `npx https://github.com/bellaaaaxu/canada-law/releases/download/v0.2.3/canada-law-0.2.3.tgz`.)
 
 ### Claude Desktop, without Node.js
 
-Download `canada-law-0.2.2.mcpb` from the [release page](https://github.com/bellaaaaxu/canada-law/releases) and double-click it. You can also drag it into the Claude Desktop window, or use Settings → Extensions → Advanced settings → Install Extension…. Claude Desktop brings its own Node.js.
+Download `canada-law-0.2.3.mcpb` from the [release page](https://github.com/bellaaaaxu/canada-law/releases) and double-click it. You can also drag it into the Claude Desktop window, or use Settings → Extensions → Advanced settings → Install Extension…. Claude Desktop brings its own Node.js.
 
 ## Supported AI tools
 
