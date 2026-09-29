@@ -130,7 +130,7 @@ node scripts/bclaw.mjs find bc "Employment Standards Act"
 - [x] 各 AI 工具安装方式 ✅：见 `docs/research/2026-09-24-各AI工具安装方式.md`（全部附官方链接）
 - [x] `skills-ref validate` ✅：需 Python 3.11+；中文 Windows 上要开 `PYTHONUTF8=1`，否则它用 GBK 读文件直接崩溃。原型通过；故意写错名字的坏副本被正确拒绝
 
-### D1b：补测（2026-09-24 她登录命令行 + 加了两条）
+### D1b：补测（2026-09-24 维护者登录命令行 + 加了两条）
 - [x] Claude Code 自动启用（2026-09-24，`claude -p`，只装 skill、不连 MCP、不加载用户插件，默认模型 claude-opus-4-6，三题共约 0.30 美元）：
   - 中文「一天超过几小时付加班费」：**没启用**，凭记忆 4 秒答完，没出处、没免责
   - 英文「被裁 2 年有没有 severance」：✅ 启用，查了 s.63 原文，出处 / 适用范围 / 免责 / 求助渠道都有；但**下了结论**（"you are entitled to 2 weeks' wages"）
