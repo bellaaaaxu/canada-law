@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { unreachable } from './tool-error.js';
 import { VERSION } from './version.js';
 
 export const USER_AGENT = `canada-law-mcp/${VERSION} (+https://github.com/bellaaaaxu/canada-law)`;
@@ -37,12 +38,20 @@ export function createCachedFetcher(opts: CachedFetcherOptions): Fetcher {
       return cached;
     }
 
-    const res = await doFetch(url, { headers: { 'User-Agent': USER_AGENT } });
+    let res: Response;
+    let body: string;
+    try {
+      res = await doFetch(url, { headers: { 'User-Agent': USER_AGENT } });
+      body = await res.text();
+    } catch (e) {
+      // No HTTP response at all (DNS, no route, refused, timeout, TLS): say so plainly, with what to do instead.
+      throw unreachable(url, e);
+    }
     const result: FetchResult = {
       url,
       status: res.status,
       contentType: res.headers.get('content-type') ?? '',
-      body: await res.text(),
+      body,
       fetchedAt: now().toISOString(),
     };
     if (result.status === 200) saveCache(opts.cacheDir, file, result);

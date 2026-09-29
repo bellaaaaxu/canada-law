@@ -3,6 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createCachedFetcher } from '../src/http.js';
+import { ToolError } from '../src/tool-error.js';
 
 type Call = { url: string; headers: Record<string, string> };
 
@@ -100,5 +101,32 @@ describe('createCachedFetcher', () => {
     const { impl, calls } = fakeFetch();
     await createCachedFetcher({ cacheDir: dir, fetchImpl: impl, now: clock })('https://example.test/a');
     expect(calls[0].headers['User-Agent']).toMatch(/^canada-law-mcp\//);
+  });
+
+  // 2026-09-29, claude.ai: the sandbox could not reach BC Laws, the script said only "fetch failed", and the answer then
+  // reported a "current to" date the tool never returned. A network failure now says what happened and what to do.
+  it('turns a network failure into a plain message: which site, and not to fill in text or dates from elsewhere', async () => {
+    const offline = (async () => {
+      throw Object.assign(new TypeError('fetch failed'), { cause: Object.assign(new Error('getaddrinfo ENOTFOUND www.bclaws.gov.bc.ca'), { code: 'ENOTFOUND' }) });
+    }) as unknown as typeof fetch;
+    const get = createCachedFetcher({ cacheDir: dir, fetchImpl: offline, now: clock });
+    const err = await get('https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96113_01/xml').catch((e: unknown) => e);
+    expect(err).toBeInstanceOf(ToolError);
+    const msg = (err as Error).message;
+    expect(msg).toContain('Could not reach www.bclaws.gov.bc.ca from this environment (ENOTFOUND)');
+    expect(msg).toContain('Do not supply the wording, a "current to" date or a version from another website or from memory');
+    expect(msg).toContain('Official website: https://www.bclaws.gov.bc.ca/');
+  });
+
+  it('a network failure is not cached, so the next call tries again', async () => {
+    let fail = true;
+    const flaky = (async () => {
+      if (fail) throw new TypeError('fetch failed');
+      return new Response('<ok/>', { status: 200 });
+    }) as unknown as typeof fetch;
+    const get = createCachedFetcher({ cacheDir: dir, fetchImpl: flaky, now: clock });
+    await expect(get('https://example.test/a')).rejects.toBeInstanceOf(ToolError);
+    fail = false;
+    expect((await get('https://example.test/a')).body).toBe('<ok/>');
   });
 });

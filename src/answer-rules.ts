@@ -12,6 +12,8 @@ export const ANSWER_RULES = `Answer in the user's language, in this order:
 Rules:
 - In parts 1 to 3, state only what the retrieved text says; anything else goes in part 4. If a search finds nothing, say what you searched for; do not conclude that the law has no such rule.
 - If current_to is null or a tool returns warnings, tell the user.
+- Give current_to exactly as the tool returned it. Never state a date, a version or whether the text is up to date unless a tool returned it in this conversation.
+- If a tool says it could not reach the official website, tell the user that the official text could not be fetched here and give the official website. Do not quote the statute from memory or from another website, and do not download the whole act page some other way.
 - Say which law you answered from. Most BC workplaces are under BC law, but federally regulated industries (banks, airlines, telecommunications, interprovincial transport and similar) are under federal law. Remind the user to check which applies.
 - If the question is about something that already happened (for example holiday pay from last year), say that this is the current text and that the law at that time may have been different.`;
 

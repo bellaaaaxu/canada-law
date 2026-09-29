@@ -50,6 +50,23 @@ function lookupTerm(g, term) {
 // src/tool-error.ts
 var ToolError = class extends Error {
 };
+var NOT_FETCHED_ADVICE = 'Tell the user that the official text could not be fetched here, and give them the official website. Do not supply the wording, a "current to" date or a version from another website or from memory, and do not download the whole act page some other way.';
+var NETWORK_CODES = /^(ENOTFOUND|EAI_AGAIN|ECONNREFUSED|ECONNRESET|ETIMEDOUT|EHOSTUNREACH|ENETUNREACH|UND_ERR_\w+|CERT_\w+|SELF_SIGNED_CERT\w*|UNABLE_TO_\w+)$/;
+function unreachable(url, error) {
+  const host = (() => {
+    try {
+      return new URL(url).host;
+    } catch {
+      return url;
+    }
+  })();
+  const cause = error?.cause;
+  const code = typeof cause?.code === "string" && NETWORK_CODES.test(cause.code) ? cause.code : null;
+  const detail = code ?? (error instanceof Error ? error.message : String(error));
+  return new ToolError(
+    `Could not reach ${host} from this environment (${detail}): the network may be blocked or offline. ${NOT_FETCHED_ADVICE} Official website: https://${host}/`
+  );
+}
 
 // node_modules/fast-xml-parser/src/util.js
 var nameStartChar = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
@@ -4394,12 +4411,19 @@ function createCachedFetcher(opts) {
     if (cached && cached.url === url && now().getTime() - Date.parse(cached.fetchedAt) < ttl) {
       return cached;
     }
-    const res = await doFetch(url, { headers: { "User-Agent": USER_AGENT } });
+    let res;
+    let body;
+    try {
+      res = await doFetch(url, { headers: { "User-Agent": USER_AGENT } });
+      body = await res.text();
+    } catch (e) {
+      throw unreachable(url, e);
+    }
     const result = {
       url,
       status: res.status,
       contentType: res.headers.get("content-type") ?? "",
-      body: await res.text(),
+      body,
       fetchedAt: now().toISOString()
     };
     if (result.status === 200) saveCache(opts.cacheDir, file, result);

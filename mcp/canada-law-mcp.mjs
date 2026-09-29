@@ -13673,6 +13673,28 @@ import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
+// src/tool-error.ts
+init_define_GLOSSARY();
+var ToolError = class extends Error {
+};
+var NOT_FETCHED_ADVICE = 'Tell the user that the official text could not be fetched here, and give them the official website. Do not supply the wording, a "current to" date or a version from another website or from memory, and do not download the whole act page some other way.';
+var NETWORK_CODES = /^(ENOTFOUND|EAI_AGAIN|ECONNREFUSED|ECONNRESET|ETIMEDOUT|EHOSTUNREACH|ENETUNREACH|UND_ERR_\w+|CERT_\w+|SELF_SIGNED_CERT\w*|UNABLE_TO_\w+)$/;
+function unreachable(url, error2) {
+  const host = (() => {
+    try {
+      return new URL(url).host;
+    } catch {
+      return url;
+    }
+  })();
+  const cause = error2?.cause;
+  const code = typeof cause?.code === "string" && NETWORK_CODES.test(cause.code) ? cause.code : null;
+  const detail = code ?? (error2 instanceof Error ? error2.message : String(error2));
+  return new ToolError(
+    `Could not reach ${host} from this environment (${detail}): the network may be blocked or offline. ${NOT_FETCHED_ADVICE} Official website: https://${host}/`
+  );
+}
+
 // src/version.ts
 init_define_GLOSSARY();
 var VERSION = "0.2.2";
@@ -13690,12 +13712,19 @@ function createCachedFetcher(opts) {
     if (cached2 && cached2.url === url && now().getTime() - Date.parse(cached2.fetchedAt) < ttl) {
       return cached2;
     }
-    const res = await doFetch(url, { headers: { "User-Agent": USER_AGENT } });
+    let res;
+    let body;
+    try {
+      res = await doFetch(url, { headers: { "User-Agent": USER_AGENT } });
+      body = await res.text();
+    } catch (e) {
+      throw unreachable(url, e);
+    }
     const result = {
       url,
       status: res.status,
       contentType: res.headers.get("content-type") ?? "",
-      body: await res.text(),
+      body,
       fetchedAt: now().toISOString()
     };
     if (result.status === 200) saveCache(opts.cacheDir, file, result);
@@ -21935,17 +21964,14 @@ var ANSWER_RULES = `Answer in the user's language, in this order:
 Rules:
 - In parts 1 to 3, state only what the retrieved text says; anything else goes in part 4. If a search finds nothing, say what you searched for; do not conclude that the law has no such rule.
 - If current_to is null or a tool returns warnings, tell the user.
+- Give current_to exactly as the tool returned it. Never state a date, a version or whether the text is up to date unless a tool returned it in this conversation.
+- If a tool says it could not reach the official website, tell the user that the official text could not be fetched here and give the official website. Do not quote the statute from memory or from another website, and do not download the whole act page some other way.
 - Say which law you answered from. Most BC workplaces are under BC law, but federally regulated industries (banks, airlines, telecommunications, interprovincial transport and similar) are under federal law. Remind the user to check which applies.
 - If the question is about something that already happened (for example holiday pay from last year), say that this is the current text and that the law at that time may have been different.`;
 var ANSWER_RULES_LINES = ANSWER_RULES.split("\n").filter((line) => line.trim() !== "");
 
 // src/sources/bc.ts
 init_define_GLOSSARY();
-
-// src/tool-error.ts
-init_define_GLOSSARY();
-var ToolError = class extends Error {
-};
 
 // src/notice.ts
 init_define_GLOSSARY();

@@ -81,6 +81,11 @@ describe('published documents', () => {
     'federally regulated',
     // 2026-09-27: the tools give the current text only, but people ask about things that already happened
     'say that this is the current text and that the law at that time may have been different',
+    // 2026-09-29: a claude.ai answer reported "current to 2025-02-11, out of date"; the official page said 2026-09-22
+    'Give current_to exactly as the tool returned it',
+    'unless a tool returned it in this conversation',
+    'tell the user that the official text could not be fetched here',
+    'do not download the whole act page some other way',
   ])('SKILL.md and the MCP instructions both say: %s', (rule) => {
     expect(doc('skills/canada-employment-law/SKILL.md')).toContain(rule);
     expect(INSTRUCTIONS).toContain(rule);
